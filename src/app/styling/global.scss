@@ -1,0 +1,34 @@
+@import "variables";
+@import "fonts";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: $secondary-color;
+  background: $primary-color;
+  font-family: $font-primary;
+  font-size: $font-size-md;
+}
+
+.appContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.appContainer > * {
+  flex: 1;
+}
