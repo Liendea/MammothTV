@@ -1,23 +1,28 @@
-@import "variables";
-@import "fonts";
+@use "variables" as *;
+@use "fonts" as *;
 
 /* ===============================
    Staff Section Container
    =============================== */
 .staffSection {
   width: 100%;
+  height: 100%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  overflow: hidden;
 }
 
 .card-expanded {
-  flex: 0 0 auto;
+  flex: 0 0 45%;
+  min-height: 400px;
+  max-height: 60vh;
 }
 
 .card-simple {
-  flex: 0 0 auto;
+  flex: 1;
+  min-height: 150px;
 }
 
 /* ===============================
@@ -59,13 +64,13 @@
 .card-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
   margin-bottom: 25px;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background: transparent;
   display: flex;
@@ -86,10 +91,9 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    background-color: white;
   }
 }
-// When card is expanded and no image available
+/* When card is expanded and no image available*/
 .card-expanded .avatar:not(.has-img) {
   background: $text-color;
   color: black;
@@ -114,21 +118,35 @@
 /* ===============================
    Expanded Card Variant
    =============================== */
+
 .card-expanded {
   background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
   padding: 30px;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .employee-name {
+    font-size: $xlarge;
+  }
+  .employee-role {
+    font-size: $large;
+  }
 
   .card-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 20px;
   }
 
   .detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 
     &:last-child {
       margin-bottom: 0;
@@ -136,14 +154,14 @@
   }
 
   .detail-label {
-    font-size: $medium;
+    font-size: $large;
     color: $secondary-text-color;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
 
   .detail-value {
-    font-size: $large;
+    font-size: $xlarge;
     font-weight: $regular;
     color: $secondary-color;
 
@@ -160,13 +178,12 @@ Toggle are Progress and time badge
 =============================== */
 
 .toggleArea {
-  margin-top: 1rem;
-
   .progress-section {
-    margin-top: 20px;
+    margin-top: 2rem;
   }
 
   .progress-bar {
+    margin: 1rem 0;
     width: 100%;
     height: 8px;
     background: #333;
@@ -188,28 +205,35 @@ Toggle are Progress and time badge
    =============================== */
 .card-simple {
   padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  position: realtive;
 
   .card-header {
     margin-bottom: 0;
   }
 
-  .employee-role {
-    text-transform: uppercase;
-    font-size: $small;
-    letter-spacing: 0.5px;
+  .employee-name {
+    font-size: $xlarge;
+    font-weight: $regular;
+    color: $secondary-color;
+    margin-bottom: 2px;
   }
 
   .role {
     position: absolute;
-    top: 45px;
+    top: 50%;
     right: 30px;
+    transform: translateY(-50%); // <-- detta centrerar lodrätt
     color: $secondary-text-color;
-    font-size: $medium;
+    font-size: $large;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .project-name {
     color: $secondary-text-color;
+    font-size: $large;
+    text-transform: uppercase;
   }
 }

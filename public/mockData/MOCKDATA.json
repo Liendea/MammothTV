@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "img": "/images/mamm6.png",
+      "image": "/images/mamm6.png",
       "name": "Sid Slothson",
       "initials": "SS",
       "email": "sid@company.com",
@@ -28,7 +28,7 @@
     },
     {
       "id": 2,
-      "img": "/images/mamm3.jpg",
+      "image": "/images/mamm3.jpg",
       "name": "Manny Mammothson",
       "initials": "MM",
       "email": "manny@company.com",
@@ -62,7 +62,7 @@
     },
     {
       "id": 3,
-      "img": "/images/mamm2.jpg",
+      "image": "/images/mamm2.jpg",
       "name": "Diego Saberfang",
       "initials": "DS",
       "email": "diego@company.com",
@@ -88,7 +88,7 @@
     },
     {
       "id": 4,
-      "img": "/images/mamm6.png",
+      "image": "/images/mamm6.png",
       "name": "Crash Snowtail",
       "initials": "CS",
       "email": "crash@company.com",
@@ -109,7 +109,7 @@
     },
     {
       "id": 5,
-      "img": "/images/mamm3.jpg",
+      "image": "/images/mamm3.jpg",
       "name": "Eddie Icetooth",
       "initials": "EI",
       "email": "eddie@company.com",
@@ -143,7 +143,7 @@
     },
     {
       "id": 6,
-      "img": "/images/mamm4.jpg",
+      "image": "/images/mamm4.jpg",
       "name": "Scrat Nutwhisker",
       "initials": "SN",
       "email": "scrat@company.com",
@@ -169,7 +169,7 @@
     },
     {
       "id": 7,
-      "img": "",
+      "image": "",
       "name": "Manny Jr. Fluffytusk",
       "initials": "MF",
       "email": "mannyjr@company.com",

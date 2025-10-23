@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Bonny Sentrosi",
+      "role": "Developer",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "4669277",
+      "name": "Lauren Lee",
+      "role": "UI / UX Designer",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "4089028",
+      "name": "Julien Sauca",
+      "role": "Legend!!!",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "4",
+      "name": "Will I Am",
+      "role": "3d Designer",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "4444126",
+      "name": "Eric Chung",
+      "role": "3D Designer",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "5043165",
+      "name": "Gino De Leon",
+      "role": "Developer",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "7",
+      "name": "Sam Logan",
+      "role": "The Bossman",
+      "image": "/images/mamm6.png"
+    },
+    {
+      "id": "8",
+      "name": "Zac Attackn",
+      "role": "Vacation",
+      "image": "/images/mamm6.png"
+    }
+  ]
+}

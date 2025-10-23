@@ -1,12 +1,23 @@
 import "@/app/styling/global.scss";
-import LeftPanel from "./components/LeftPanel/LeftPanel";
-import RightPanel from "./components/RightPanel/RightPanel";
+import StaffSection from "@/components/LeftPanel/StaffSection";
+import ProjectBudget from "@/components/RightPanel/ProjectSection";
+import Footer from "@/components/RightPanel/Footer";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="appContainer">
-      <LeftPanel />
-      <RightPanel />
-    </div>
+    <>
+      <main>
+        <div className="dashboard">
+          <aside className="left-panel">
+            <StaffSection />
+          </aside>
+
+          <aside className="right-panel">
+            <ProjectBudget />
+            <Footer />
+          </aside>
+        </div>
+      </main>
+    </>
   );
 }

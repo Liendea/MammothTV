@@ -1,0 +1,185 @@
+import { getActiveTimeEntries } from "./harvest";
+import { getTeam } from "./sanity";
+import type { TeamUser } from "./sanity";
+import type { Staff } from "@/types/staff";
+
+/**
+ * Fetches and processes employee data from either mock data or Harvest API
+ * For Harvest API: Shows ALL active time entries, even if a user has multiple
+ * Each time entry gets a unique ID to avoid React key conflicts
+ *
+ * @returns Promise containing array of Staff objects
+ */
+
+export async function getCombinedEmployeeData(): Promise<Staff[]> {
+  try {
+    // Check if we should use mock data instead of Harvest API
+    const useMockData = process.env.NEXT_PUBLIC_IS_MOCKDATA === "true";
+    if (useMockData) {
+      return getMockData();
+    }
+
+    // 1️Hämta mock-team från lib (simulerar Sanity)
+    const teamUsers: TeamUser[] = await getTeam();
+
+    // Fetch all active time entries from Harvest API
+    const timeEntriesResponse = await getActiveTimeEntries();
+    const timeEntries = timeEntriesResponse.time_entries || [];
+
+    // Array to store all employee time entries (one per time entry, not per user)
+    const allEmployees: Staff[] = [];
+
+    // Set maximun hours to filter out faulty time_entries
+    const MAX_HOURS = 48;
+
+    // Loop through all team users
+    teamUsers.forEach((teamUser) => {
+      // Find all active time entries for this user
+      const userTimeEntries = timeEntries.filter(
+        (entry: any) =>
+          entry.user.id.toString() === teamUser.id &&
+          (entry.hours || 0) <= MAX_HOURS
+      );
+
+      if (userTimeEntries.length > 0) {
+        // Map each time entry to a Staff object (unique id per entry)
+        userTimeEntries.forEach((entry: any, index: number) => {
+          const uniqueId = `${teamUser.id}-${entry.id || index}`;
+          const fullName =
+            entry.user.name ||
+            `${entry.user.first_name || ""} ${
+              entry.user.last_name || ""
+            }`.trim();
+
+          const initials = (() => {
+            const nameParts = fullName.split(" ").filter(Boolean);
+            if (nameParts.length >= 2)
+              return `${nameParts[0][0]}${
+                nameParts[nameParts.length - 1][0]
+              }`.toUpperCase();
+            return fullName[0]?.toUpperCase() || "?";
+          })();
+
+          allEmployees.push({
+            id: uniqueId,
+            name: fullName,
+            image: teamUser.image || "",
+            role: teamUser.role,
+            harvestId: teamUser.id,
+            initials,
+            current_project: {
+              name: entry.project.name,
+              client: entry.client?.name || "No Client",
+            },
+            time_entries: [
+              {
+                hours_today: entry.hours || 0,
+                timer_started_at: entry.timer_started_at || "",
+              },
+            ],
+            isActive: entry.is_running,
+            activeProject: entry.project.name,
+            currentHours: entry.hours || 0,
+            progress: 0,
+          });
+        });
+      } else {
+        // User has no active time entries → create default Staff object
+        allEmployees.push({
+          id: teamUser.id,
+          name: teamUser.name,
+          image: teamUser.image || "",
+          role: teamUser.role,
+          harvestId: teamUser.id,
+          initials: teamUser.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase(),
+          current_project: undefined,
+          time_entries: [
+            {
+              hours_today: 0,
+              timer_started_at: "",
+            },
+          ],
+          isActive: false,
+          activeProject: null,
+          currentHours: 0,
+          progress: 0,
+        });
+      }
+    });
+
+    return allEmployees;
+  } catch (error) {
+    console.error("Error combining employee data:", error);
+    throw error;
+  }
+}
+//_______________________________________________________//
+
+//  Mockdata-funcion with sam elogic for consistensy
+
+async function getMockData(): Promise<Staff[]> {
+  try {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "mockData",
+      "MOCKDATA.json"
+    );
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const data = JSON.parse(fileContents);
+
+    const mockStaff: Staff[] = data.users.map((user: any) => {
+      // Bild
+      const image = user.image?.trim() || "";
+
+      // Initialer
+      const initials =
+        user.initials ||
+        (() => {
+          const nameParts = user.name.trim().split(" ").filter(Boolean);
+          if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
+          return `${nameParts[0][0]}${
+            nameParts[nameParts.length - 1][0]
+          }`.toUpperCase();
+        })();
+
+      return {
+        id: user.id.toString(),
+        name: user.name,
+        image: image,
+        role: user.role,
+        harvestId: user.id.toString(),
+        initials: initials,
+        current_project: user.current_project
+          ? {
+              name: user.current_project.name,
+              client: user.current_project.client,
+            }
+          : undefined,
+        time_entries: user.time_entries
+          ? [
+              {
+                hours_today: user.time_entries[0]?.hours_today || 0,
+              },
+            ]
+          : undefined,
+        isActive: user.status === "active",
+        activeProject: user.current_project?.name || null,
+        currentHours: user.time_entries?.[0]?.hours_today || 0,
+        progress: 0,
+      };
+    });
+
+    return mockStaff;
+  } catch (error) {
+    console.error("Error loading mock data:", error);
+    throw error;
+  }
+}
