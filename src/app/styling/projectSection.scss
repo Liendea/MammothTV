@@ -6,7 +6,6 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
-  border: 1px solid white;
   height: auto;
   width: 100%;
 
@@ -24,21 +23,28 @@
   }
 }
 
+.budget-wrapper {
+  height: auto;
+  width: 100%;
+}
+
 .project-budget {
-  width: 85%;
-  margin: 3rem;
+  width: 100%;
+  margin: 5rem 0;
 
   h2 {
     font-size: $xlarge;
-    font-weight: $thin;
-    margin-bottom: 1rem;
+    font-weight: $regular;
+    line-height: 0.5;
   }
-  position: relative;
 }
 
 .progress-wrapper {
   display: flex;
   align-items: flex-end;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
 // Progressbar
@@ -48,6 +54,7 @@
   background: #333;
   border-radius: 6px;
   overflow: hidden;
+  position: relative;
 }
 
 .progress-fill {
@@ -56,10 +63,10 @@
   transition: width 0.3s ease;
 }
 
-.progress-proncent {
+.progress-procent {
   font-size: $xxxlarge;
   font-weight: $thin;
-  position: absolute;
-  bottom: 0px;
-  right: 15px;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  line-height: 0;
 }

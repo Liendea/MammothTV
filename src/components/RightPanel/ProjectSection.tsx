@@ -8,12 +8,15 @@ export default function ProjectSection() {
         <h1>Project budget</h1>
       </div>
       <hr />
-
-      <ProgressBar progress={50} />
-      <ProgressBar progress={20} />
-      <ProgressBar progress={150} />
-      <ProgressBar progress={65} />
-
+      <div className="budget-wrapper">
+        <ProgressBar
+          progress={60}
+          projectName="This is a very long ProjectName - it need to be truncated"
+        />
+        <ProgressBar progress={45} projectName="ProjectName" />
+        <ProgressBar progress={110} projectName="ProjectName" />
+        <ProgressBar progress={15} projectName="ProjectName" />
+      </div>
       <hr />
     </section>
   );

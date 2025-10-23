@@ -12,10 +12,8 @@ const headers = {
 /**
  * Fetches only active time entries from Harvest API
  * Active time entries are those where is_running=true
- * This function is used to show only users who are currently working
- *
- * @returns Promise containing active time entries data
  */
+
 export async function getActiveTimeEntries() {
   // Fetch time entries filtered to only show running/active entries
   const response = await fetch(
@@ -35,5 +33,30 @@ export async function getActiveTimeEntries() {
   }
 
   // Return parsed JSON data
+  return response.json();
+}
+
+/**
+ * Fetches project budget information from Harvest API
+ * You can optionally pass a project ID to get specific project budget
+ */
+export async function getProjectBudget(projectId?: number) {
+  let url = `${HARVEST_BASE_URL}/projects`;
+  if (projectId) {
+    url += `/${projectId}/budgets`; // justera endpoint om Harvest använder annan path
+  }
+
+  const response = await fetch(url, { headers });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(
+      "Harvest API error (project budget):",
+      response.status,
+      errorText
+    );
+    throw new Error(`Failed to fetch project budget: ${response.status}`);
+  }
+
   return response.json();
 }

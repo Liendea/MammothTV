@@ -1,0 +1,14 @@
+@use "variables" as *;
+@use "fonts" as *;
+
+.footerSection {
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 2rem;
+
+  .tiny-text {
+    color: $secondary-text-color;
+  }
+}
