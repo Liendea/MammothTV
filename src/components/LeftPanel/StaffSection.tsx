@@ -2,7 +2,7 @@
 
 import "@/app/styling/staffSection.scss";
 import StaffCard from "./StaffCard";
-
+import LoadingSpinner from "../LoadingSpinner";
 import type { Staff } from "../../types/staff";
 import { useState, useEffect } from "react";
 
@@ -11,7 +11,7 @@ export default function StaffSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch function
+  // Fetch employees from api route
   const fetchEmployees = async () => {
     try {
       const res = await fetch("/api/employees");
@@ -67,11 +67,7 @@ export default function StaffSection() {
   }, [users.length]);
 
   if (loading) {
-    return (
-      <section className="staffSection">
-        <div className="loading">Loading...</div>
-      </section>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -79,7 +75,7 @@ export default function StaffSection() {
       <section className="staffSection">
         <div className="error">
           <p>{error}</p>
-          <small>Data will refresh automatically in a few minutes...</small>
+          <p>Data will refresh automatically in a few minutes...</p>
         </div>
       </section>
     );

@@ -31,7 +31,7 @@ export default function SimpleCard({ staff }: SimpleCardProps) {
           <div className="employee-info">
             <div className="employee-name">{staff.name}</div>
             <div className="project-name">
-              {staff.current_project?.name || "AWOL"}
+              {staff.current_project?.name || "Not tracking time"}
             </div>
             <span className="role">{staff.role}</span>
           </div>

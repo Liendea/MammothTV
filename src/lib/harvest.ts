@@ -38,15 +38,11 @@ export async function getActiveTimeEntries() {
 
 /**
  * Fetches project budget information from Harvest API
- * You can optionally pass a project ID to get specific project budget
  */
-export async function getProjectBudget(projectId?: number) {
-  let url = `${HARVEST_BASE_URL}/projects`;
-  if (projectId) {
-    url += `/${projectId}/budgets`; // justera endpoint om Harvest använder annan path
-  }
-
-  const response = await fetch(url, { headers });
+export async function getProjectBudget() {
+  const response = await fetch(`${HARVEST_BASE_URL}/reports/project_budget`, {
+    headers,
+  });
 
   if (!response.ok) {
     const errorText = await response.text();

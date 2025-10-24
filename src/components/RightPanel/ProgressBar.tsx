@@ -1,17 +1,23 @@
 import "@/app/styling/projectSection.scss";
 
 type ProgressBarProps = {
-  progress: number; // 0 - 100
   projectName: string;
+  budget: number;
+  spent: number;
 };
 
 export default function ProgressBar({
-  progress,
   projectName,
+  budget,
+  spent,
+  clientName,
 }: ProgressBarProps) {
+  const percentage = budget > 0 ? (spent / budget) * 100 : 0;
+  const cappedPercentage = Math.min(percentage, 100);
+
   // Decide color depending on procentage,
   const fillColor =
-    progress < 50 ? "#c4ff61" : progress < 70 ? "#F1B44D" : "#FF6767";
+    percentage < 50 ? "#c4ff61" : percentage < 70 ? "#F1B44D" : "#FF6767";
 
   // Trunc project name
   const truncateName =
@@ -21,16 +27,16 @@ export default function ProgressBar({
 
   return (
     <div className="project-budget">
-      <h2>{truncateName}</h2>
+      <h2>{`${clientName}  - ${truncateName}`}</h2>
 
       <div className="progress-wrapper">
         <div className="progress-bar">
           <div
             className="progress-fill"
-            style={{ width: `${progress}%`, background: fillColor }}
+            style={{ width: `${cappedPercentage}%`, background: fillColor }}
           ></div>
         </div>
-        <span className="progress-procent">{progress}%</span>
+        <span className="progress-procent">{percentage.toFixed(1)}%</span>
       </div>
     </div>
   );

@@ -1,0 +1,18 @@
+@use "variables" as *;
+@use "fonts" as *;
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  border: 1px solid white;
+}
+
+.letter {
+  font-family: $font-primary;
+  transform-origin: center;
+  font-size: $xxxlarge;
+  font-weight: $bold;
+  color: $secondary-color;
+}

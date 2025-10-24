@@ -39,13 +39,13 @@ export default function ExpandedCard({
         <div className="detail-row">
           <span className="detail-label">PROJECT</span>
           <span className="detail-value">
-            {staff.current_project?.name || "AWOL"}
+            {staff.current_project?.name || "Not tracking time"}
           </span>
         </div>
         <div className="detail-row">
           <span className="detail-label">CLIENT</span>
           <span className="detail-value">
-            {staff.current_project?.client || "AWOL"}
+            {staff.current_project?.client || "Not tracking time"}
           </span>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { getActiveTimeEntries } from "./harvest";
+import { getActiveTimeEntries, getProjectBudget } from "./harvest";
 import { getTeam } from "./sanity";
 import type { TeamUser } from "./sanity";
 import type { Staff } from "@/types/staff";
@@ -7,8 +7,6 @@ import type { Staff } from "@/types/staff";
  * Fetches and processes employee data from either mock data or Harvest API
  * For Harvest API: Shows ALL active time entries, even if a user has multiple
  * Each time entry gets a unique ID to avoid React key conflicts
- *
- * @returns Promise containing array of Staff objects
  */
 
 export async function getCombinedEmployeeData(): Promise<Staff[]> {
@@ -19,7 +17,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
       return getMockData();
     }
 
-    // 1️Hämta mock-team från lib (simulerar Sanity)
+    // fetch mock-team from lib (simulates Sanity until saity is set up)
     const teamUsers: TeamUser[] = await getTeam();
 
     // Fetch all active time entries from Harvest API
@@ -68,6 +66,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             harvestId: teamUser.id,
             initials,
             current_project: {
+              project_id: entry.project,
               name: entry.project.name,
               client: entry.client?.name || "No Client",
             },
@@ -117,6 +116,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
     throw error;
   }
 }
+
 //_______________________________________________________//
 
 //  Mockdata-funcion with sam elogic for consistensy
@@ -180,6 +180,39 @@ async function getMockData(): Promise<Staff[]> {
     return mockStaff;
   } catch (error) {
     console.error("Error loading mock data:", error);
+    throw error;
+  }
+}
+
+/**
+Combines project data with time entries to filter out projects with no time tracking
+ */
+
+export async function getFilteredProjectBudgets() {
+  try {
+    // Hämta både projektbudgetar och time entries
+    const [budgetResponse, timeResponse] = await Promise.all([
+      getProjectBudget(),
+      getActiveTimeEntries(),
+    ]);
+
+    const budgets =
+      budgetResponse.results || budgetResponse.project_budget_reports || [];
+    const timeEntries = timeResponse.time_entries || [];
+
+    // Skapa ett Set med alla projekt-ID:n från time entries
+    const projectIdsWithTime = new Set(
+      timeEntries.map((entry: any) => entry.project.id)
+    );
+
+    // Filtrera bort projektbudgetar som inte finns i time entries
+    const filteredBudgets = budgets.filter((budget: any) =>
+      projectIdsWithTime.has(budget.project_id)
+    );
+
+    return filteredBudgets;
+  } catch (error) {
+    console.error("Error filtering project budgets:", error);
     throw error;
   }
 }

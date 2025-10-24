@@ -6,6 +6,7 @@ export interface Staff {
   harvestId: string;
   initials: string;
   current_project?: {
+    project_id: string;
     name: string;
     client: string;
   };
