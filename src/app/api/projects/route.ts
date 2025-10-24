@@ -1,8 +1,9 @@
 import { getFilteredProjectBudgets } from "@/lib/dataIntegration";
 
+export const revalidate = 60; // cachea 60 sec
+
 export async function GET() {
   try {
-    console.log("Fetching data from Harvest");
     const projectBudgets = await getFilteredProjectBudgets();
     return Response.json(projectBudgets);
   } catch (error: unknown) {

@@ -5,6 +5,7 @@ export interface Staff {
   role: string;
   harvestId: string;
   initials: string;
+  fun_fact: string;
   current_project?: {
     project_id: string;
     name: string;

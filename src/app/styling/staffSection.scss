@@ -127,6 +127,25 @@
   flex-direction: column;
   height: 100%;
 
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+    .avatar {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .avatar-name {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
   .employee-name {
     font-size: $xlarge;
   }
@@ -138,8 +157,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-around;
   }
 
   .detail-row {
@@ -171,15 +189,23 @@
       border-radius: 8px;
     }
   }
+
+  .funFactArea {
+    .funFact-value {
+      font-size: $large;
+      color: $secondary-color;
+    }
+  }
 }
 
 /* ===============================
-Toggle are Progress and time badge
+Toggle area Progress and time badge
 =============================== */
 
-.toggleArea {
+.progressArea {
+  margin-top: 1rem;
   .progress-section {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .progress-bar {

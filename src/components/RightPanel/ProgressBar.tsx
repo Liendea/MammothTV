@@ -1,7 +1,11 @@
+"use client";
+
 import "@/app/styling/projectSection.scss";
+import { useState, useEffect } from "react";
 
 type ProgressBarProps = {
   projectName: string;
+  clientName: string;
   budget: number;
   spent: number;
 };
@@ -12,12 +16,39 @@ export default function ProgressBar({
   spent,
   clientName,
 }: ProgressBarProps) {
-  const percentage = budget > 0 ? (spent / budget) * 100 : 0;
-  const cappedPercentage = Math.min(percentage, 100);
+  const targetPercentage = budget > 0 ? (spent / budget) * 100 : 0;
+  const cappedTarget = Math.min(targetPercentage, 100);
 
-  // Decide color depending on procentage,
+  const [animatedPercentage, setAnimatedPercentage] = useState(0);
+
+  // Animate both bar width and number
+  useEffect(() => {
+    let start: number | null = null;
+    const duration = 2000; // 2s animation
+    const startValue = targetPercentage / 2; // start att half target value instead of 0
+    const endValue = cappedTarget;
+
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const current = startValue + (endValue - startValue) * progress;
+      setAnimatedPercentage(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }, [cappedTarget, targetPercentage]);
+
+  // Decide color depending on %,
   const fillColor =
-    percentage < 50 ? "#c4ff61" : percentage < 70 ? "#F1B44D" : "#FF6767";
+    animatedPercentage < 50
+      ? "#c4ff61"
+      : animatedPercentage < 70
+      ? "#F1B44D"
+      : "#FF6767";
 
   // Trunc project name
   const truncateName =
@@ -33,10 +64,16 @@ export default function ProgressBar({
         <div className="progress-bar">
           <div
             className="progress-fill"
-            style={{ width: `${cappedPercentage}%`, background: fillColor }}
+            style={{
+              width: `${animatedPercentage || 0}%`,
+              background: fillColor,
+              transition: "width 0.3s ease-out",
+            }}
           ></div>
         </div>
-        <span className="progress-procent">{percentage.toFixed(1)}%</span>
+        <span className="progress-procent">
+          {animatedPercentage.toFixed(0)}% {/* zero decimals */}
+        </span>
       </div>
     </div>
   );

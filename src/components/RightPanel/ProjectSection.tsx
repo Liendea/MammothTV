@@ -11,8 +11,9 @@ export default function ProjectSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch employees from api route
+  // Fetch project budgets from API
   const fetchProjectBudgets = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/projects");
 
@@ -22,15 +23,14 @@ export default function ProjectSection() {
 
       const data = await res.json();
 
-      // Check if error in response
       if (data.error) {
         throw new Error(data.error);
       }
 
       setProjects(data);
-      setError(null); // Clear any previous errors
+      setError(null);
     } catch (err) {
-      console.error("Error:", error);
+      console.error("Error fetching project budgets:", err);
       setError(err instanceof Error ? err.message : "Failed to load");
     } finally {
       setLoading(false);
@@ -40,6 +40,16 @@ export default function ProjectSection() {
   // Initial fetch
   useEffect(() => {
     fetchProjectBudgets();
+  }, []);
+
+  // auto-refresh every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Auto-refreshing project budgets...");
+      fetchProjectBudgets();
+    }, 60000); // 1 min = 60000 ms
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -66,11 +76,6 @@ export default function ProjectSection() {
             spent={project.budget_spent}
           />
         ))}
-
-        {/* Test-data för design 
-        <ProgressBar progress={45} projectName="ProjectName" />
-        <ProgressBar progress={110} projectName="ProjectName" />
-        <ProgressBar progress={15} projectName="ProjectName" />*/}
       </div>
       <hr />
     </section>

@@ -42,12 +42,12 @@ export default function StaffSection() {
     fetchEmployees();
   }, []);
 
-  // Auto-refresh every 10 minutes
+  // Auto-refresh every minute
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       console.log("Auto-refreshing...");
       fetchEmployees();
-    }, 600000); // 10 minutes
+    }, 60000); // 1 min = 60000ms
 
     return () => clearInterval(refreshInterval);
   }, []);

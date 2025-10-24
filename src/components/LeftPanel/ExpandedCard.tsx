@@ -14,25 +14,39 @@ export default function ExpandedCard({
   return (
     <div className="card card-expanded">
       <div className="card-header">
-        <div className={`avatar ${staff.image ? "has-img" : ""}`}>
-          {staff.image ? (
-            <Image
-              src={staff.image!}
-              alt={staff.name}
-              width={64}
-              height={64}
-              className="avtar-image"
-              style={{ borderRadius: "50%", objectFit: "cover" }}
-            />
-          ) : (
-            staff.initials
-          )}
+        <div className="avatar-name">
+          <div className={`avatar ${staff.image ? "has-img" : ""}`}>
+            {staff.image ? (
+              <Image
+                src={staff.image!}
+                alt={staff.name}
+                width={64}
+                height={64}
+                className="avtar-image"
+                style={{ borderRadius: "50%", objectFit: "cover" }}
+              />
+            ) : (
+              staff.initials
+            )}
+          </div>
+
+          <div className="employee-info">
+            <div className="employee-name">{staff.name}</div>
+            <div className="employee-role">{staff.role}</div>
+          </div>
         </div>
 
-        <div className="employee-info">
-          <div className="employee-name">{staff.name}</div>
-          <div className="employee-role">{staff.role}</div>
-        </div>
+        {/* Fun Fact visas bara om showProgress=false */}
+        {!showProgress && (
+          <div className="funFactArea">
+            <div className="detail-row">
+              <span className="detail-label">Fun Fact:</span>
+            </div>
+            <span className="funFact-value">
+              {staff.fun_fact || "Add fun fact to sanity!"}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="card-details">
@@ -52,7 +66,7 @@ export default function ExpandedCard({
 
       {/* Progress bar visas endast om showProgress=true */}
       {showProgress && (
-        <div className="toggleArea">
+        <div className="progressArea">
           <div className="detail-row">
             <span className="detail-label">HOURS TODAY</span>
             <span className="detail-value badge">

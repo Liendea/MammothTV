@@ -4,49 +4,57 @@
       "id": "5375295",
       "name": "Bonny Sentrosi",
       "role": "Developer",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Bonny loves baking bread on weekends and experiments with sourdough."
     },
     {
       "id": "4669277",
       "name": "Lauren Lee",
       "role": "UI / UX Designer",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Lauren has climbed all the tallest mountains in Sweden."
     },
     {
       "id": "4089028",
       "name": "Julien Sauca",
-      "role": "Legend!!!",
-      "image": "/images/mamm6.png"
+      "role": "Ai expert",
+      "image": "/images/mamm6.png",
+      "fun_fact": "Julien can juggle three computers at once… almost!"
     },
     {
       "id": "3807172",
       "name": "Will Maire",
       "role": "3d Designer",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Will can code with his left foot while playing the piano."
     },
     {
       "id": "4444126",
       "name": "Eric Chung",
       "role": "3D Designer",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Eric can solve a Rubik’s cube in under 2 minutes."
     },
     {
       "id": "5043165",
       "name": "Gino De Leon",
       "role": "Developer",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Gino speaks three languages fluently and is learning a fourth."
     },
     {
       "id": "7",
       "name": "Sam Logan",
       "role": "The Bossman",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Sam has a secret superpower: he can memorize entire restaurant menus."
     },
     {
       "id": "4510705",
       "name": "Zac Cooper",
       "role": "Vacation",
-      "image": "/images/mamm6.png"
+      "image": "/images/mamm6.png",
+      "fun_fact": "Zac loves to surf at sunrise and often sketches the waves in his notebook."
     }
   ]
 }

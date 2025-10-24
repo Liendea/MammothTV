@@ -37,6 +37,7 @@ export type TeamUser = {
   name: string;
   role: string;
   image: string;
+  fun_fact: string;
 };
 
 /**
