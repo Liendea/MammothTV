@@ -1,7 +1,6 @@
 import type { Staff } from "../../types/staff";
 import ExpandedCard from "./ExpandedCard";
 import SimpleCard from "./SimpleCard";
-import "@/app/styling/staffSection.scss";
 
 type StaffCardProps = {
   staff: Staff;

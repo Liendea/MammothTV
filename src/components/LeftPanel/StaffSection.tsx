@@ -1,6 +1,5 @@
 "use client";
 
-import "@/app/styling/staffSection.scss";
 import StaffCard from "./StaffCard";
 import LoadingSpinner from "../LoadingSpinner";
 import type { Staff } from "../../types/staff";
@@ -45,7 +44,6 @@ export default function StaffSection() {
   // Auto-refresh every minute
   useEffect(() => {
     const refreshInterval = setInterval(() => {
-      console.log("Auto-refreshing...");
       fetchEmployees();
     }, 60000); // 1 min = 60000ms
 

@@ -1,6 +1,5 @@
 "use client";
 
-import "@/app/styling/projectSection.scss";
 import ProgressBar from "./ProgressBar";
 import { useState, useEffect } from "react";
 import type { ProjectBudget } from "@/types/project";
@@ -45,7 +44,6 @@ export default function ProjectSection() {
   // auto-refresh every minute
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Auto-refreshing project budgets...");
       fetchProjectBudgets();
     }, 60000); // 1 min = 60000 ms
 

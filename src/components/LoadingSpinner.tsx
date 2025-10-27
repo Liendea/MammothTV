@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import "@/app/styling/loading.scss";
 
 export default function LoadingSpinner() {
   const duration = 1.5;

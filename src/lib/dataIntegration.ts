@@ -4,14 +4,14 @@ import type { TeamUser } from "./sanity";
 import type { Staff } from "@/types/staff";
 
 /**
- Fetches and processes employee data from either MOCKTEAM (simulating Sanity cms data) or Harvest API
+ Fetches and processes employee data from  Sanity and Harvest API
  For Harvest API: Shows ALL active time entries, even if a user has multiple
  Each time entry gets a unique ID to avoid React key conflicts
  */
 
 export async function getCombinedEmployeeData(): Promise<Staff[]> {
   try {
-    // fetch mock-team from lib (simulates Sanity until saity is set up)
+    // Fetch team från sanity
     const teamUsers: TeamUser[] = await getTeam();
 
     // Fetch all active time entries from Harvest API
@@ -22,15 +22,16 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
     const allEmployees: Staff[] = [];
 
     // Set maximun hours to filter out faulty time_entries
-    const MAX_HOURS = 48;
+    const MAX_HOURS = 24;
+    const validTimeEntries = timeEntries.filter(
+      (entry: any) => (entry.hours || 0) <= MAX_HOURS
+    );
 
     // Loop through all team users
     teamUsers.forEach((teamUser) => {
       // Find all active time entries for this user
-      const userTimeEntries = timeEntries.filter(
-        (entry: any) =>
-          entry.user.id.toString() === teamUser.id &&
-          (entry.hours || 0) <= MAX_HOURS
+      const userTimeEntries = validTimeEntries.filter(
+        (entry: any) => entry.user.id.toString() === teamUser.id.toString()
       );
 
       if (userTimeEntries.length > 0) {
@@ -43,6 +44,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
               entry.user.last_name || ""
             }`.trim();
 
+          // Create initials
           const initials = (() => {
             const nameParts = fullName.split(" ").filter(Boolean);
             if (nameParts.length >= 2)
@@ -74,7 +76,6 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             isActive: entry.is_running,
             activeProject: entry.project.name,
             currentHours: entry.hours || 0,
-            progress: 0,
           });
         });
       } else {
@@ -101,7 +102,6 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
           isActive: false,
           activeProject: null,
           currentHours: 0,
-          progress: 0,
         });
       }
     });
@@ -121,7 +121,7 @@ Combines project data with time entries to filter out projects with no time trac
 
 export async function getFilteredProjectBudgets() {
   try {
-    // Hämta både projektbudgetar och time entries
+    // Fetch both time entries and project budgets
     const [budgetResponse, timeResponse] = await Promise.all([
       getProjectBudget(),
       getActiveTimeEntries(),
@@ -131,12 +131,22 @@ export async function getFilteredProjectBudgets() {
       budgetResponse.results || budgetResponse.project_budget_reports || [];
     const timeEntries = timeResponse.time_entries || [];
 
-    // Skapa ett Set med alla projekt-ID:n från time entries
-    const projectIdsWithTime = new Set(
-      timeEntries.map((entry: any) => entry.project.id)
+    // Same filter as in getCombinedEmployeeData
+    const MAX_HOURS = 24;
+    const validTimeEntries = timeEntries.filter(
+      (entry: any) =>
+        entry.is_running && // Endast aktiva timers
+        (entry.hours || 0) <= MAX_HOURS // Max 24 timmar
     );
 
-    // Filtrera bort projektbudgetar som inte finns i time entries
+    // Create a SET to filter out dublicated active projects ID's
+    const projectIdsWithTime = new Set(
+      validTimeEntries
+        .filter((entry: any) => entry.is_running)
+        .map((entry: any) => entry.project.id)
+    );
+
+    // ONly show project budgets for projects with active time tracking
     const filteredBudgets = budgets.filter((budget: any) =>
       projectIdsWithTime.has(budget.project_id)
     );

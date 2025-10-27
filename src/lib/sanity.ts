@@ -1,34 +1,36 @@
 // → Sanity client och queries
 
-/*
+import { client } from "./sanity.client";
 
-
-import { createClient } from '@sanity/client';
-
-export const sanityClient = createClient({
-  projectId: process.env.SANITY_PROJECT_ID!,
-  dataset: process.env.SANITY_DATASET!,
-  useCdn: false,
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_TOKEN // För webhooks
-});
-
-// Helper functions
-export async function getEmployees() {
-  return sanityClient.fetch(`
-    *[_type == "employee"] {
-      name,
-      "imageUrl": image.asset->url,
-      role,
-      harvestId
-    }
-  `);
+export interface TeamUser {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  fun_fact: string;
 }
 
-  */
+export async function getTeam(): Promise<TeamUser[]> {
+  try {
+    const query = `*[_type == "teamMember"] {
+      "id": harvestId,
+      name,
+      role,
+      "image": image.asset->url,
+      fun_fact
+    }`;
+
+    const teamMembers = await client.fetch(query);
+    return teamMembers || [];
+  } catch (error) {
+    console.error("Error fetching team from Sanity:", error);
+    return [];
+  }
+}
+
 
 // Fetch team mock data from local file, later fetch from Sanity
-
+/*
 import fs from "fs";
 import path from "path";
 
@@ -42,7 +44,7 @@ export type TeamUser = {
 
 /**
  * Hämtar teammedlemmar från mockdata (simulerar Sanity)
- */
+
 export async function getTeam(): Promise<TeamUser[]> {
   const filePath = path.join(
     process.cwd(),
@@ -60,3 +62,4 @@ export async function getTeam(): Promise<TeamUser[]> {
     return [];
   }
 }
+ */

@@ -1,0 +1,79 @@
+@use "../abstracts/variables" as *;
+@use "../base/fonts" as *;
+/* ===============================
+   Base Card Styles
+   =============================== */
+.card {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* ===============================
+     Card Header (common for both)
+     =============================== */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $large;
+  font-weight: $bold;
+  color: $text-color;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  &.has-img {
+    border: none; // No border if theres an img
+  }
+  &:not(.has-img) {
+    border: 3px solid $text-color; // border if intials
+  }
+  img {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
+  }
+}

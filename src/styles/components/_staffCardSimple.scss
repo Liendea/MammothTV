@@ -1,0 +1,40 @@
+@use "../abstracts/variables" as *;
+@use "../base/fonts" as *;
+
+/* ===============================
+   Simple Card Variant
+   =============================== */
+.card-simple {
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  position: realtive;
+
+  .card-header {
+    margin-bottom: 0;
+  }
+
+  .employee-name {
+    font-size: $xlarge;
+    font-weight: $regular;
+    color: $secondary-color;
+    margin-bottom: 2px;
+  }
+
+  .role {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%); // <-- detta centrerar lodrätt
+    color: $secondary-text-color;
+    font-size: $large;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .project-name {
+    color: $secondary-text-color;
+    font-size: $large;
+    text-transform: uppercase;
+  }
+}

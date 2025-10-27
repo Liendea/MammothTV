@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Staff } from "../../types/staff";
-import "@/app/styling/staffSection.scss";
+
 
 type ExpandedCardProps = {
   staff: Staff;

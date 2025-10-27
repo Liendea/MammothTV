@@ -1,5 +1,3 @@
-import "@/app/styling/footer.scss";
-
 import Image from "next/image";
 
 export default function Footer() {
@@ -16,6 +14,7 @@ export default function Footer() {
         width={500}
         height={100}
         className="logo"
+        priority
       />
     </div>
   );

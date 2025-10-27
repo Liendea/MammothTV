@@ -1,6 +1,6 @@
 "use client";
 
-import "@/app/styling/projectSection.scss";
+
 import { useState, useEffect } from "react";
 
 type ProgressBarProps = {

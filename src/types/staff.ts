@@ -18,5 +18,4 @@ export interface Staff {
   activeProject?: string | null;
   isActive?: boolean;
   currentHours?: number;
-  progress?: number;
 }

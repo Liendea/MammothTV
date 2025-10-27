@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/styles/main.scss";
 
 export const metadata: Metadata = {
   title: "MammTv",
