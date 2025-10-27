@@ -10,8 +10,5 @@ export const getClient = () =>
     useCdn: true, // Använd CDN för snabbare hämtning
   });
 
-const builder = imageUrlBuilder();
-
-export function urlFor(source: Image) {
-  return builder.image(source);
-}
+export const urlFor = (source: Image) =>
+  imageUrlBuilder(getClient()).image(source);
