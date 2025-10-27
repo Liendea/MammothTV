@@ -1,6 +1,6 @@
 // → Sanity client och queries
 
-import { client } from "./sanity.client";
+import { getClient } from "./sanity.client";
 
 export interface TeamUser {
   id: string;
@@ -12,6 +12,7 @@ export interface TeamUser {
 
 export async function getTeam(): Promise<TeamUser[]> {
   try {
+    const client = getClient();
     const query = `*[_type == "teamMember"] {
       "id": harvestId,
       name,
