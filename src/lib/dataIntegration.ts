@@ -2,6 +2,7 @@ import { getActiveTimeEntries, getProjectBudget } from "./harvest";
 import { getTeam } from "./sanity";
 import type { TeamUser } from "./sanity";
 import type { Staff } from "@/types/staff";
+import type { HarvestTimeEntry } from "@/types/harvest";
 
 /**
  Fetches and processes employee data from  Sanity and Harvest API
@@ -24,19 +25,20 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
     // Set maximun hours to filter out faulty time_entries
     const MAX_HOURS = 24;
     const validTimeEntries = timeEntries.filter(
-      (entry: any) => (entry.hours || 0) <= MAX_HOURS
+      (entry: HarvestTimeEntry) => (entry.hours || 0) <= MAX_HOURS
     );
 
     // Loop through all team users
     teamUsers.forEach((teamUser) => {
       // Find all active time entries for this user
       const userTimeEntries = validTimeEntries.filter(
-        (entry: any) => entry.user.id.toString() === teamUser.id.toString()
+        (entry: HarvestTimeEntry) =>
+          entry.user.id.toString() === teamUser.id.toString()
       );
 
       if (userTimeEntries.length > 0) {
         // Map each time entry to a Staff object (unique id per entry)
-        userTimeEntries.forEach((entry: any, index: number) => {
+        userTimeEntries.forEach((entry: HarvestTimeEntry, index: number) => {
           const uniqueId = `${teamUser.id}-${entry.id || index}`;
           const fullName =
             entry.user.name ||
@@ -63,7 +65,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             initials,
             fun_fact: teamUser.fun_fact,
             current_project: {
-              project_id: entry.project,
+              project_id: entry.project.toString(),
               name: entry.project.name,
               client: entry.client?.name || "No Client",
             },
@@ -134,7 +136,7 @@ export async function getFilteredProjectBudgets() {
     // Same filter as in getCombinedEmployeeData
     const MAX_HOURS = 24;
     const validTimeEntries = timeEntries.filter(
-      (entry: any) =>
+      (entry: HarvestTimeEntry) =>
         entry.is_running && // Endast aktiva timers
         (entry.hours || 0) <= MAX_HOURS // Max 24 timmar
     );
@@ -142,12 +144,12 @@ export async function getFilteredProjectBudgets() {
     // Create a SET to filter out dublicated active projects ID's
     const projectIdsWithTime = new Set(
       validTimeEntries
-        .filter((entry: any) => entry.is_running)
-        .map((entry: any) => entry.project.id)
+        .filter((entry: HarvestTimeEntry) => entry.is_running)
+        .map((entry: HarvestTimeEntry) => entry.project.id)
     );
 
     // ONly show project budgets for projects with active time tracking
-    const filteredBudgets = budgets.filter((budget: any) =>
+    const filteredBudgets = budgets.filter((budget: { project_id: number }) =>
       projectIdsWithTime.has(budget.project_id)
     );
 

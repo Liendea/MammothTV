@@ -1,5 +1,6 @@
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
+import type { Rule } from "sanity";
 
 const teamMember = {
   name: "teamMember",
@@ -10,13 +11,13 @@ const teamMember = {
       name: "name",
       title: "Name",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "harvestId",
       title: "Harvest User ID",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "role",
