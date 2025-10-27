@@ -4,8 +4,7 @@ export default function Footer() {
   return (
     <div className="footerSection">
       <div className="tiny-text">
-        <p>MammothTV 2025</p>
-        <p>Copyright © 2025 Woolly Mammoth</p>
+        {/* insert text here eg copyrights or something*/}
       </div>
 
       <Image

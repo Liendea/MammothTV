@@ -27,14 +27,14 @@
     right: 30px;
     transform: translateY(-50%); // <-- detta centrerar lodrätt
     color: $secondary-text-color;
-    font-size: $large;
+    font-size: $medium;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .project-name {
     color: $secondary-text-color;
-    font-size: $large;
+    font-size: $medium;
     text-transform: uppercase;
   }
 }
