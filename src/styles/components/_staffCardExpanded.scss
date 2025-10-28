@@ -7,8 +7,15 @@
 
 /* When card is expanded and no image available*/
 .card-expanded .avatar:not(.has-img) {
-  color: black;
+  color: $secondary-color;
+  background-color: $text-color;
   font-size: $xxlarge;
+
+  .avatar-inner {
+    background-color: $text-color;
+    color: $primary-color;
+    box-shadow: 0 0 0 3px #292929; // Behåll "gap" om du vill
+  }
 }
 
 .employee-info {
@@ -30,11 +37,11 @@
     justify-content: center;
     flex-direction: column;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
 
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
     }
     .avatar-name {
       display: flex;
@@ -53,6 +60,17 @@
       font-size: $xlarge;
       color: $secondary-text-color;
     }
+
+    .funFactArea {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .funFact-value {
+        font-size: $medium;
+        color: $secondary-color;
+      }
+    }
   }
 
   /* CARD BODY */
@@ -68,8 +86,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
 
+    &:first-child {
+      margin-bottom: 0.5rem;
+    }
     &:last-child {
       margin-bottom: 0;
     }
@@ -91,13 +111,6 @@
       background: rgba(255, 255, 255, 0.1);
       padding: 6px 16px;
       border-radius: 8px;
-    }
-  }
-
-  .funFactArea {
-    .funFact-value {
-      font-size: $medium;
-      color: $secondary-color;
     }
   }
 }

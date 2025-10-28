@@ -34,14 +34,11 @@ export default function ExpandedCard({
               <div className="avatar-inner">{staff.initials}</div>
             )}
           </div>
-
           <div className="employee-info">
             <div className="employee-name">{staff.name}</div>
             <div className="employee-role">{staff.role}</div>
           </div>
         </div>
-
-        {/* Fun Fact visas bara om showProgress=false */}
         {!showProgress && (
           <div className="funFactArea">
             <div className="detail-row">
@@ -53,7 +50,6 @@ export default function ExpandedCard({
           </div>
         )}
       </div>
-
       <div className="card-details">
         <div className="detail-row">
           <span className="detail-label">PROJECT</span>
@@ -68,8 +64,6 @@ export default function ExpandedCard({
           </span>
         </div>
       </div>
-
-      {/* Progress bar visas endast om showProgress=true */}
       {showProgress && (
         <div className="progressArea">
           <div className="detail-row">

@@ -59,19 +59,14 @@
   color: $text-color;
   flex-shrink: 0;
   position: relative;
-  padding: 3px;
+  padding: 3px; // Border thickness
 
-  // Avatars without image - also get border now
+  // Avatars without image
   &:not(.has-img) {
     // Inactive state
     &.inactive {
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.05)
-      );
+      background: rgba(255, 255, 255, 0.2);
     }
-
     // Active state
     &.active {
       background: linear-gradient(
@@ -88,40 +83,26 @@
       background-size: 400% 400%;
       animation: gradientRotate 6s ease infinite;
       box-shadow:
-        0 0 20px rgba(17, 223, 14, 0.3),
-        0 0 40px rgba(13, 255, 111, 0.2),
-        0 0 60px rgba(0, 255, 135, 0.1);
+      // glow
+        0 0 8px rgba(17, 223, 14, 0.15),
+        0 0 15px rgba(13, 255, 111, 0.1);
+    }
 
-      // Extra glow layer
-      &::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border-radius: 50%;
-        background: linear-gradient(
-          45deg,
-          #00ff87,
-          #11df0e,
-          #0dff6f,
-          #60efff,
-          #0dff6f,
-          #11df0e,
-          #00ff87
-        );
-        background-size: 400% 400%;
-        animation: gradientRotate 6s ease infinite;
-        filter: blur(8px);
-        opacity: 0.7;
-        z-index: -1;
-      }
+    &:not(.has-img)::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      background: #292929;
+      border-radius: 50%;
+      z-index: 0;
     }
 
     // Inner wrapper for initials with black background
     .avatar-inner {
       width: calc(100% - 6px);
       height: calc(100% - 6px);
-      background-color: $primary-color; // Black background
-      color: $text-color; // White text
+      background-color: $primary-color;
+      color: $text-color;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -130,19 +111,17 @@
       font-weight: $bold;
       position: relative;
       z-index: 1;
+      box-shadow: 0 0 0 3px #292929;
     }
   }
 
-  // Gradient background for inactive with image
+  // avatars with image
+  // inactive state
   &.has-img.inactive {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.05)
-    );
+    background: rgba(255, 255, 255, 0.2);
   }
 
-  // Instagram-style rotating gradient for active with image
+  // active state
   &.has-img.active {
     background: linear-gradient(
       45deg,
@@ -157,46 +136,34 @@
     );
     background-size: 400% 400%;
     animation: gradientRotate 6s ease infinite;
+    //glow
     box-shadow:
-      0 0 20px rgba(17, 223, 14, 0.3),
-      0 0 40px rgba(13, 255, 111, 0.2),
-      0 0 60px rgba(0, 255, 135, 0.1);
-
-    // Extra glow layer
-    &::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 50%;
-      background: linear-gradient(
-        45deg,
-        #00ff87,
-        #11df0e,
-        #0dff6f,
-        #60efff,
-        #0dff6f,
-        #11df0e,
-        #00ff87
-      );
-      background-size: 400% 400%;
-      animation: gradientRotate 6s ease infinite;
-      filter: blur(8px);
-      opacity: 0.7;
-      z-index: -1;
-    }
+      0 0 8px rgba(17, 223, 14, 0.15),
+      0 0 15px rgba(13, 255, 111, 0.1);
+  }
+  &.has-img::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    background: #292929;
+    border-radius: 50%;
+    z-index: 0;
   }
 
+  // Inner wrapper for image with black background
   .avatar-image,
   img {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
     object-fit: cover;
-    object-position: center;
-    display: block;
     border-radius: 50%;
+    box-shadow: 0 0 0 4px #292929;
+    position: relative;
+    z-index: 1;
   }
 }
 
+// gradient aniamtion
 @keyframes gradientRotate {
   0% {
     background-position: 0% 50%;
@@ -206,17 +173,5 @@
   }
   100% {
     background-position: 0% 50%;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.02);
   }
 }

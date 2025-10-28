@@ -29,7 +29,7 @@ export default function SimpleCard({ staff, isActive }: SimpleCardProps) {
                 }}
               />
             ) : (
-              staff.initials
+              <div className="avatar-inner">{staff.initials}</div>
             )}
           </div>
           <div className="employee-info">
