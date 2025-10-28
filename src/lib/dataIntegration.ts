@@ -135,18 +135,18 @@ export async function getFilteredProjectBudgets() {
     const MAX_HOURS = 24;
     const validTimeEntries = timeEntries.filter(
       (entry: HarvestTimeEntry) =>
-        entry.is_running && // Endast aktiva timers
-        (entry.hours || 0) <= MAX_HOURS // Max 24 timmar
+        entry.is_running && // only active timers
+        (entry.hours || 0) <= MAX_HOURS // Max 24 hours
     );
 
-    // Create a SET to filter out dublicated active projects ID's
+    // Create a SET to filter out duplicated active projects ID's
     const projectIdsWithTime = new Set(
       validTimeEntries
         .filter((entry: HarvestTimeEntry) => entry.is_running)
         .map((entry: HarvestTimeEntry) => entry.project.id)
     );
 
-    // ONly show project budgets for projects with active time tracking
+    // Only show project budgets for projects with active time tracking
     const filteredBudgets = budgets.filter((budget: { project_id: number }) =>
       projectIdsWithTime.has(budget.project_id)
     );

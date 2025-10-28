@@ -74,7 +74,7 @@ export default function StaffSection() {
       <section className="staffSection">
         <div className="error">
           <p>{error}</p>
-          <p>Data will refresh automatically in a few minutes...</p>
+          <p>Failed to fetch team members</p>
         </div>
       </section>
     );

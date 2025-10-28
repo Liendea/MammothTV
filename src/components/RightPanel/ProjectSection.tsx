@@ -55,7 +55,14 @@ export default function ProjectSection() {
   }
 
   if (error) {
-    return <p style={{ color: "red" }}>Error: {error}</p>;
+    return (
+      <section className="projectSection">
+        <div className="error">
+          <p>{error}</p>
+          <p>Failed to fetch project budgets</p>
+        </div>
+      </section>
+    );
   }
 
   const displayProjects = projects.slice(0, 4);

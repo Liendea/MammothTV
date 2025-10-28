@@ -9,6 +9,13 @@
   height: auto;
   width: 100%;
 
+  .error {
+    font-family: $font-primary;
+    color: $secondary-color;
+    text-align: center;
+    margin: auto;
+  }
+
   h1 {
     font-size: $xxlarge;
     font-weight: $regular;
