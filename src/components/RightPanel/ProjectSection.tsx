@@ -58,6 +58,8 @@ export default function ProjectSection() {
     return <p style={{ color: "red" }}>Error: {error}</p>;
   }
 
+  const displayProjects = projects.slice(0, 4);
+
   return (
     <section className="projectSection">
       <div className="header">
@@ -65,7 +67,7 @@ export default function ProjectSection() {
       </div>
       <hr />
       <div className="budget-wrapper">
-        {projects.map((project) => (
+        {displayProjects.map((project) => (
           <ProgressBar
             key={project.project_id}
             projectName={project.project_name}
@@ -75,6 +77,7 @@ export default function ProjectSection() {
           />
         ))}
       </div>
+
       <hr />
     </section>
   );

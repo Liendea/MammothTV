@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState, useEffect } from "react";
 
 type ProgressBarProps = {
@@ -17,7 +16,6 @@ export default function ProgressBar({
   clientName,
 }: ProgressBarProps) {
   const targetPercentage = budget > 0 ? (spent / budget) * 100 : 0;
-  const cappedTarget = Math.min(targetPercentage, 100);
 
   const [animatedPercentage, setAnimatedPercentage] = useState(0);
 
@@ -26,7 +24,7 @@ export default function ProgressBar({
     let start: number | null = null;
     const duration = 2000; // 2s animation
     const startValue = targetPercentage / 2; // start att half target value instead of 0
-    const endValue = cappedTarget;
+    const endValue = targetPercentage;
 
     const step = (timestamp: number) => {
       if (!start) start = timestamp;
@@ -40,25 +38,34 @@ export default function ProgressBar({
     };
 
     requestAnimationFrame(step);
-  }, [cappedTarget, targetPercentage]);
+  }, [targetPercentage]);
 
   // Decide color depending on %,
   const fillColor =
     animatedPercentage < 50
-      ? "#c4ff61"
+      ? "linear-gradient(90deg, #e6ffb3 0%, #c4ff61 100%)"
       : animatedPercentage < 70
-      ? "#F1B44D"
-      : "#FF6767";
+        ? "linear-gradient(90deg, #fde3b3 0%, #F1B44D 100%)"
+        : "linear-gradient(90deg, #ffb3b3 0%, #FF6767 100%)";
 
   // Trunc project name
   const truncateName =
-    projectName.length > 50
-      ? projectName.slice(0, 50).trimEnd() + "..."
+    projectName.length > 40
+      ? projectName.slice(0, 40).trimEnd() + "..." // Trim project name to 40 characters
       : projectName;
 
   return (
     <div className="project-budget">
-      <h2>{`${clientName}  - ${truncateName}`}</h2>
+      <div className="budget-info">
+        <div className="client-info">
+          <h2>{` ${truncateName}`}</h2>
+          <p>{`${clientName} `}</p>
+        </div>
+
+        <p className="progress-procent">
+          {animatedPercentage.toFixed(0)}% {/* zero decimals */}
+        </p>
+      </div>
 
       <div className="progress-wrapper">
         <div className="progress-bar">
@@ -71,9 +78,6 @@ export default function ProgressBar({
             }}
           ></div>
         </div>
-        <span className="progress-procent">
-          {animatedPercentage.toFixed(0)}% {/* zero decimals */}
-        </span>
       </div>
     </div>
   );

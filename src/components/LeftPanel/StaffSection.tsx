@@ -15,19 +15,20 @@ export default function StaffSection() {
     try {
       const res = await fetch("/api/employees");
 
-      if (!res.ok) {
-        throw new Error(`Failed to fetch: ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
 
-      const data = await res.json();
+      const data: Staff[] = await res.json();
 
-      // Check if error in response
-      if (data.error) {
-        throw new Error(data.error);
-      }
+      const dataWithActivity = data.map((user: Staff) => {
+        const isActive = Boolean(user.isActive);
+        return {
+          ...user,
+          isActive,
+        };
+      });
 
-      setUsers(data);
-      setError(null); // Clear any previous errors
+      setUsers(dataWithActivity);
+      setError(null);
     } catch (err) {
       console.error("Error:", err);
       setError(err instanceof Error ? err.message : "Failed to load");
@@ -50,7 +51,7 @@ export default function StaffSection() {
     return () => clearInterval(refreshInterval);
   }, []);
 
-  // Rotate array every 5 seconds
+  // Rotate array every 10 seconds
   useEffect(() => {
     if (users.length === 0) return;
 
@@ -59,7 +60,7 @@ export default function StaffSection() {
         const [first, ...rest] = prevUsers;
         return [...rest, first];
       });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(rotateInterval);
   }, [users.length]);
@@ -79,17 +80,7 @@ export default function StaffSection() {
     );
   }
 
-  if (users.length === 0) {
-    return (
-      <section className="staffSection">
-        <div className="empty">
-          <p>No active employees</p>
-          <small>Start a timer in Harvest to see activity</small>
-        </div>
-      </section>
-    );
-  }
-
+  // ONöy show 4 users at the time
   const visibleUsers = users.slice(0, 4);
 
   return (
@@ -99,6 +90,7 @@ export default function StaffSection() {
           key={user.id}
           staff={user}
           isExpanded={index === 0}
+          isActive={user.isActive || false}
           showProgress={process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true"}
         />
       ))}

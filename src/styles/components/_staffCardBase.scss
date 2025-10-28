@@ -1,5 +1,6 @@
 @use "../abstracts/variables" as *;
 @use "../base/fonts" as *;
+
 /* ===============================
    Base Card Styles
    =============================== */
@@ -50,7 +51,6 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,22 +58,165 @@
   font-weight: $bold;
   color: $text-color;
   flex-shrink: 0;
-  overflow: hidden;
+  position: relative;
+  padding: 3px;
 
-  &.has-img {
-    border: none; // No border if theres an img
-  }
+  // Avatars without image - also get border now
   &:not(.has-img) {
-    border: 3px solid $text-color; // border if intials
+    // Inactive state
+    &.inactive {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.05)
+      );
+    }
+
+    // Active state
+    &.active {
+      background: linear-gradient(
+        45deg,
+        #00ff87 0%,
+        #11df0e 15%,
+        #0dff6f 30%,
+        #60efff 45%,
+        #0dff6f 60%,
+        #11df0e 75%,
+        #00ff87 90%,
+        #11df0e 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientRotate 6s ease infinite;
+      box-shadow:
+        0 0 20px rgba(17, 223, 14, 0.3),
+        0 0 40px rgba(13, 255, 111, 0.2),
+        0 0 60px rgba(0, 255, 135, 0.1);
+
+      // Extra glow layer
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: linear-gradient(
+          45deg,
+          #00ff87,
+          #11df0e,
+          #0dff6f,
+          #60efff,
+          #0dff6f,
+          #11df0e,
+          #00ff87
+        );
+        background-size: 400% 400%;
+        animation: gradientRotate 6s ease infinite;
+        filter: blur(8px);
+        opacity: 0.7;
+        z-index: -1;
+      }
+    }
+
+    // Inner wrapper for initials with black background
+    .avatar-inner {
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      background-color: $primary-color; // Black background
+      color: $text-color; // White text
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $xxlarge;
+      font-weight: $bold;
+      position: relative;
+      z-index: 1;
+    }
   }
+
+  // Gradient background for inactive with image
+  &.has-img.inactive {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+
+  // Instagram-style rotating gradient for active with image
+  &.has-img.active {
+    background: linear-gradient(
+      45deg,
+      #00ff87 0%,
+      #11df0e 15%,
+      #0dff6f 30%,
+      #60efff 45%,
+      #0dff6f 60%,
+      #11df0e 75%,
+      #00ff87 90%,
+      #11df0e 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientRotate 6s ease infinite;
+    box-shadow:
+      0 0 20px rgba(17, 223, 14, 0.3),
+      0 0 40px rgba(13, 255, 111, 0.2),
+      0 0 60px rgba(0, 255, 135, 0.1);
+
+    // Extra glow layer
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: linear-gradient(
+        45deg,
+        #00ff87,
+        #11df0e,
+        #0dff6f,
+        #60efff,
+        #0dff6f,
+        #11df0e,
+        #00ff87
+      );
+      background-size: 400% 400%;
+      animation: gradientRotate 6s ease infinite;
+      filter: blur(8px);
+      opacity: 0.7;
+      z-index: -1;
+    }
+  }
+
+  .avatar-image,
   img {
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
-    flex-shrink: 0;
+    border-radius: 50%;
+  }
+}
+
+@keyframes gradientRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
   }
 }

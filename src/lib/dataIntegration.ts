@@ -72,7 +72,6 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             time_entries: [
               {
                 hours_today: entry.hours || 0,
-                timer_started_at: entry.timer_started_at || "",
               },
             ],
             isActive: entry.is_running,
@@ -98,7 +97,6 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
           time_entries: [
             {
               hours_today: 0,
-              timer_started_at: "",
             },
           ],
           isActive: false,
