@@ -7,11 +7,8 @@
 
 /* When card is expanded and no image available*/
 .card-expanded .avatar:not(.has-img) {
-  color: $secondary-color;
-  background-color: $text-color;
-  font-size: $xxlarge;
-
   .avatar-inner {
+    font-size: $xxlarge;
     background-color: $text-color;
     color: $primary-color;
     box-shadow: 0 0 0 3px #292929; // Behåll "gap" om du vill
