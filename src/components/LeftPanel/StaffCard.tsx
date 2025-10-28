@@ -6,16 +6,24 @@ type StaffCardProps = {
   staff: Staff;
   isExpanded?: boolean;
   showProgress?: boolean;
+  isActive: boolean;
 };
 
 export default function StaffCard({
   staff,
   isExpanded = false,
+  isActive,
   showProgress,
 }: StaffCardProps) {
   if (isExpanded) {
-    return <ExpandedCard staff={staff} showProgress={showProgress} />;
+    return (
+      <ExpandedCard
+        staff={staff}
+        showProgress={showProgress}
+        isActive={isActive}
+      />
+    );
   }
 
-  return <SimpleCard staff={staff} />;
+  return <SimpleCard staff={staff} isActive={isActive} />;
 }

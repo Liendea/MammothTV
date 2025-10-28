@@ -6,6 +6,7 @@ export interface Staff {
   harvestId: string;
   initials: string;
   fun_fact: string;
+
   current_project?: {
     project_id: string;
     name: string;
@@ -13,7 +14,6 @@ export interface Staff {
   };
   time_entries?: Array<{
     hours_today: number;
-    timer_started_at?: string;
   }>;
   activeProject?: string | null;
   isActive?: boolean;

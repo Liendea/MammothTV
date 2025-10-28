@@ -7,7 +7,6 @@
 
 /* When card is expanded and no image available*/
 .card-expanded .avatar:not(.has-img) {
-  background: $text-color;
   color: black;
   font-size: $xxlarge;
 }
@@ -25,7 +24,6 @@
   height: 100%;
 
   /* CARD HEADER */
-
   .card-header {
     display: flex;
     align-items: flex-start;

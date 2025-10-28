@@ -1,27 +1,31 @@
 import Image from "next/image";
 import type { Staff } from "../../types/staff";
 
-
 type SimpleCardProps = {
   staff: Staff;
+  isActive: boolean;
 };
 
-export default function SimpleCard({ staff }: SimpleCardProps) {
+export default function SimpleCard({ staff, isActive }: SimpleCardProps) {
+  const hasImage = staff.image;
+
   return (
     <div className="card card-simple">
-      <div className="card-contaienr">
+      <div className="card-container">
         <div className="card-header">
-          <div className={`avatar ${staff.image ? "has-img" : ""}`}>
+          <div
+            className={`avatar ${hasImage ? "has-img" : ""} ${isActive ? "active" : "inactive"}`}
+          >
             {staff.image ? (
               <Image
                 src={staff.image}
                 alt={staff.name}
-                width={65}
-                height={65}
-                className="avtar-image"
+                width={100}
+                height={100}
+                className="avatar-image"
                 style={{
                   borderRadius: "50%",
-                  objectFit: "fill",
+                  objectFit: "cover",
                 }}
               />
             ) : (

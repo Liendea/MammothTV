@@ -1,32 +1,37 @@
 import Image from "next/image";
 import type { Staff } from "../../types/staff";
 
-
 type ExpandedCardProps = {
   staff: Staff;
   showProgress?: boolean;
+  isActive: boolean;
 };
 
 export default function ExpandedCard({
   staff,
   showProgress,
+  isActive,
 }: ExpandedCardProps) {
+  const hasImage = staff.image;
+
   return (
     <div className="card card-expanded">
       <div className="card-header">
         <div className="avatar-name">
-          <div className={`avatar ${staff.image ? "has-img" : ""}`}>
+          <div
+            className={`avatar ${hasImage ? "has-img" : ""} ${isActive ? "active" : "inactive"}`}
+          >
             {staff.image ? (
               <Image
                 src={staff.image!}
                 alt={staff.name}
-                width={64}
-                height={64}
-                className="avtar-image"
+                width={100}
+                height={100}
+                className="avatar-image"
                 style={{ borderRadius: "50%", objectFit: "cover" }}
               />
             ) : (
-              staff.initials
+              <div className="avatar-inner">{staff.initials}</div>
             )}
           </div>
 
