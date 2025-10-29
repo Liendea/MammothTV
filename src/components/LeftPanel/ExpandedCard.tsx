@@ -1,5 +1,9 @@
-import Image from "next/image";
 import type { Staff } from "../../types/staff";
+import { Avatar } from "./Avatar";
+import { EmployeeInfo } from "./EmployeeInfo";
+import { FunFactSection } from "./FunFactSection";
+import { ProjectDetails } from "./ProjectDetails";
+import { ProgressSection } from "./ProgressSection";
 
 type ExpandedCardProps = {
   staff: Staff;
@@ -12,80 +16,24 @@ export default function ExpandedCard({
   showProgress,
   isActive,
 }: ExpandedCardProps) {
-  const hasImage = staff.image;
-
   return (
     <div className="card card-expanded">
       <div className="card-header">
         <div className="avatar-name">
-          <div
-            className={`avatar ${hasImage ? "has-img" : ""} ${isActive ? "active" : "inactive"}`}
-          >
-            {staff.image ? (
-              <Image
-                src={staff.image!}
-                alt={staff.name}
-                width={100}
-                height={100}
-                className="avatar-image"
-                style={{ borderRadius: "50%", objectFit: "cover" }}
-              />
-            ) : (
-              <div className="avatar-inner">{staff.initials}</div>
-            )}
-          </div>
-          <div className="employee-info">
-            <div className="employee-name">{staff.name}</div>
-            <div className="employee-role">{staff.role}</div>
-          </div>
+          <Avatar
+            image={staff.image}
+            initials={staff.initials}
+            name={staff.name}
+            isActive={isActive}
+          />
+          <EmployeeInfo name={staff.name} role={staff.role} />
         </div>
-        {!showProgress && (
-          <div className="funFactArea">
-            <div className="detail-row">
-              <span className="detail-label">Fun Fact:</span>
-            </div>
-            <span className="funFact-value">
-              {staff.fun_fact || "Add fun fact to sanity!"}
-            </span>
-          </div>
-        )}
+        {!showProgress && <FunFactSection funFact={staff.fun_fact} />}
       </div>
-      <div className="card-details">
-        <div className="detail-row">
-          <span className="detail-label">PROJECT</span>
-          <span className="detail-value">
-            {staff.current_project?.name || "Not tracking time"}
-          </span>
-        </div>
-        <div className="detail-row">
-          <span className="detail-label">CLIENT</span>
-          <span className="detail-value">
-            {staff.current_project?.client || "Not tracking time"}
-          </span>
-        </div>
-      </div>
-      {showProgress && (
-        <div className="progressArea">
-          <div className="detail-row">
-            <span className="detail-label">HOURS TODAY</span>
-            <span className="detail-value badge">
-              {staff.time_entries?.[0]?.hours_today}h
-            </span>
-          </div>
-          <div className="progress-section">
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{
-                  width: `${
-                    ((staff.time_entries?.[0]?.hours_today ?? 0) / 7) * 100
-                  }%`,
-                }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      )}
+
+      <ProjectDetails project={staff.current_project} />
+
+      {showProgress && <ProgressSection timeEntry={staff.time_entries?.[0]} />}
     </div>
   );
 }
