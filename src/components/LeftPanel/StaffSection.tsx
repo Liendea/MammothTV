@@ -88,7 +88,7 @@ export default function StaffSection() {
               key={`expanded-${expandedUser.id}`}
               initial={{ opacity: 0, scale: 1, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -100 }}
+              exit={{ opacity: 0, scale: 1, y: -100 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
               <ExpandedCard
@@ -112,7 +112,7 @@ export default function StaffSection() {
               layout
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -30 }}
+              exit={{ opacity: 1, scale: 1, y: -30 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
               <SimpleCard staff={user} isActive={user.isActive || false} />
