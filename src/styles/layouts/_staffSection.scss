@@ -19,6 +19,17 @@
     text-align: center;
     margin: auto;
   }
+
+  .expanded-slot {
+    /* Expanded card tar sin egen plats */
+    position: relative;
+  }
+
+  .simple-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
 .staffSection::after {
