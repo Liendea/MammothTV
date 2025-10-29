@@ -74,9 +74,9 @@ export default function StaffSection() {
     );
   }
 
-  const visibleUsers = users.slice(0, 4);
-  const expandedUser = visibleUsers[0];
-  const simpleUsers = visibleUsers.slice(1);
+  const visibleUsers = users.slice(0, 4); //Only show 4 users
+  const expandedUser = visibleUsers[0]; // First user is expanded
+  const simpleUsers = visibleUsers.slice(1); // The rest is simple
 
   return (
     <section className="staffSection">

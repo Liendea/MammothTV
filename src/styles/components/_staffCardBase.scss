@@ -153,8 +153,8 @@
   // Inner wrapper for image with black background
   .avatar-image,
   img {
-    width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    width: calc(100% - 7px);
+    height: calc(100% - 7px);
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 0 0 4px #292929;
