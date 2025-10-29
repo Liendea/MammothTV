@@ -10,28 +10,27 @@ export default function StaffSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch employees from api route
+  // Fetch employees from API
   const fetchEmployees = async () => {
     try {
       const res = await fetch("/api/employees");
 
-      if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+      if (!res.ok) {
+        const errorData = (await res.json()) as { error?: string };
+        setError(errorData.error || "Failed to fetch employees");
+        return;
+      }
 
       const data: Staff[] = await res.json();
-
-      const dataWithActivity = data.map((user: Staff) => {
-        const isActive = Boolean(user.isActive);
-        return {
-          ...user,
-          isActive,
-        };
-      });
+      const dataWithActivity = data.map((user: Staff) => ({
+        ...user,
+        isActive: Boolean(user.isActive),
+      }));
 
       setUsers(dataWithActivity);
       setError(null);
-    } catch (err) {
-      console.error("Error:", err);
-      setError(err instanceof Error ? err.message : "Failed to load");
+    } catch {
+      setError("Something went wrong when fetching employees.");
     } finally {
       setLoading(false);
     }

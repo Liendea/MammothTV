@@ -17,42 +17,34 @@ export default function ProjectSection() {
       const res = await fetch("/api/projects");
 
       if (!res.ok) {
-        throw new Error(`Failed to fetch: ${res.status}`);
+        const errorData = (await res.json()) as { error?: string };
+        setError(errorData.error || "Failed to fetch projects");
+        return;
       }
 
       const data = await res.json();
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
       setProjects(data);
       setError(null);
-    } catch (err) {
-      console.error("Error fetching project budgets:", err);
-      setError(err instanceof Error ? err.message : "Failed to load");
+    } catch {
+      setError("Could not load projects");
     } finally {
       setLoading(false);
     }
   };
 
-  // Initial fetch
   useEffect(() => {
     fetchProjectBudgets();
   }, []);
 
-  // auto-refresh every minute
   useEffect(() => {
     const interval = setInterval(() => {
       fetchProjectBudgets();
-    }, 60000); // 1 min = 60000 ms
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
   if (error) {
     return (
@@ -67,12 +59,28 @@ export default function ProjectSection() {
 
   const displayProjects = projects.slice(0, 4);
 
+  if (displayProjects.length === 0)
+    return (
+      <section className="projectSection">
+        <div className="header">
+          <h1>Project budget</h1>
+        </div>
+        <hr />
+        <div className="message">
+          <h1>🦣</h1>
+          <p>No one is currently tracking time on a billable project</p>
+        </div>
+        <hr />
+      </section>
+    );
+
   return (
     <section className="projectSection">
       <div className="header">
         <h1>Project budget</h1>
       </div>
       <hr />
+
       <div className="budget-wrapper">
         {displayProjects.map((project) => (
           <ProgressBar

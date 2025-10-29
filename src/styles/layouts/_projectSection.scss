@@ -8,12 +8,19 @@
   padding: 1rem;
   height: auto;
   width: 100%;
+  font-family: $font-primary;
 
   .error {
-    font-family: $font-primary;
     color: $secondary-color;
     text-align: center;
     margin: auto;
+  }
+
+  .message {
+    color: $secondary-color;
+    text-align: center;
+    margin: auto;
+    text-transform: uppercase;
   }
 
   h1 {
