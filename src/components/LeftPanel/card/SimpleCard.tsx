@@ -1,6 +1,6 @@
-import type { Staff } from "../../types/staff";
-import { Avatar } from "./Avatar";
-import { SimpleCardInfo } from "./SimpleCardInfo";
+import type { Staff } from "@/types/staff";
+import { Avatar } from "../card-details/Avatar";
+import { SimpleCardInfo } from "../card-details/SimpleCardInfo";
 
 type SimpleCardProps = {
   staff: Staff;

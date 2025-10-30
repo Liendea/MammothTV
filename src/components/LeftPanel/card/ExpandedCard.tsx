@@ -1,9 +1,9 @@
-import type { Staff } from "../../types/staff";
-import { Avatar } from "./Avatar";
-import { EmployeeInfo } from "./EmployeeInfo";
-import { FunFactSection } from "./FunFactSection";
-import { ProjectDetails } from "./ProjectDetails";
-import { ProgressSection } from "./ProgressSection";
+import type { Staff } from "@/types/staff";
+import { Avatar } from "../card-details/Avatar";
+import { EmployeeInfo } from "../card-details/EmployeeInfo";
+import { FunFactSection } from "../card-details/FunFactSection";
+import { ProjectDetails } from "../card-details/ProjectDetails";
+import { ProgressSection } from "../card-details/ProgressSection";
 
 type ExpandedCardProps = {
   staff: Staff;
