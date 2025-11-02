@@ -1,22 +1,21 @@
 "use client";
-import ExpandedCard from "./card/ExpandedCard";
-import SimpleCard from "./card/SimpleCard";
-import LoadingSpinner from "../LoadingSpinner";
-import type { Staff } from "@/types/staff";
 
 import { AnimatePresence, motion } from "framer-motion";
+
+import StaffCard from "./card/StaffCard";
 import { useStaffData } from "@/hooks/useStaffData";
 import { useRotation } from "@/hooks/useRotation";
+import LoadingSpinner from "../LoadingSpinner";
 
 export default function StaffSection() {
   const { staff, loading, error } = useStaffData(60000);
-  const visibleStaff = useRotation(staff, 5000);
+  const { visibleStaff } = useRotation(staff, 5000);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
-  if (error) {
+  if (loading) return <LoadingSpinner />;
+
+  if (error)
     return (
       <section className="staffSection">
         <div className="error">
@@ -25,54 +24,22 @@ export default function StaffSection() {
         </div>
       </section>
     );
-  }
-
-  const visibleUsers = visibleStaff.slice(0, 4); //Only show 4 users
-  const expandedUser = visibleUsers[0]; // First user is expanded
-  const simpleUsers = visibleUsers.slice(1); // The rest is simple
 
   return (
     <section className="staffSection">
-      {/* Expanded card slot */}
-      <div className="expanded-slot">
-        <AnimatePresence mode="wait">
-          {expandedUser && (
-            <motion.div
-              key={`expanded-${expandedUser.id}`}
-              initial={{ opacity: 0, scale: 1, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 1, scale: 1, y: -100 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <ExpandedCard
-                staff={expandedUser}
-                showProgress={
-                  process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true"
-                }
-                isActive={expandedUser.isActive || false}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Simple cards */}
-      <div className="simple-cards">
-        <AnimatePresence>
-          {simpleUsers.map((user: Staff) => (
-            <motion.div
+      <motion.div layout className="staffCardContainer">
+        <AnimatePresence mode="sync">
+          {visibleStaff.map((user, index) => (
+            <StaffCard
               key={user.id}
-              layout
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 1, scale: 1, y: -30 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <SimpleCard staff={user} isActive={user.isActive || false} />
-            </motion.div>
+              staff={user}
+              isActive={user.isActive || false}
+              showProgress={showProgress}
+              index={index}
+            />
           ))}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </section>
   );
 }

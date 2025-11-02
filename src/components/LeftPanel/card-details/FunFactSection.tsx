@@ -4,13 +4,11 @@ type FunFactSectionProps = {
 
 export function FunFactSection({ funFact }: FunFactSectionProps) {
   return (
-    <div className="funFactArea">
-      <div className="detail-row">
-        <span className="detail-label">Fun Fact:</span>
-      </div>
-      <span className="funFact-value">
+    <>
+      <span className="fun-fact-label">Fun Fact:</span>
+      <span className="fun-fact-value">
         {funFact || "Add fun fact to sanity!"}
       </span>
-    </div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 type AvatarProps = {
   image?: string;
@@ -11,7 +12,8 @@ export function Avatar({ image, initials, name, isActive }: AvatarProps) {
   const hasImage = !!image;
 
   return (
-    <div
+    <motion.div
+      layout
       className={`avatar ${hasImage ? "has-img" : ""} ${isActive ? "active" : "inactive"}`}
     >
       {image ? (
@@ -25,6 +27,6 @@ export function Avatar({ image, initials, name, isActive }: AvatarProps) {
       ) : (
         <div className="avatar-inner">{initials}</div>
       )}
-    </div>
+    </motion.div>
   );
 }
