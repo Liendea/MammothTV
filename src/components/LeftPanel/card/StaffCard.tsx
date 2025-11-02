@@ -36,7 +36,7 @@ export default function StaffCard({
         isTopCard
           ? { y: -200, opacity: 1 }
           : isExpandedCard
-            ? { y: 50, opacity: 0, scale: 1 }
+            ? { y: -140, opacity: 0, scale: 1 }
             : { y: 0, opacity: 1, scale: 1 }
       }
       animate={
