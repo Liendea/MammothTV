@@ -11,7 +11,7 @@ type ProjectDetailsProps = {
 
 export function ProjectDetails({ project }: ProjectDetailsProps) {
   return (
-    <motion.div className="card-details">
+    <div className="card-details">
       <div className="detail-row">
         <span className="detail-label">PROJECT</span>
         <span className="detail-value">
@@ -24,6 +24,6 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
           {project?.client || "Not tracking time"}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }

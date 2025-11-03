@@ -28,7 +28,7 @@ export default function StaffSection() {
   return (
     <section className="staffSection">
       <motion.div layout className="staffCardContainer">
-        <AnimatePresence mode="sync">
+        <AnimatePresence mode="popLayout">
           {visibleStaff.map((user, index) => (
             <StaffCard
               key={user.id}
