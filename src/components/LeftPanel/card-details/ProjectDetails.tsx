@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 type Project = {
   name: string;
   client: string;

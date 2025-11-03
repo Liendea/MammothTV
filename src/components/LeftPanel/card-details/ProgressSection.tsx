@@ -11,7 +11,7 @@ export function ProgressSection({ timeEntry }: ProgressSectionProps) {
   const progressPercentage = (hoursToday / 7) * 100;
 
   return (
-    <div className="progressArea">
+    <>
       <div className="detail-row">
         <span className="detail-label">HOURS TODAY</span>
         <span className="detail-value badge">{hoursToday}h</span>
@@ -24,6 +24,6 @@ export function ProgressSection({ timeEntry }: ProgressSectionProps) {
           ></div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

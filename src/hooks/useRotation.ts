@@ -1,33 +1,24 @@
-import { useState, useEffect, useRef } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import type { Staff } from "@/types/staff";
 
 export function useRotation(staff: Staff[], interval: number = 5000) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     if (staff.length === 0) return;
 
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-
-    timerRef.current = setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % staff.length);
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % staff.length);
     }, interval);
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [staff.length, currentIndex, interval]);
+    return () => clearInterval(id);
+  }, [staff.length, interval]);
 
-  // Skapa synliga kort baserat på currentIndex
   const visibleStaff = [
-    ...staff.slice(currentIndex, currentIndex + 4),
-    ...staff.slice(0, Math.max(0, currentIndex + 4 - staff.length)),
-  ].slice(0, 4);
+    ...staff.slice(index, index + 5),
+    ...staff.slice(0, Math.max(0, index + 5 - staff.length)),
+  ];
 
-  return visibleStaff;
+  return { visibleStaff };
 }
