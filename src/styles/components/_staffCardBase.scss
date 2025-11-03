@@ -26,7 +26,7 @@
   color: $text-color;
   flex-shrink: 0;
   position: relative;
-  padding: 3px; // Border thickness
+  padding: 4px; // Border thickness
 
   // Avatars without image
   &:not(.has-img) {
@@ -55,10 +55,11 @@
         0 0 15px rgba(13, 255, 111, 0.1);
     }
 
+    // Black gap layer (same for both)
     &:not(.has-img)::before {
       content: "";
       position: absolute;
-      inset: 4px;
+      inset: 2px;
       background: #292929;
       border-radius: 50%;
       z-index: 0;
@@ -78,7 +79,6 @@
       font-weight: $bold;
       position: relative;
       z-index: 1;
-      box-shadow: 0 0 0 3px #292929;
     }
   }
 
@@ -112,7 +112,7 @@
   &.has-img::before {
     content: "";
     position: absolute;
-    inset: 3px;
+    inset: 2px;
     background: #292929;
     border-radius: 50%;
     z-index: 0;
@@ -121,11 +121,11 @@
   // Inner wrapper for image with black background
   .avatar-image,
   img {
-    width: calc(100% - 7px);
-    height: calc(100% - 7px);
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
     object-fit: cover;
     border-radius: 50%;
-    box-shadow: 0 0 0 4px #292929;
+
     position: relative;
     z-index: 1;
   }
