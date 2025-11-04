@@ -33,39 +33,7 @@ export default function ProjectSection() {
           <h1>🦣</h1>
           <p>No one is currently tracking time on a billable project</p>
         </div>
-        <div className="budget-wrapper">
-          <ProgressBar
-            key={1}
-            projectName={"test"}
-            clientName={"project.client_name"}
-            budget={100}
-            spent={80}
-          />
 
-          <ProgressBar
-            key={7}
-            projectName={"test"}
-            clientName={"project.client_name"}
-            budget={100}
-            spent={80}
-          />
-
-          <ProgressBar
-            key={7}
-            projectName={"test"}
-            clientName={"project.client_name"}
-            budget={100}
-            spent={80}
-          />
-
-          <ProgressBar
-            key={2}
-            projectName={"test"}
-            clientName={"project.client_name"}
-            budget={100}
-            spent={80}
-          />
-        </div>
         <hr />
       </section>
     );
