@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-
 import StaffCard from "./card/StaffCard";
 import { useStaffData } from "@/hooks/useStaffData";
 import { useRotation } from "@/hooks/useRotation";

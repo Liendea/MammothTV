@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Staff } from "@/types/staff";
 
+
+
+
 export function useStaffData(refreshInterval: number = 60000) {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
@@ -10,6 +13,7 @@ export function useStaffData(refreshInterval: number = 60000) {
 
   const fetchStaff = useCallback(async () => {
     try {
+      setLoading(true);
       const res = await fetch("/api/employees");
 
       if (!res.ok) {
@@ -38,7 +42,7 @@ export function useStaffData(refreshInterval: number = 60000) {
     fetchStaff();
   }, [fetchStaff]);
 
-  // Auto-refresh
+  // Auto-refresh, clears interval on unmount or interval change
   useEffect(() => {
     if (refreshInterval <= 0) return;
 

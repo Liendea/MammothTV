@@ -1,6 +1,6 @@
-import StaffSection from "@/components/LeftPanel/StaffSection";
-import ProjectBudget from "@/components/RightPanel/ProjectSection";
-import Footer from "@/components/RightPanel/Footer";
+import StaffSection from "@/components/StaffSection/StaffSection";
+import ProjectBudget from "@/components/ProjectBudgetSection/ProjectSection";
+import Footer from "@/components/ProjectBudgetSection/Footer";
 
 export default async function Home() {
   return (
