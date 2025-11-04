@@ -67,7 +67,7 @@ export default function StaffCard({
             : isLowerCard
               ? {
                   // Lower cards slightly shift upward to fill space as others move
-                  y: -170,
+                  y: -180,
                   opacity: 1,
                   scale: 1,
                   transition: { duration: 0.5, ease: "easeInOut" },
