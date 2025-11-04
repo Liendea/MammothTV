@@ -1,48 +1,13 @@
 "use client";
 
 import ProgressBar from "./ProgressBar";
-import { useState, useEffect } from "react";
-import type { ProjectBudget } from "@/types/project";
 import LoadingSpinner from "../LoadingSpinner";
+import { useProjectData } from "@/hooks/useProjectData";
 
 export default function ProjectSection() {
-  const [projects, setProjects] = useState<ProjectBudget[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { projects, loading, error } = useProjectData(60000);
 
-  // Fetch project budgets from API
-  const fetchProjectBudgets = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/projects");
-
-      if (!res.ok) {
-        const errorData = (await res.json()) as { error?: string };
-        setError(errorData.error || "Failed to fetch projects");
-        return;
-      }
-
-      const data = await res.json();
-      setProjects(data);
-      setError(null);
-    } catch {
-      setError("Could not load projects");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProjectBudgets();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchProjectBudgets();
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const displayProjects = projects.slice(0, 4);
 
   if (loading) return <LoadingSpinner />;
 
@@ -57,8 +22,6 @@ export default function ProjectSection() {
     );
   }
 
-  const displayProjects = projects.slice(0, 4);
-
   if (displayProjects.length === 0)
     return (
       <section className="projectSection">
@@ -69,6 +32,39 @@ export default function ProjectSection() {
         <div className="message">
           <h1>🦣</h1>
           <p>No one is currently tracking time on a billable project</p>
+        </div>
+        <div className="budget-wrapper">
+          <ProgressBar
+            key={1}
+            projectName={"test"}
+            clientName={"project.client_name"}
+            budget={100}
+            spent={80}
+          />
+
+          <ProgressBar
+            key={7}
+            projectName={"test"}
+            clientName={"project.client_name"}
+            budget={100}
+            spent={80}
+          />
+
+          <ProgressBar
+            key={7}
+            projectName={"test"}
+            clientName={"project.client_name"}
+            budget={100}
+            spent={80}
+          />
+
+          <ProgressBar
+            key={2}
+            projectName={"test"}
+            clientName={"project.client_name"}
+            budget={100}
+            spent={80}
+          />
         </div>
         <hr />
       </section>

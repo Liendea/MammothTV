@@ -1,5 +1,5 @@
 "use client";
-import { useAnimatedProgress } from "./useAnimatedProgress";
+import { useAnimatedProgress } from "../../hooks/useAnimatedProgress";
 import { getProgressColor, truncateText } from "./ProgressUtils";
 import { BudgetHeader } from "./BudgetHeader";
 import { AnimatedProgressBar } from "./AnimatedProgressBar";

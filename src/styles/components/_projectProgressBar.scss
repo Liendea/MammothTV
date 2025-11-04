@@ -4,17 +4,16 @@
 .budget-wrapper {
   height: auto;
   width: 100%;
-  margin-top: 2cqmin;
+  margin-top: 2rem;
 }
 
 .project-budget {
   width: 100%;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 
   .budget-info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
   }
   h2 {
     font-size: $xlarge;
