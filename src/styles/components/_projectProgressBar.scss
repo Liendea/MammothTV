@@ -21,9 +21,10 @@
     line-height: 1;
   }
   p {
-    font-size: $medium;
-    font-weight: $thin;
+    font-size: $large;
+    color: $secondary-text-color;
     line-height: 2;
+    text-transform: uppercase;
   }
 
   .progress-procent {

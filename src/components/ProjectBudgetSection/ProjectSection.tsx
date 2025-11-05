@@ -43,6 +43,13 @@ export default function ProjectSection() {
       <div className="header">
         <h1>Project budget</h1>
       </div>
+      <ProgressBar
+        key={1}
+        projectName={"project.project_name"}
+        clientName={"project.client_name"}
+        budget={100}
+        spent={71}
+      />
       <hr />
 
       <div className="budget-wrapper">
