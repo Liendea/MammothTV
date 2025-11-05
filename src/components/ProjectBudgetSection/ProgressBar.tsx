@@ -20,7 +20,7 @@ export default function ProgressBar({
   const targetPercentage = budget > 0 ? (spent / budget) * 100 : 0;
   const animatedPercentage = useAnimatedProgress(targetPercentage);
   const fillColor = getProgressColor(animatedPercentage);
-  const truncatedName = truncateText(projectName, 40);
+  const truncatedName = truncateText(projectName, 30);
 
   return (
     <div className="project-budget">

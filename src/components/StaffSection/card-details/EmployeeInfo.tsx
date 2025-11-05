@@ -4,13 +4,13 @@ type EmployeeInfoProps = {
   name: string;
   role: string;
   isExpanded?: boolean;
-  projectName?: string;
+  truncatedName?: string;
 };
 
 export function EmployeeInfo({
   name,
   role,
-  projectName,
+  truncatedName,
   isExpanded,
 }: EmployeeInfoProps) {
   return (
@@ -41,7 +41,7 @@ export function EmployeeInfo({
             }}
             className="project-name"
           >
-            {projectName || "Not tracking time"}
+            {truncatedName || "Not tracking time"}
           </motion.div>
         )}
       </AnimatePresence>

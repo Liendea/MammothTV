@@ -8,7 +8,11 @@ export function getProgressColor(percentage: number): string {
   }
 }
 
-export function truncateText(text: string, maxLength: number): string {
+export function truncateText(
+  text: string | undefined,
+  maxLength: number
+): string {
+  if (!text) return "";
   if (text.length > maxLength) {
     return text.slice(0, maxLength).trimEnd() + "...";
   }
