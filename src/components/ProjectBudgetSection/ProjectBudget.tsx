@@ -4,19 +4,19 @@ import { getProgressColor, truncateText } from "./ProgressUtils";
 import { BudgetHeader } from "./BudgetHeader";
 import { AnimatedProgressBar } from "./AnimatedProgressBar";
 
-type ProgressBarProps = {
+type ProjectBudgetProps = {
   projectName: string;
   clientName: string;
   budget: number;
   spent: number;
 };
 
-export default function ProgressBar({
+export default function ProjectBudget({
   projectName,
   budget,
   spent,
   clientName,
-}: ProgressBarProps) {
+}: ProjectBudgetProps) {
   const targetPercentage = budget > 0 ? (spent / budget) * 100 : 0;
   const animatedPercentage = useAnimatedProgress(targetPercentage);
   const fillColor = getProgressColor(animatedPercentage);

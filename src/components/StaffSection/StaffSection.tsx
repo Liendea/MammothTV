@@ -8,7 +8,7 @@ import LoadingSpinner from "../LoadingSpinner";
 
 export default function StaffSection() {
   const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff } = useRotation(staff, 5000);
+  const { visibleStaff } = useRotation(staff, 10000);
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
@@ -27,7 +27,7 @@ export default function StaffSection() {
   return (
     <section className="staffSection">
       <motion.div layout className="staffCardContainer">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="sync">
           {visibleStaff.map((user, index) => (
             <StaffCard
               key={user.id}

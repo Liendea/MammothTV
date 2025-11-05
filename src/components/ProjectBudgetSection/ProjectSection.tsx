@@ -1,6 +1,6 @@
 "use client";
 
-import ProgressBar from "./ProgressBar";
+import ProjectBudget from "./ProjectBudget";
 import LoadingSpinner from "../LoadingSpinner";
 import { useProjectData } from "@/hooks/useProjectData";
 
@@ -48,7 +48,7 @@ export default function ProjectSection() {
 
       <div className="budget-wrapper">
         {displayProjects.map((project) => (
-          <ProgressBar
+          <ProjectBudget
             key={project.project_id}
             projectName={project.project_name}
             clientName={project.client_name}
@@ -57,7 +57,6 @@ export default function ProjectSection() {
           />
         ))}
       </div>
-
       <hr />
     </section>
   );

@@ -17,11 +17,9 @@
 .card-expanded {
   background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
   padding: 30px;
-
   display: flex;
   flex-direction: column;
   height: auto;
-  margin: 1rem 0;
   z-index: 1000;
 
   /* CARD HEADER */
@@ -30,7 +28,7 @@
     align-items: center;
     flex-direction: row;
     gap: 2rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: $spacing-lg;
 
     .avatar-wrapper {
       .avatar {
@@ -41,14 +39,13 @@
 
     .employee-info {
       .employee-name {
-        font-size: $xxlarge;
+        font-size: $xlarge;
         font-weight: $regular;
         color: $secondary-color;
-        margin-bottom: 4px;
       }
 
       .employee-role {
-        font-size: $xlarge;
+        font-size: $small;
         color: $secondary-text-color;
         text-transform: uppercase;
       }
@@ -61,22 +58,25 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+    align-items: flex-start;
+    margin-bottom: $spacing-lg;
     color: $secondary-color;
+    gap: $spacing-lg;
 
     .fun-fact-label {
-      font-size: $medium;
+      font-size: $small;
       text-transform: uppercase;
       letter-spacing: 1px;
       white-space: nowrap;
     }
 
     .fun-fact-value {
-      font-size: $large;
+      font-size: $small;
       color: $secondary-color;
       text-align: right;
       width: 70%;
+      letter-spacing: 1px;
+      font-weight: $regular;
     }
   }
 
@@ -88,6 +88,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+      letter-spacing: 1px;
     }
 
     .detail-row {
@@ -96,7 +97,7 @@
       align-items: center;
 
       &:first-child {
-        margin: 2rem 0;
+        margin: $spacing-lg 0;
       }
       &:last-child {
         margin-bottom: 0;
@@ -104,20 +105,21 @@
     }
 
     .detail-label {
-      font-size: $medium;
+      font-size: $small;
       color: $secondary-color;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .detail-value {
-      font-size: $large;
+      font-size: $small;
       font-weight: $regular;
       color: $secondary-color;
+      font-weight: $regular;
 
       &.badge {
         background: rgba(255, 255, 255, 0.1);
-        padding: 6px 16px;
+        padding: $spacing-sm $spacing-md;
         border-radius: 8px;
       }
     }
@@ -129,7 +131,7 @@
   =============================== */
 
 .time-tracking-area {
-  margin-top: 1rem;
+  margin-top: $spacing-md;
 
   .detail-row {
     display: flex;
@@ -137,7 +139,7 @@
     align-items: center;
 
     &:first-child {
-      margin: 1rem 0;
+      margin: $spacing-md 0;
     }
     &:last-child {
       margin-bottom: 0;
@@ -145,27 +147,27 @@
   }
 
   .detail-label {
-    font-size: $medium;
-    color: $secondary-text-color;
+    font-size: $small;
+    color: $secondary-color;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
 
   .detail-value {
-    font-size: $large;
+    font-size: $small;
     font-weight: $regular;
     color: $secondary-color;
 
     &.badge {
       background: rgba(255, 255, 255, 0.1);
-      padding: 6px 16px;
+      padding: $spacing-sm $spacing-md;
       border-radius: 8px;
     }
   }
 }
 
 .progress-bar {
-  margin: 1rem 0;
+  margin: $spacing-md 0;
   width: 100%;
   height: 8px;
   background: #333;

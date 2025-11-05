@@ -10,7 +10,7 @@ export function BudgetHeader({
   percentage,
 }: BudgetHeaderProps) {
   return (
-    <div className="budget-info">
+    <div className="budget-header">
       <div className="client-info">
         <h2>{projectName}</h2>
         <p>{clientName}</p>

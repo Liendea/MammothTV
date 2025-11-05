@@ -33,9 +33,9 @@ export function EmployeeInfo({
             initial={{ opacity: 0, height: 0 }}
             animate={{
               opacity: 1,
-              height: 0,
+              height: "auto",
               transition: {
-                opacity: { duration: 0.5, delay: 1 },
+                opacity: { duration: 0.1, delay: 1 },
                 height: { duration: 0, ease: "easeInOut", delay: 0.5 },
               },
             }}
