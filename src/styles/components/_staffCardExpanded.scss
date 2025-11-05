@@ -50,6 +50,7 @@
       .employee-role {
         font-size: $xlarge;
         color: $secondary-text-color;
+        text-transform: uppercase;
       }
     }
   }
@@ -60,18 +61,22 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    color: $secondary-color;
 
     .fun-fact-label {
       font-size: $medium;
-      color: $secondary-text-color;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 1rem;
+      white-space: nowrap;
     }
 
     .fun-fact-value {
-      font-size: $medium;
+      font-size: $large;
       color: $secondary-color;
+      text-align: right;
+      width: 50%;
     }
   }
 
@@ -100,7 +105,7 @@
 
     .detail-label {
       font-size: $medium;
-      color: $secondary-text-color;
+      color: $secondary-color;
       text-transform: uppercase;
       letter-spacing: 1px;
     }

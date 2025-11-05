@@ -43,6 +43,7 @@ export default function ProjectSection() {
       <div className="header">
         <h1>Project budget</h1>
       </div>
+
       <hr />
 
       <div className="budget-wrapper">
