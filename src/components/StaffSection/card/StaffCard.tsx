@@ -5,6 +5,7 @@ import { EmployeeInfo } from "../card-details/EmployeeInfo";
 import { FunFactSection } from "../card-details/FunFactSection";
 import { ProjectDetails } from "../card-details/ProjectDetails";
 import { ProgressSection } from "../card-details/ProgressSection";
+import { truncateText } from "../../ProjectBudgetSection/ProgressUtils";
 
 type StaffCardProps = {
   staff: Staff;
@@ -22,6 +23,7 @@ export default function StaffCard({
   const isTopCard = index === 0; // topCard moves out of screen
   const isExpandedCard = index === 1; // SecondCard. moves up end expands
   const isLowerCard = index > 1; // smallcards
+  const truncatedName = truncateText(staff.current_project?.name, 30);
 
   return (
     <motion.div
@@ -100,7 +102,7 @@ export default function StaffCard({
           <EmployeeInfo
             name={staff.name}
             role={staff.role}
-            projectName={staff.current_project?.name}
+            truncatedName={truncatedName}
             isExpanded={isExpandedCard}
           />
         </div>
