@@ -86,6 +86,9 @@ export default function StaffCard({
             }
           : undefined // Other cards keep their default exit (no special animation)
       }
+      style={{
+        borderRadius: "20px",
+      }}
     >
       {/* ----- Card Header ----- */}
       <div className="card-header">
