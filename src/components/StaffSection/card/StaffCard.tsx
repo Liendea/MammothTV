@@ -21,7 +21,7 @@ export default function StaffCard({
   staff,
   isActive,
   showProgress,
-  index,
+
   isExpanded = false,
   cardId,
   onCardRef,

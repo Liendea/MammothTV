@@ -18,7 +18,4 @@ export interface Staff {
   activeProject?: string | null;
   isActive?: boolean;
   currentHours?: number;
-
-  cardId: string;
-  onCardRef?: (node: HTMLElement | null, cardId: string) => void;
 }
