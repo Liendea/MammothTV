@@ -7,7 +7,14 @@ import { useProjectData } from "@/hooks/useProjectData";
 export default function ProjectSection() {
   const { projects, loading, error } = useProjectData(60000);
 
-  const displayProjects = projects.slice(0, 4);
+  // Sort projects by budget spent ratio and take top 4
+  const displayProjects = [...projects]
+    .sort((a, b) => {
+      const aRatio = a.budget > 0 ? a.budget_spent / a.budget : -1;
+      const bRatio = b.budget > 0 ? b.budget_spent / b.budget : -1;
+      return bRatio - aRatio;
+    })
+    .slice(0, 4);
 
   if (loading) return <LoadingSpinner />;
 
