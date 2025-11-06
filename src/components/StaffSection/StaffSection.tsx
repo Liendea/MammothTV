@@ -1,14 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import StaffCard from "./card/StaffCard";
 import { useStaffData } from "@/hooks/useStaffData";
 import { useRotation } from "@/hooks/useRotation";
 import LoadingSpinner from "../LoadingSpinner";
+import { useCardExpansion } from "@/hooks/useCardExpansion";
 
 export default function StaffSection() {
   const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff } = useRotation(staff, 10000);
+  const { visibleStaff, animationConfig } = useRotation(staff);
+  const { expandedCardId, observeCard } = useCardExpansion();
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
@@ -26,18 +28,34 @@ export default function StaffSection() {
 
   return (
     <section className="staffSection">
-      <motion.div layout className="staffCardContainer">
-        <AnimatePresence mode="sync">
-          {visibleStaff.map((user, index) => (
+      {/* Infinite scrolling cards */}
+      <motion.div
+        className="staffCardContainer"
+        animate={{
+          y: [0, animationConfig.totalHeight], // creates upward motion
+        }}
+        transition={{
+          duration: animationConfig.duration * 2, // Speed on upward motion
+          ease: "linear",
+          repeat: Infinity,
+        }}
+      >
+        {visibleStaff.map((user, index) => {
+          const cardId = `${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId;
+          return (
             <StaffCard
-              key={user.id}
+              key={cardId}
+              cardId={cardId}
               staff={user}
               isActive={user.isActive || false}
               showProgress={showProgress}
+              isExpanded={isExpanded}
+              onCardRef={observeCard}
               index={index}
             />
-          ))}
-        </AnimatePresence>
+          );
+        })}
       </motion.div>
     </section>
   );
