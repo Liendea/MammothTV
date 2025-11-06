@@ -52,7 +52,6 @@ export default function StaffCard({
         }}
       >
         <div className="avatar-wrapper">
-          <p style={{ fontSize: "10px" }}>{index}</p>
           <Avatar
             image={staff.image}
             initials={staff.initials}

@@ -4,23 +4,23 @@ import { useState, useCallback } from "react";
 export function useCardExpansion() {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
 
-  // Callback för när ett kort observeras
+  // Callback for when a card is being observed
   const observeCard = useCallback(
     (node: HTMLElement | null, cardId: string) => {
       if (!node) return;
 
-      // Skapa observer för detta specifika kort
+      // Create an observer for this specific card
       const observer = new IntersectionObserver(
         ([entry]) => {
-          // Kortet är i mitten av viewporten
+          // The card is in the center of the viewport
           if (entry.isIntersecting) {
             setExpandedCardId(cardId);
           }
         },
         {
           root: null, // viewport
-          rootMargin: "40% 0px -40% 0px", // Justera för att centrera observationen
-          threshold: 0.5, // Minst 50% av kortet måste vara synligt
+          rootMargin: "35% 0px -20% 0px", // Adjust to center the observation area
+          threshold: 0.5, // At least 50% of the card must be visible
         }
       );
 

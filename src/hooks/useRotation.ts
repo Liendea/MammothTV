@@ -12,7 +12,7 @@ export function useRotation(staff: Staff[]) {
       return;
     }
 
-    // Rotera listan varje gång ny data hämtas
+    // Rotate the list every time new data is fetched
     const newRotationIndex = rotationIndexRef.current % staff.length;
 
     const rotated = [
@@ -20,17 +20,17 @@ export function useRotation(staff: Staff[]) {
       ...staff.slice(0, newRotationIndex),
     ];
 
-    // Duplicera för seamless infinite scroll
+    // Duplicate for seamless infinite scroll
     setDuplicatedStaff([...rotated, ...rotated]);
 
-    // Öka rotationsindex för nästa uppdatering (varje minut)
+    // Increase the rotation index for the next update (every minute)
     rotationIndexRef.current = (newRotationIndex + 2) % staff.length;
   }, [staff]);
 
-  // Beräkna animationshastighet baserat på antal anställda
-  const cardHeight = 200; // Ungefärlig höjd per kort i pixels
+  // Calculate animation speed based on the number of employees
+  const cardHeight = 200; // Approximate height per card in pixels
   const singleSetHeight = staff.length * cardHeight;
-  const duration = staff.length * 4; // 4 sekunder per kort (justera efter behov)
+  const duration = staff.length * 4; // 4 seconds per card (adjust if needed)
 
   return {
     visibleStaff: duplicatedStaff,
