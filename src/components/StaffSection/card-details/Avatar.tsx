@@ -15,7 +15,7 @@ export function Avatar({ image, initials, name, isActive }: AvatarProps) {
     <motion.div
       layout
       transition={{
-        layout: { duration: 1, ease: "easeInOut" },
+        layout: { duration: 2, ease: "easeInOut" },
       }}
       className={`avatar ${hasImage ? "has-img" : ""} ${isActive ? "active" : "inactive"}`}
     >

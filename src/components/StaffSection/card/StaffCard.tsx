@@ -11,6 +11,9 @@ type StaffCardProps = {
   staff: Staff;
   showProgress?: boolean;
   isActive: boolean;
+  isExpanded?: boolean;
+  cardId: string;
+  onCardRef?: (node: HTMLElement | null, cardId: string) => void;
   index: number;
 };
 
@@ -19,80 +22,37 @@ export default function StaffCard({
   isActive,
   showProgress,
   index,
+  isExpanded = false,
+  cardId,
+  onCardRef,
 }: StaffCardProps) {
-  const isTopCard = index === 0; // topCard moves out of screen
-  const isExpandedCard = index === 1; // SecondCard. moves up end expands
-  const isLowerCard = index > 1; // smallcards
   const truncatedName = truncateText(staff.current_project?.name, 30);
 
   return (
     <motion.div
-      layoutId={`staff-${staff.id}`}
+      ref={(node) => onCardRef?.(node, cardId)}
+      className={`card ${isExpanded ? "card-expanded" : "card-simple"}`}
       layout
       transition={{
-        layout: { duration: 1, ease: "easeInOut" }, // 👈 styr layout-animeringen
+        duration: 0.6,
+        ease: "easeInOut",
+        layout: { duration: 2, ease: "easeInOut" },
       }}
-      className={`card ${isExpandedCard ? "card-expanded" : "card-simple"}`}
-      // Defines the starting animation state when the card first appears
-      initial={
-        isTopCard
-          ? { y: -200, opacity: 1 } // Top card starts slightly higher on the screen
-          : isExpandedCard
-            ? { y: 0, opacity: 0, scale: 1 } // Expanded card starts a bit lower and faded out
-            : { y: 0, opacity: 1, scale: 1 } // Lower cards start at their normal position
-      }
-      animate={
-        isTopCard
-          ? {
-              // Moves the top card upward and fades it out to simulate "leaving" the stack
-              y: -300,
-              opacity: 1,
-              scale: 1,
-              transition: {
-                duration: 1,
-                ease: "easeInOut",
-                delay: 1, // short pause before the movement starts
-              },
-            }
-          : isExpandedCard
-            ? {
-                // Expanded card animates upward and becomes fully visible
-                y: -180,
-                opacity: 1,
-                scale: 1,
-                transition: {
-                  duration: 0.5,
-                  ease: "easeInOut",
-                  delay: 0, // no delay
-                },
-              }
-            : isLowerCard
-              ? {
-                  // Lower cards slightly shift upward to fill space as others move
-                  y: -180,
-                  opacity: 1,
-                  scale: 1,
-                  transition: { duration: 0.5, ease: "easeInOut" },
-                }
-              : {}
-      }
-      exit={
-        isTopCard
-          ? {
-              // The top card exits by moving even further up and fading out completely
-              y: -400,
-              opacity: 0,
-              transition: { duration: 1, ease: "easeIn" },
-            }
-          : undefined // Other cards keep their default exit (no special animation)
-      }
       style={{
         borderRadius: "20px",
+        marginBottom: "16px",
       }}
     >
       {/* ----- Card Header ----- */}
-      <div className="card-header">
+      <motion.div
+        className="card-header"
+        layout
+        transition={{
+          layout: { duration: 2, ease: "easeInOut" },
+        }}
+      >
         <div className="avatar-wrapper">
+          <p style={{ fontSize: "10px" }}>{index}</p>
           <Avatar
             image={staff.image}
             initials={staff.initials}
@@ -100,46 +60,70 @@ export default function StaffCard({
             isActive={isActive}
           />
         </div>
-
         <div className="employee-info">
           <EmployeeInfo
             name={staff.name}
             role={staff.role}
             truncatedName={truncatedName}
-            isExpanded={isExpandedCard}
+            isExpanded={isExpanded}
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* --------- Card body ----------  */}
       <AnimatePresence mode="wait">
         <motion.div
           layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{
-            layout: { duration: 1, ease: "easeInOut" },
+            duration: 2,
+            ease: "easeInOut",
+            layout: { duration: 2, ease: "easeInOut" },
           }}
           exit={{ opacity: 0, transition: { duration: 1, delay: 0.5 } }}
           className="card-body"
         >
           {/* FunFact */}
-          {isExpandedCard && !showProgress && (
-            <div className="fun-fact-area">
+          {isExpanded && !showProgress && (
+            <motion.div
+              layout
+              className="fun-fact-area"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+            >
               <FunFactSection funFact={staff.fun_fact} />
-            </div>
+            </motion.div>
           )}
 
           {/* ProjectDetails */}
-          {isExpandedCard && (
-            <div className="project-details">
-              <ProjectDetails project={staff.current_project} />
-            </div>
+          {isExpanded && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                className="project-details"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+              >
+                <ProjectDetails project={staff.current_project} />
+              </motion.div>
+            </AnimatePresence>
           )}
 
           {/* Progress */}
-          {isExpandedCard && showProgress && (
-            <div className="time-tracking-area">
+          {isExpanded && showProgress && (
+            <motion.div
+              className="time-tracking-area"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+            >
               <ProgressSection timeEntry={staff.time_entries?.[0]} />
-            </div>
+            </motion.div>
           )}
         </motion.div>
       </AnimatePresence>
