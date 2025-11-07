@@ -9,6 +9,7 @@
   height: auto;
   width: 100%;
   font-family: $font-primary;
+  z-index: 1001;
 
   .error {
     color: $secondary-color;

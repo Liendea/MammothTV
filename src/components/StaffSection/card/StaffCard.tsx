@@ -14,7 +14,6 @@ type StaffCardProps = {
   isExpanded?: boolean;
   cardId: string;
   onCardRef?: (node: HTMLElement | null, cardId: string) => void;
-  index: number;
 };
 
 export default function StaffCard({

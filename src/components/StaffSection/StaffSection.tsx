@@ -52,7 +52,6 @@ export default function StaffSection() {
               showProgress={showProgress}
               isExpanded={isExpanded}
               onCardRef={observeCard}
-              index={index}
             />
           );
         })}
