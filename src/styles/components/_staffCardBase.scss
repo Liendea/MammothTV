@@ -9,6 +9,7 @@
   //border-radius: 20px; is set on the motion.div in StaffCard.tsx due to animation issues when it was set in the scss
   padding: 30px;
   transform-origin: center center;
+  overflow: hidden;
 }
 /* ===============================
      Card Header (common for both)

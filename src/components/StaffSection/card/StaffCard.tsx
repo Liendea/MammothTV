@@ -71,26 +71,27 @@ export default function StaffCard({
       {/* --------- Card body ----------  */}
       <AnimatePresence mode="wait">
         <motion.div
-          layout
+          layout="position"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
-            duration: 2,
+            duration: 1,
             ease: "easeInOut",
-            layout: { duration: 2, ease: "easeInOut" },
+            layout: { duration: 1, ease: "easeInOut" },
+            delay: 1,
           }}
-          exit={{ opacity: 0, transition: { duration: 1, delay: 0.5 } }}
+          exit={{ opacity: 1, transition: { duration: 1, delay: 0.5 } }}
           className="card-body"
         >
           {/* FunFact */}
           {isExpanded && !showProgress && (
             <motion.div
-              layout
+              layout="position"
               className="fun-fact-area"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+              transition={{ duration: 2, ease: "easeInOut" }}
             >
               <FunFactSection funFact={staff.fun_fact} />
             </motion.div>
@@ -98,28 +99,14 @@ export default function StaffCard({
 
           {/* ProjectDetails */}
           {isExpanded && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                className="project-details"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
-              >
-                <ProjectDetails project={staff.current_project} />
-              </motion.div>
-            </AnimatePresence>
+            <motion.div layout="position" className="project-details">
+              <ProjectDetails project={staff.current_project} />
+            </motion.div>
           )}
 
           {/* Progress */}
           {isExpanded && showProgress && (
-            <motion.div
-              className="time-tracking-area"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
-            >
+            <motion.div layout="position" className="time-tracking-area">
               <ProgressSection timeEntry={staff.time_entries?.[0]} />
             </motion.div>
           )}
