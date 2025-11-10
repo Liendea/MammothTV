@@ -6,8 +6,8 @@
    =============================== */
 .card {
   background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-  //border-radius: 20px; is set on the motion.div in StaffCard.tsx due to animation issues when it was set in the scss
-  padding: 30px;
+
+  padding: 25px 30px;
   transform-origin: center center;
 }
 /* ===============================
@@ -15,18 +15,18 @@
      =============================== */
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: $bold;
   color: $text-color;
   flex-shrink: 0;
   position: relative;
-  padding: 4px; // Border thickness
+  padding: 3%; // Border thickness
+  will-change: transform, width, height;
 
   // Avatars without image
   &:not(.has-img) {
@@ -59,7 +59,7 @@
     &:not(.has-img)::before {
       content: "";
       position: absolute;
-      inset: 2px;
+      inset: 2%;
       background: #292929;
       border-radius: 50%;
       z-index: 0;
@@ -67,8 +67,8 @@
 
     // Inner wrapper for initials with black background
     .avatar-inner {
-      width: calc(100% - 6px);
-      height: calc(100% - 6px);
+      width: calc(100% - 6%);
+      height: calc(100% - 6%);
       background-color: $primary-color;
       color: $text-color;
       border-radius: 50%;
@@ -112,7 +112,7 @@
   &.has-img::before {
     content: "";
     position: absolute;
-    inset: 2px;
+    inset: 2%;
     background: #292929;
     border-radius: 50%;
     z-index: 0;
@@ -121,13 +121,13 @@
   // Inner wrapper for image with black background
   .avatar-image,
   img {
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
+    width: calc(100% - 6%);
+    height: calc(100% - 6%);
     object-fit: cover;
     border-radius: 50%;
-
     position: relative;
     z-index: 1;
+    will-change: transform;
   }
 }
 

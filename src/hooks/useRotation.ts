@@ -30,7 +30,7 @@ export function useRotation(staff: Staff[]) {
   // Calculate animation speed based on the number of employees
   const cardHeight = 200; // Approximate height per card in pixels
   const singleSetHeight = staff.length * cardHeight;
-  const duration = staff.length * 4; // 4 seconds per card (adjust if needed)
+  const duration = staff.length * 3; // scroll speed
 
   return {
     visibleStaff: duplicatedStaff,

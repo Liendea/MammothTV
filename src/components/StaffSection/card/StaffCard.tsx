@@ -40,6 +40,7 @@ export default function StaffCard({
       style={{
         borderRadius: "20px",
         marginBottom: "16px",
+        overflow: "hidden",
       }}
     >
       {/* ----- Card Header ----- */}
@@ -70,60 +71,59 @@ export default function StaffCard({
 
       {/* --------- Card body ----------  */}
       <AnimatePresence mode="wait">
-        <motion.div
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            layout: { duration: 2, ease: "easeInOut" },
-          }}
-          exit={{ opacity: 0, transition: { duration: 1, delay: 0.5 } }}
-          className="card-body"
-        >
-          {/* FunFact */}
-          {isExpanded && !showProgress && (
-            <motion.div
-              layout
-              className="fun-fact-area"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
-            >
-              <FunFactSection funFact={staff.fun_fact} />
-            </motion.div>
-          )}
-
-          {/* ProjectDetails */}
-          {isExpanded && (
-            <AnimatePresence mode="wait">
+        {isExpanded && (
+          <motion.div
+            key="card-body"
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 2,
+              ease: "easeInOut",
+              layout: { duration: 2, ease: "easeInOut" },
+            }}
+            className="card-body"
+          >
+            {/* FunFact */}
+            {!showProgress && (
               <motion.div
-                className="project-details"
+                layout
+                className="fun-fact-area"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
               >
-                <ProjectDetails project={staff.current_project} />
+                <FunFactSection funFact={staff.fun_fact} />
               </motion.div>
-            </AnimatePresence>
-          )}
+            )}
 
-          {/* Progress */}
-          {isExpanded && showProgress && (
+            {/* ProjectDetails */}
             <motion.div
-              className="time-tracking-area"
+              layout
+              className="project-details"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-              <ProgressSection timeEntry={staff.time_entries?.[0]} />
+              <ProjectDetails project={staff.current_project} />
             </motion.div>
-          )}
-        </motion.div>
+
+            {/* Progress */}
+            {showProgress && (
+              <motion.div
+                layout
+                className="time-tracking-area"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                <ProgressSection timeEntry={staff.time_entries?.[0]} />
+              </motion.div>
+            )}
+          </motion.div>
+        )}
       </AnimatePresence>
     </motion.div>
   );
