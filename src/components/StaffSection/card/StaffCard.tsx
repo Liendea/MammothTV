@@ -79,7 +79,7 @@ export default function StaffCard({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 1,
+              duration: 2,
               ease: "easeInOut",
               layout: { duration: 2, ease: "easeInOut" },
             }}
