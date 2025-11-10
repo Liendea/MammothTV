@@ -16,7 +16,7 @@
 
 .card-expanded {
   background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-  padding: 30px;
+
   display: flex;
   flex-direction: column;
   height: auto;
@@ -53,74 +53,78 @@
   }
 
   /* CARD BODY */
-
-  .fun-fact-area {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: $spacing-lg;
-    color: $secondary-color;
-    gap: $spacing-lg;
-
-    .fun-fact-label {
-      font-size: $small;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-
-    .fun-fact-value {
-      font-size: $small;
-      color: $secondary-color;
-      text-align: right;
-      width: 70%;
-      letter-spacing: 1px;
-      font-weight: $regular;
-    }
-  }
-
-  .project-details {
-    border-top: 1px solid gray;
-
-    .card-details {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      letter-spacing: 1px;
-    }
-
-    .detail-row {
+  .card-body {
+    .fun-fact-area {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      margin-bottom: $spacing-lg;
+      color: $secondary-color;
+      gap: $spacing-lg;
 
-      &:first-child {
-        margin: $spacing-lg 0;
+      .fun-fact-label {
+        font-size: $small;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        white-space: nowrap;
       }
-      &:last-child {
-        margin-bottom: 0;
+
+      .fun-fact-value {
+        font-size: $small;
+        color: $secondary-color;
+        text-align: left;
+        letter-spacing: 1px;
+        font-weight: $regular;
+        max-width: 60%;
+        display: flex;
+        justify-content: flex-end;
+
+        word-break: break-word;
       }
     }
 
-    .detail-label {
-      font-size: $small;
-      color: $secondary-color;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+    .project-details {
+      border-top: 1px solid gray;
 
-    .detail-value {
-      font-size: $small;
-      font-weight: $regular;
-      color: $secondary-color;
-      font-weight: $regular;
+      .card-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        letter-spacing: 1px;
+      }
 
-      &.badge {
-        background: rgba(255, 255, 255, 0.1);
-        padding: $spacing-sm $spacing-md;
-        border-radius: 8px;
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:first-child {
+          margin: $spacing-lg 0;
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .detail-label {
+        font-size: $small;
+        color: $secondary-color;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .detail-value {
+        font-size: $small;
+        font-weight: $regular;
+        color: $secondary-color;
+        font-weight: $regular;
+
+        &.badge {
+          background: rgba(255, 255, 255, 0.1);
+          padding: $spacing-sm $spacing-md;
+          border-radius: 8px;
+        }
       }
     }
   }
