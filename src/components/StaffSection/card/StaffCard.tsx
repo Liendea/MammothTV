@@ -92,7 +92,8 @@ export default function StaffCard({
                 className="fun-fact-area"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
               >
                 <FunFactSection funFact={staff.fun_fact} />
               </motion.div>
