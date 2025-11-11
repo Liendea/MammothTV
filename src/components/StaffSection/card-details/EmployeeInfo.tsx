@@ -33,6 +33,7 @@ export function EmployeeInfo({
           color: undefined,
           scale: isExpanded ? 1 : 0.9,
         }}
+        style={{ transformOrigin: "left center" }}
         transition={{
           duration: 2,
           ease: "easeIn",
@@ -46,8 +47,10 @@ export function EmployeeInfo({
         animate={{
           color: "#888888",
           textTransform: "uppercase",
-          scale: isExpanded ? 1 : 0.9,
+          scale: isExpanded ? 1 : 0.8,
+          y: isExpanded ? 0 : -10,
         }}
+        style={{ transformOrigin: "left center" }}
         transition={{
           duration: 2,
           ease: "easeIn",
