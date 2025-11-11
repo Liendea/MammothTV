@@ -16,11 +16,31 @@ type StaffCardProps = {
   onCardRef?: (node: HTMLElement | null, cardId: string) => void;
 };
 
+// Variants för smooth animationer
+const bodyVariants = {
+  collapsed: {
+    opacity: 0,
+  },
+  expanded: {
+    opacity: 1,
+    scale: 1,
+  },
+};
+
+const contentItemVariants = {
+  collapsed: {
+    opacity: 0,
+  },
+  expanded: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 export default function StaffCard({
   staff,
   isActive,
   showProgress,
-
   isExpanded = false,
   cardId,
   onCardRef,
@@ -30,70 +50,89 @@ export default function StaffCard({
   return (
     <motion.div
       ref={(node) => onCardRef?.(node, cardId)}
-      className={`card ${isExpanded ? "card-expanded" : "card-simple"}`}
+      className="card"
       layout
       transition={{
-        duration: 0.6,
-        ease: "easeInOut",
         layout: { duration: 2, ease: "easeInOut" },
       }}
       style={{
         borderRadius: "20px",
         marginBottom: "16px",
         overflow: "hidden",
+        maxHeight: isExpanded ? "420px" : "170px",
       }}
     >
       {/* ----- Card Header ----- */}
       <motion.div
+        layout="position"
         className="card-header"
-        layout
         transition={{
           layout: { duration: 2, ease: "easeInOut" },
         }}
       >
-        <div className="avatar-wrapper">
+        <motion.div
+          layout="position"
+          className="avatar-wrapper"
+          transition={{
+            layout: { duration: 2, ease: "easeInOut" },
+          }}
+        >
           <Avatar
             image={staff.image}
             initials={staff.initials}
             name={staff.name}
             isActive={isActive}
+            isExpanded={isExpanded}
           />
-        </div>
-        <div className="employee-info">
+        </motion.div>
+        <motion.div
+          layout="position"
+          className="employee-info"
+          transition={{
+            layout: { duration: 2, ease: "easeInOut" },
+          }}
+        >
           <EmployeeInfo
             name={staff.name}
             role={staff.role}
             truncatedName={truncatedName}
             isExpanded={isExpanded}
+            project={staff.current_project}
           />
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* --------- Card body ----------  */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
-            key="card-body"
             layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 2,
-              ease: "easeInOut",
-              layout: { duration: 2, ease: "easeInOut" },
-            }}
+            key="card-body"
             className="card-body"
+            initial="collapsed"
+            animate="expanded"
+            exit="collapsed"
+            variants={bodyVariants}
+            transition={{
+              layout: { duration: 1.5, ease: "easeInOut" },
+              opacity: { duration: 1, ease: "easeInOut" },
+              scale: { duration: 2, ease: "easeInOut" },
+              when: "beforeChildren",
+              staggerChildren: 0.08,
+              delayChildren: 0.2,
+            }}
           >
             {/* FunFact */}
             {!showProgress && (
               <motion.div
                 layout
                 className="fun-fact-area"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ y: 20, opacity: 0 }}
-                transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
+                variants={contentItemVariants}
+                transition={{
+                  layout: { duration: 1.5, ease: "easeInOut" },
+                  opacity: { duration: 1.5, ease: "easeInOut" },
+                  y: { duration: 1.5, ease: "easeInOut" },
+                }}
               >
                 <FunFactSection funFact={staff.fun_fact} />
               </motion.div>
@@ -103,9 +142,12 @@ export default function StaffCard({
             <motion.div
               layout
               className="project-details"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
+              variants={contentItemVariants}
+              transition={{
+                layout: { duration: 1.5, ease: "easeInOut" },
+                opacity: { duration: 1.5, ease: "easeInOut" },
+                y: { duration: 1.5, ease: "easeInOut" },
+              }}
             >
               <ProjectDetails project={staff.current_project} />
             </motion.div>
@@ -115,9 +157,12 @@ export default function StaffCard({
               <motion.div
                 layout
                 className="time-tracking-area"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
+                variants={contentItemVariants}
+                transition={{
+                  layout: { duration: 2, ease: "easeInOut" },
+                  opacity: { duration: 1.5, ease: "easeInOut" },
+                  y: { duration: 1.5, ease: "easeInOut" },
+                }}
               >
                 <ProgressSection timeEntry={staff.time_entries?.[0]} />
               </motion.div>
