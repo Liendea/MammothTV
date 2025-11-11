@@ -35,7 +35,7 @@ export default function StaffSection() {
           y: [0, animationConfig.totalHeight], // creates upward motion
         }}
         transition={{
-          duration: animationConfig.duration * 2, // Speed on upward motion
+          duration: animationConfig.duration * 4, // Speed on upward motion
           ease: "linear",
           repeat: Infinity,
         }}
