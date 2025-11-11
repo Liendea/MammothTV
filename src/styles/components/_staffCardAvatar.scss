@@ -2,17 +2,8 @@
 @use "../base/fonts" as *;
 
 /* ===============================
-   Base Card Styles
-   =============================== */
-.card {
-  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-
-  padding: 25px 30px;
-  transform-origin: center center;
-}
-/* ===============================
      Card Header (common for both)
-     =============================== */
+ =============================== */
 
 .avatar {
   width: 110px;

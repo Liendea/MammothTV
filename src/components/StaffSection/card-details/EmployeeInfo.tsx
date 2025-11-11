@@ -20,28 +20,44 @@ export function EmployeeInfo({
   project,
 }: EmployeeInfoProps) {
   return (
-    <>
-      {!isExpanded ? (
-        <motion.div
-          className="wrapper"
-          layout
-          transition={{ layout: { duration: 2, ease: "easeInOut" } }}
-        >
-          <div className="employee-name">{name}</div>
-          <div className="project-client">
-            {project?.client || "Not tracking time"}
-          </div>
-        </motion.div>
-      ) : (
-        <motion.div
-          className="wrapper"
-          layout
-          transition={{ layout: { duration: 2, ease: "easeInOut" } }}
-        >
-          <div className="employee-name">{name}</div>
-          <div className="employee-role">{role}</div>
-        </motion.div>
-      )}
-    </>
+    <motion.div
+      className="wrapper"
+      layout="position"
+      transition={{
+        layout: { duration: 2, ease: "easeIn" },
+      }}
+    >
+      <motion.div
+        className="employee-name"
+        animate={{
+          color: undefined,
+          scale: isExpanded ? 1 : 0.9,
+        }}
+        style={{ transformOrigin: "left center" }}
+        transition={{
+          duration: 2,
+          ease: "easeIn",
+        }}
+      >
+        {name}
+      </motion.div>
+
+      <motion.div
+        className="employee-role"
+        animate={{
+          color: "#888888",
+          textTransform: "uppercase",
+          scale: isExpanded ? 1 : 0.8,
+          y: isExpanded ? 0 : -10,
+        }}
+        style={{ transformOrigin: "left center" }}
+        transition={{
+          duration: 2,
+          ease: "easeIn",
+        }}
+      >
+        {isExpanded ? role : project?.client || "Not tracking time"}
+      </motion.div>
+    </motion.div>
   );
 }

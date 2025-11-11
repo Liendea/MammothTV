@@ -2,6 +2,15 @@
 @use "../base/fonts" as *;
 
 /* ===============================
+   Base Card Styles
+   =============================== */
+.card {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  padding: 25px 30px;
+  transform-origin: center center;
+}
+
+/* ===============================
      Expanded Card Variant
      =============================== */
 
@@ -14,117 +23,104 @@
   }
 }
 
-.card-expanded {
-  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-
+/* CARD HEADER */
+.card-header {
   display: flex;
-  flex-direction: column;
-  height: auto;
-  margin: $spacing-md 0;
+  align-items: center;
+  flex-direction: row;
+  gap: 2rem;
 
-  /* CARD HEADER */
-  .card-header {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 2rem;
-    padding-bottom: $spacing-lg;
-
-    .avatar-wrapper {
-      .avatar {
-        width: 140px;
-        height: 140px;
-      }
-    }
-
-    .employee-info {
-      .employee-name {
-        font-size: $xlarge;
-        font-weight: $regular;
-        color: $secondary-color;
-      }
-
-      .employee-role {
-        font-size: $small;
-        color: $secondary-text-color;
-        text-transform: uppercase;
-      }
+  .avatar-wrapper {
+    .avatar {
+      width: 140px;
+      height: 140px;
     }
   }
 
-  /* CARD BODY */
-  .card-body {
-    .fun-fact-area {
+  .employee-info {
+    .employee-name {
+      font-size: $large;
+      font-weight: $regular;
+      color: $secondary-color;
+    }
+
+    .employee-role {
+      font-size: $medium;
+      color: $secondary-text-color;
+      text-transform: uppercase;
+    }
+  }
+}
+
+/* CARD BODY */
+.card-body {
+  margin-top: $spacing-lg;
+  .fun-fact-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-lg;
+    color: $secondary-color;
+    gap: $spacing-lg;
+
+    .fun-fact-label {
+      font-size: $small;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .fun-fact-value {
+      font-size: $small;
+      color: $secondary-color;
+      text-align: right;
+      letter-spacing: 1px;
+      font-weight: $regular;
+      max-width: 60%;
+    }
+  }
+
+  .project-details {
+    border-top: 1px solid gray;
+
+    .card-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      letter-spacing: 1px;
+    }
+
+    .detail-row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: $spacing-lg;
-      color: $secondary-color;
-      gap: $spacing-lg;
+      align-items: center;
 
-      .fun-fact-label {
-        font-size: $small;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        white-space: nowrap;
+      &:first-child {
+        margin: $spacing-lg 0;
       }
-
-      .fun-fact-value {
-        font-size: $small;
-        color: $secondary-color;
-        text-align: left;
-        letter-spacing: 1px;
-        font-weight: $regular;
-        max-width: 60%;
-        display: flex;
-        justify-content: flex-end;
-
-        word-break: break-word;
+      &:last-child {
+        margin-bottom: 0;
       }
     }
 
-    .project-details {
-      border-top: 1px solid gray;
+    .detail-label {
+      font-size: $small;
+      color: $secondary-color;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-      .card-details {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        letter-spacing: 1px;
-      }
+    .detail-value {
+      font-size: $small;
+      font-weight: $regular;
+      color: $secondary-color;
+      font-weight: $regular;
 
-      .detail-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        &:first-child {
-          margin: $spacing-lg 0;
-        }
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      .detail-label {
-        font-size: $small;
-        color: $secondary-color;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .detail-value {
-        font-size: $small;
-        font-weight: $regular;
-        color: $secondary-color;
-        font-weight: $regular;
-
-        &.badge {
-          background: rgba(255, 255, 255, 0.1);
-          padding: $spacing-sm $spacing-md;
-          border-radius: 8px;
-        }
+      &.badge {
+        background: rgba(255, 255, 255, 0.1);
+        padding: $spacing-sm $spacing-md;
+        border-radius: 8px;
       }
     }
   }
