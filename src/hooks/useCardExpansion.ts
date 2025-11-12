@@ -17,7 +17,7 @@ export function useCardExpansion() {
         {
           root: null, // viewport
           rootMargin: "50% 0px -25% 0px", // Adjust to center the observation area
-          threshold: 0.5, // At least 50% of the card must be visible
+          threshold: 0.8, // At least 80% of the card must be visible
         }
       );
       observer.observe(node);

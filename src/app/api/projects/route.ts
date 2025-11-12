@@ -1,17 +1,18 @@
 import { getFilteredProjectBudgets } from "@/lib/dataIntegration";
 
-export const revalidate = 60; // cachea 60 sec
-
 export async function GET() {
   try {
-    const projectBudgets = await getFilteredProjectBudgets();
-    return Response.json(projectBudgets);
+    const { data: projects, changed } = await getFilteredProjectBudgets();
+
+    return Response.json({
+      data: projects,
+      changed,
+    });
   } catch (error: unknown) {
     console.error("API route error:", error);
-
     return Response.json(
       {
-        error: "Failed to fetch project budgets",
+        error: "Failed to fetch projects",
         details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }

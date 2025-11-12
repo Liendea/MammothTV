@@ -4,19 +4,24 @@ import type { TeamUser } from "./sanity";
 import type { Staff } from "@/types/staff";
 import type { HarvestTimeEntry } from "@/types/harvest";
 
-/**
- Fetches and processes employee data from  Sanity and Harvest API
- For Harvest API: Shows ALL active time entries, even if a user has multiple
- Each time entry gets a unique ID to avoid React key conflicts
- */
+// Cache för kombinerad employee data
+let cachedEmployeeHash: string | null = null;
 
-export async function getCombinedEmployeeData(): Promise<Staff[]> {
+// Cache för filtered project budgets
+let cachedFilteredBudgetsHash: string | null = null;
+
+/**
+ * Fetches and processes employee data from Sanity and Harvest API
+ * For Harvest API: Shows ALL active time entries, even if a user has multiple
+ * Each time entry gets a unique ID to avoid React key conflicts
+ */
+export async function getCombinedEmployeeData() {
   try {
     // Fetch team från sanity
     const teamUsers: TeamUser[] = await getTeam();
 
-    // Fetch all active time entries from Harvest API
-    const timeEntriesResponse = await getActiveTimeEntries();
+    // Fetch all active time entries from Harvest API (with cache check)
+    const { data: timeEntriesResponse } = await getActiveTimeEntries();
     const timeEntries = timeEntriesResponse.time_entries || [];
 
     // Array to store all employee time entries (one per time entry, not per user)
@@ -65,7 +70,7 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             initials,
             fun_fact: teamUser.fun_fact,
             current_project: {
-              project_id: entry.project.toString(),
+              project_id: entry.project.id.toString(),
               name: entry.project.name,
               client: entry.client?.name || "No Client",
             },
@@ -106,7 +111,18 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
       }
     });
 
-    return allEmployees;
+    // Jämför med cachad data
+    const newHash = JSON.stringify(allEmployees);
+    const changed = !cachedEmployeeHash || cachedEmployeeHash !== newHash;
+
+    if (changed) {
+      console.log("📊 Employee data har ändrats");
+      cachedEmployeeHash = newHash;
+    } else {
+      console.log("✓ Employee data oförändrad");
+    }
+
+    return { data: allEmployees, changed };
   } catch (error) {
     console.error("Error combining employee data:", error);
     throw error;
@@ -116,20 +132,18 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
 //_______________________________________________________//
 
 /**
-Combines project data with time entries to filter out projects with no time tracking
+ * Combines project data with time entries to filter out projects with no time tracking
  */
-
 export async function getFilteredProjectBudgets() {
   try {
-    // Fetch both time entries and project budgets
-    const [budgetResponse, timeResponse] = await Promise.all([
+    // Fetch both time entries and project budgets (with cache checks)
+    const [budgetResult, timeResult] = await Promise.all([
       getProjectBudget(),
       getActiveTimeEntries(),
     ]);
 
-    const budgets =
-      budgetResponse.results || budgetResponse.project_budget_reports || [];
-    const timeEntries = timeResponse.time_entries || [];
+    const budgets = budgetResult.data.results || [];
+    const timeEntries = timeResult.data.time_entries || [];
 
     // Same filter as in getCombinedEmployeeData
     const MAX_HOURS = 24;
@@ -147,11 +161,23 @@ export async function getFilteredProjectBudgets() {
     );
 
     // Only show project budgets for projects with active time tracking
-    const filteredBudgets = budgets.filter((budget: { project_id: number }) =>
+    const filteredBudgets = budgets.filter((budget) =>
       projectIdsWithTime.has(budget.project_id)
     );
 
-    return filteredBudgets;
+    // Jämför med cachad data
+    const newHash = JSON.stringify(filteredBudgets);
+    const changed =
+      !cachedFilteredBudgetsHash || cachedFilteredBudgetsHash !== newHash;
+
+    if (changed) {
+      console.log("📊 Filtered budgets har ändrats");
+      cachedFilteredBudgetsHash = newHash;
+    } else {
+      console.log("✓ Filtered budgets oförändrad");
+    }
+
+    return { data: filteredBudgets, changed };
   } catch (error) {
     console.error("Error filtering project budgets:", error);
     throw error;

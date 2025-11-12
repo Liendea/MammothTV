@@ -2,11 +2,14 @@ import { getCombinedEmployeeData } from "@/lib/dataIntegration";
 
 export async function GET() {
   try {
-    const employees = await getCombinedEmployeeData();
-    return Response.json(employees);
+    const { data: employees, changed } = await getCombinedEmployeeData();
+
+    return Response.json({
+      data: employees,
+      changed,
+    });
   } catch (error: unknown) {
     console.error("API route error:", error);
-
     return Response.json(
       {
         error: "Failed to fetch employees",

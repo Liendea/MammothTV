@@ -23,7 +23,6 @@ const bodyVariants = {
   },
   expanded: {
     opacity: 1,
-    scale: 1,
   },
 };
 
@@ -33,7 +32,6 @@ const contentItemVariants = {
   },
   expanded: {
     opacity: 1,
-    y: 0,
   },
 };
 
@@ -59,7 +57,7 @@ export default function StaffCard({
         borderRadius: "20px",
         marginBottom: "16px",
         overflow: "hidden",
-        maxHeight: isExpanded ? "420px" : "170px",
+        height: isExpanded ? "420px" : "170px",
       }}
     >
       {/* ----- Card Header ----- */}
@@ -71,7 +69,6 @@ export default function StaffCard({
         }}
       >
         <motion.div
-          layout="position"
           className="avatar-wrapper"
           transition={{
             layout: { duration: 2, ease: "easeInOut" },
@@ -86,7 +83,7 @@ export default function StaffCard({
           />
         </motion.div>
         <motion.div
-          layout="position"
+          layout
           className="employee-info"
           transition={{
             layout: { duration: 2, ease: "easeInOut" },
