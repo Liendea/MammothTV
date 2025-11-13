@@ -10,78 +10,61 @@ import type { HarvestTimeEntry } from "@/types/harvest";
  Each time entry gets a unique ID to avoid React key conflicts
  */
 
+// ----------------------------
+// Updated getCombinedEmployeeData
+// ----------------------------
+
 export async function getCombinedEmployeeData(): Promise<Staff[]> {
   try {
-    // Fetch team från sanity
     const teamUsers: TeamUser[] = await getTeam();
-
-    // Fetch all active time entries from Harvest API
     const timeEntriesResponse = await getActiveTimeEntries();
     const timeEntries = timeEntriesResponse.time_entries || [];
 
-    // Array to store all employee time entries (one per time entry, not per user)
-    const allEmployees: Staff[] = [];
-
-    // Set maximun hours to filter out faulty time_entries
     const MAX_HOURS = 24;
     const validTimeEntries = timeEntries.filter(
       (entry: HarvestTimeEntry) => (entry.hours || 0) <= MAX_HOURS
     );
 
-    // Loop through all team users
+    const staffMap: Record<string, Staff> = {};
+
     teamUsers.forEach((teamUser) => {
-      // Find all active time entries for this user
+      // Hämta tidposter för denna användare
       const userTimeEntries = validTimeEntries.filter(
         (entry: HarvestTimeEntry) =>
           entry.user.id.toString() === teamUser.id.toString()
       );
 
       if (userTimeEntries.length > 0) {
-        // Map each time entry to a Staff object (unique id per entry)
-        userTimeEntries.forEach((entry: HarvestTimeEntry, index: number) => {
-          const uniqueId = `${teamUser.id}-${entry.id || index}`;
-          const fullName =
-            entry.user.name ||
-            `${entry.user.first_name || ""} ${
-              entry.user.last_name || ""
-            }`.trim();
+        // Om flera tidposter, kombinera info på samma Staff-objekt
+        const firstEntry = userTimeEntries[0];
 
-          // Create initials
-          const initials = (() => {
-            const nameParts = fullName.split(" ").filter(Boolean);
-            if (nameParts.length >= 2)
-              return `${nameParts[0][0]}${
-                nameParts[nameParts.length - 1][0]
-              }`.toUpperCase();
-            return fullName[0]?.toUpperCase() || "?";
-          })();
-
-          allEmployees.push({
-            id: uniqueId,
-            name: fullName,
-            image: teamUser.image || "",
-            role: teamUser.role,
-            harvestId: teamUser.id,
-            initials,
-            fun_fact: teamUser.fun_fact,
-            current_project: {
-              project_id: entry.project.toString(),
-              name: entry.project.name,
-              client: entry.client?.name || "No Client",
-            },
-            time_entries: [
-              {
-                hours_today: entry.hours || 0,
-              },
-            ],
-            isActive: entry.is_running,
-            activeProject: entry.project.name,
-            currentHours: entry.hours || 0,
-          });
-        });
+        staffMap[teamUser.id] = {
+          id: teamUser.id, // konstant per användare
+          name: teamUser.name,
+          image: teamUser.image || "",
+          role: teamUser.role,
+          harvestId: teamUser.id,
+          initials: teamUser.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase(),
+          fun_fact: teamUser.fun_fact,
+          current_project: {
+            project_id: firstEntry.project.toString(),
+            name: firstEntry.project.name,
+            client: firstEntry.client?.name || "No Client",
+          },
+          time_entries: userTimeEntries.map((entry: HarvestTimeEntry) => ({
+            hours_today: entry.hours || 0,
+          })),
+          isActive: true,
+          activeProject: firstEntry.project.name,
+          currentHours: firstEntry.hours || 0,
+        };
       } else {
-        // User has no active time entries → create default Staff object
-        allEmployees.push({
+        // Ingen aktiv tid → standard Staff
+        staffMap[teamUser.id] = {
           id: teamUser.id,
           name: teamUser.name,
           image: teamUser.image || "",
@@ -94,19 +77,15 @@ export async function getCombinedEmployeeData(): Promise<Staff[]> {
             .toUpperCase(),
           fun_fact: teamUser.fun_fact,
           current_project: undefined,
-          time_entries: [
-            {
-              hours_today: 0,
-            },
-          ],
+          time_entries: [{ hours_today: 0 }],
           isActive: false,
           activeProject: null,
           currentHours: 0,
-        });
+        };
       }
     });
 
-    return allEmployees;
+    return Object.values(staffMap);
   } catch (error) {
     console.error("Error combining employee data:", error);
     throw error;

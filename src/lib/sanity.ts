@@ -1,14 +1,12 @@
-// → Sanity client och queries
-
 import { getClient } from "./sanity.client";
 
-export interface TeamUser {
+export type TeamUser = {
   id: string;
   name: string;
   role: string;
   image: string;
   fun_fact: string;
-}
+};
 
 export async function getTeam(): Promise<TeamUser[]> {
   try {

@@ -8,6 +8,9 @@
   background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
   padding: 25px 30px;
   transform-origin: center center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* ===============================
@@ -45,7 +48,7 @@
     }
 
     .employee-role {
-      font-size: $medium;
+      font-size: $small;
       color: $secondary-text-color;
       text-transform: uppercase;
     }

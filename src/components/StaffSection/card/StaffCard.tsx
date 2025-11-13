@@ -23,7 +23,6 @@ const bodyVariants = {
   },
   expanded: {
     opacity: 1,
-    scale: 1,
   },
 };
 
@@ -33,7 +32,6 @@ const contentItemVariants = {
   },
   expanded: {
     opacity: 1,
-    y: 0,
   },
 };
 
@@ -59,7 +57,7 @@ export default function StaffCard({
         borderRadius: "20px",
         marginBottom: "16px",
         overflow: "hidden",
-        maxHeight: isExpanded ? "420px" : "170px",
+        height: isExpanded ? "410px" : "160px",
       }}
     >
       {/* ----- Card Header ----- */}

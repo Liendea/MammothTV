@@ -47,8 +47,8 @@ export function EmployeeInfo({
         animate={{
           color: "#888888",
           textTransform: "uppercase",
-          scale: isExpanded ? 1 : 0.8,
-          y: isExpanded ? 0 : -10,
+          scale: isExpanded ? 1 : 0.9,
+          y: isExpanded ? 0 : -5,
         }}
         style={{ transformOrigin: "left center" }}
         transition={{
@@ -56,7 +56,11 @@ export function EmployeeInfo({
           ease: "easeIn",
         }}
       >
-        {isExpanded ? role : project?.client || "Not tracking time"}
+        {isExpanded
+          ? role
+          : project
+            ? `working on ${project?.client}`
+            : "Not tracking time"}
       </motion.div>
     </motion.div>
   );

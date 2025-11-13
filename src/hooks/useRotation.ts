@@ -1,42 +1,75 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import type { Staff } from "@/types/staff";
 
 export function useRotation(staff: Staff[]) {
   const [duplicatedStaff, setDuplicatedStaff] = useState<Staff[]>([]);
-  const rotationIndexRef = useRef(0);
 
   useEffect(() => {
+    const timestamp = new Date().toLocaleTimeString();
+
     if (staff.length === 0) {
+      console.log(
+        `[${timestamp}] Clearing duplicated staff — no staff in array.`
+      );
       setDuplicatedStaff([]);
       return;
     }
 
-    // Rotate the list every time new data is fetched
-    const newRotationIndex = rotationIndexRef.current % staff.length;
+    setDuplicatedStaff((prev) => {
+      // Om detta är första körningen
+      if (prev.length === 0) {
+        console.log(`[${timestamp}] Initial duplication of staff.`);
+        return [...staff, ...staff];
+      }
 
-    const rotated = [
-      ...staff.slice(newRotationIndex),
-      ...staff.slice(0, newRotationIndex),
-    ];
+      // --- Kontrollera om något faktiskt ändrats ---
+      let hasChanged = false;
 
-    // Duplicate for seamless infinite scroll
-    setDuplicatedStaff([...rotated, ...rotated]);
+      // Samma längd men olika data → uppdatera
+      if (staff.length !== prev.length / 2) {
+        hasChanged = true;
+      } else {
+        for (const member of staff) {
+          const match = prev.find((p) => p.id === member.id);
+          if (
+            !match ||
+            match.name !== member.name ||
+            match.role !== member.role ||
+            match.image !== member.image ||
+            match.fun_fact !== member.fun_fact ||
+            match.isActive !== member.isActive
+          ) {
+            hasChanged = true;
+            break;
+          }
+        }
+      }
 
-    // Increase the rotation index for the next update (every minute)
-    rotationIndexRef.current = (newRotationIndex + 2) % staff.length;
+      if (!hasChanged) {
+        console.log(
+          `[${timestamp}] No data changes detected — keeping duplicatedStaff.`
+        );
+        return prev;
+      }
+
+      console.log(
+        `[${timestamp}] Staff changed — rebuilding duplicatedStaff from scratch.`
+      );
+      return [...staff, ...staff];
+    });
   }, [staff]);
 
-  // Calculate animation speed based on the number of employees
-  const cardHeight = 200; // Approximate height per card in pixels
+  // Animation config
+  const cardHeight = 300;
   const singleSetHeight = staff.length * cardHeight;
-  const duration = staff.length * 3; // scroll speed
+  const duration = staff.length * 3;
 
   return {
     visibleStaff: duplicatedStaff,
     animationConfig: {
       totalHeight: -singleSetHeight,
-      duration: duration,
+      duration,
     },
   };
 }
