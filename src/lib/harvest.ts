@@ -1,3 +1,5 @@
+import type { HarvestTimeEntry } from "@/types/harvest";
+
 // Harvest API configuration
 const HARVEST_BASE_URL = "https://api.harvestapp.com/v2";
 
@@ -14,14 +16,14 @@ const headers = {
  * Active time entries are those where is_running=true
  */
 
+let previousTimeEntries: Partial<HarvestTimeEntry>[] = [];
+
 export async function getActiveTimeEntries() {
-  // Fetch time entries filtered to only show running/active entries
   const response = await fetch(
     `${HARVEST_BASE_URL}/time_entries?is_running=true`,
     { headers }
   );
 
-  // Handle API errors with detailed logging
   if (!response.ok) {
     const errorText = await response.text();
     console.error(
@@ -31,9 +33,38 @@ export async function getActiveTimeEntries() {
     );
     throw new Error(`Failed to fetch active time entries: ${response.status}`);
   }
+  console.log(
+    `[${new Date().toLocaleTimeString()}] ✅ HARVEST - Harvest data changed — updating employees.`
+  );
 
-  // Return parsed JSON data
-  return response.json();
+  const data = await response.json();
+  const currentSummary = data.time_entries.map((e: HarvestTimeEntry) => ({
+    id: e.id,
+    hours: e.hours,
+    is_running: e.is_running,
+  }));
+
+  const changed =
+    currentSummary.length !== previousTimeEntries.length ||
+    currentSummary.some((entry: HarvestTimeEntry, i: number) => {
+      const prev = previousTimeEntries[i];
+      return (
+        !prev ||
+        entry.id !== prev.id ||
+        entry.hours !== prev.hours ||
+        entry.is_running !== prev.is_running
+      );
+    });
+
+  if (changed) {
+    console.log(
+      `[${new Date().toLocaleTimeString()}]  ✅ HARVEST - data updated!`
+    );
+  }
+
+  previousTimeEntries = currentSummary;
+
+  return data;
 }
 
 /**

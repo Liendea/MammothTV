@@ -5,58 +5,38 @@ import type { Staff } from "@/types/staff";
 export function useRotation(staff: Staff[]) {
   const [duplicatedStaff, setDuplicatedStaff] = useState<Staff[]>([]);
 
+  // Antal gånger arrayen dupliceras för seamless scroll
+  const duplicationFactor = 3;
+
   useEffect(() => {
     const timestamp = new Date().toLocaleTimeString();
 
     if (staff.length === 0) {
       console.log(
-        `[${timestamp}] Clearing duplicated staff — no staff in array.`
+        `[${timestamp}] 🗑️ Clearing duplicated staff — no staff in array.`
       );
       setDuplicatedStaff([]);
       return;
     }
 
     setDuplicatedStaff((prev) => {
-      // Om detta är första körningen
+      // Om det är första körningen
       if (prev.length === 0) {
-        console.log(`[${timestamp}] Initial duplication of staff.`);
-        return [...staff, ...staff];
+        console.log(`[${timestamp}] ✨ Initial duplication of staff.`);
+        const newArray = Array(duplicationFactor).fill(staff).flat();
+        return newArray;
       }
 
-      // --- Kontrollera om något faktiskt ändrats ---
-      let hasChanged = false;
-
-      // Samma längd men olika data → uppdatera
-      if (staff.length !== prev.length / 2) {
-        hasChanged = true;
-      } else {
-        for (const member of staff) {
-          const match = prev.find((p) => p.id === member.id);
-          if (
-            !match ||
-            match.name !== member.name ||
-            match.role !== member.role ||
-            match.image !== member.image ||
-            match.fun_fact !== member.fun_fact ||
-            match.isActive !== member.isActive
-          ) {
-            hasChanged = true;
-            break;
-          }
-        }
-      }
-
-      if (!hasChanged) {
-        console.log(
-          `[${timestamp}] No data changes detected — keeping duplicatedStaff.`
-        );
-        return prev;
-      }
+      // --- Uppdatera befintliga kort utan att nollställa arrayen ---
+      const updated = prev.map((item, i) => {
+        const newData = staff[i % staff.length];
+        return { ...item, ...newData };
+      });
 
       console.log(
-        `[${timestamp}] Staff changed — rebuilding duplicatedStaff from scratch.`
+        `[${timestamp}] 🔄 Staff updated — seamless scroll preserved.`
       );
-      return [...staff, ...staff];
+      return updated;
     });
   }, [staff]);
 

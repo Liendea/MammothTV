@@ -34,10 +34,10 @@ export function useProjectData(refreshInterval: number = 60000) {
       if (!isDataEqual(newData, projects)) {
         setProjects(newData);
         setError(null);
-        console.log(`[${timestamp}] Projects changed — updating state.`);
+        console.log(`[${timestamp}] ✅ Projects changed — updating state.`);
       } else {
         console.log(
-          `[${timestamp}] Projects unchanged — skipping state update.`
+          `[${timestamp}] ⭕️ Projects unchanged — skipping state update.`
         );
       }
     } catch (err) {
