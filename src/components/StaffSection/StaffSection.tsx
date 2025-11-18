@@ -3,16 +3,19 @@
 import { motion } from "framer-motion";
 import StaffCard from "./card/StaffCard";
 import { useStaffData } from "@/hooks/useStaffData";
-import { useRotation } from "@/hooks/useRotation";
+import { useUpdateStaffArray } from "@/hooks/useUpdateStaffArray";
 import LoadingSpinner from "../LoadingSpinner";
 import { useCardExpansion } from "@/hooks/useCardExpansion";
 
 export default function StaffSection() {
   const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff, animationConfig } = useRotation(staff);
+  const { visibleStaff } = useUpdateStaffArray(staff);
   const { expandedCardId, observeCard } = useCardExpansion();
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
+
+  const singleSetHeight = 1870; // höjden på hela listan
+  const duration = 60;
 
   if (loading) return <LoadingSpinner />;
 
@@ -27,22 +30,19 @@ export default function StaffSection() {
     );
 
   return (
-    <section className="staffSection">
-      {/* Infinite scrolling cards */}
+    <section
+      className="staffSection"
+      style={{ position: "relative", overflow: "hidden" }}
+    >
       <motion.div
         className="staffCardContainer"
-        animate={{
-          y: [0, animationConfig.totalHeight], // creates upward motion
-        }}
-        transition={{
-          duration: animationConfig.duration * 4, // Speed on upward motion
-          ease: "linear",
-          repeat: Infinity,
-        }}
+        style={{ position: "relative" }}
+        animate={{ y: [935, -singleSetHeight] }}
+        transition={{ duration, ease: "linear", repeat: Infinity }}
       >
         {visibleStaff.map((user, index) => {
           const cardId = `${user.id}-${index}`;
-          const isExpanded = expandedCardId === cardId;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
           return (
             <StaffCard
               key={cardId}

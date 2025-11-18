@@ -9,9 +9,9 @@ import { truncateText } from "../../ProjectBudgetSection/ProgressUtils";
 
 type StaffCardProps = {
   staff: Staff;
-  showProgress?: boolean;
+  isExpanded: boolean;
   isActive: boolean;
-  isExpanded?: boolean;
+  showProgress?: boolean;
   cardId: string;
   onCardRef?: (node: HTMLElement | null, cardId: string) => void;
 };
@@ -37,9 +37,9 @@ const contentItemVariants = {
 
 export default function StaffCard({
   staff,
+  isExpanded,
   isActive,
   showProgress,
-  isExpanded = false,
   cardId,
   onCardRef,
 }: StaffCardProps) {
