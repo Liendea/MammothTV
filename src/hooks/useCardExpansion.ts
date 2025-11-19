@@ -1,59 +1,55 @@
 "use client";
-
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 
 export function useCardExpansion() {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const observersRef = useRef<Map<string, IntersectionObserver>>(new Map());
 
-  // Observer-ref, så vi återanvänder samma observer för alla kort
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  // Callback som skickas till varje kort
+  // Callback for when a card is being observed
   const observeCard = useCallback(
     (node: HTMLElement | null, cardId: string) => {
-      if (!node) return;
-
-      node.dataset.cardId = cardId;
-
-      // Skapa observer om den inte finns
-      if (!observer.current) {
-        observer.current = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              const targetId = (entry.target as HTMLElement).dataset.cardId;
-              if (!targetId) return;
-
-              // Om kortet är centrerat (80% synligt) → expandera
-              if (entry.isIntersecting) {
-                setExpandedCardId(targetId);
-              } else if (expandedCardId === targetId) {
-                // Kortet lämnar viewport → collapse
-                setExpandedCardId(null);
-              }
-            });
-          },
-          {
-            root: null,
-            rootMargin: "0px 0px -20% 0px", // justera för center
-            threshold: 0.8,
-          }
-        );
+      // Cleanup old observer for this cardId if it exists
+      const existingObserver = observersRef.current.get(cardId);
+      if (existingObserver) {
+        existingObserver.disconnect();
+        observersRef.current.delete(cardId);
       }
 
-      observer.current.observe(node);
+      if (!node) return;
 
-      // Cleanup: ta bort observer när node tas bort
+      // Create an observer for this specific card
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          // Card enters viewport center - EXPAND
+          if (entry.isIntersecting) {
+            setExpandedCardId(cardId);
+          }
+          // Card leaves viewport center - COLLAPSE
+          else {
+            setExpandedCardId((current) => {
+              // Only collapse if THIS card is currently expanded
+              return current === cardId ? null : current;
+            });
+          }
+        },
+        {
+          root: null, // viewport
+          rootMargin: "-40% 0px -40% 0px", // Center 20% of viewport
+          threshold: [0, 0.5, 1], // Multiple thresholds for better detection
+        }
+      );
+
+      observer.observe(node);
+      observersRef.current.set(cardId, observer);
+
+      // Cleanup function
       return () => {
-        observer.current?.unobserve(node);
+        observer.disconnect();
+        observersRef.current.delete(cardId);
       };
     },
-    [expandedCardId]
+    []
   );
-
-  // Rensa observer när hook unmountas
-  useEffect(() => {
-    return () => observer.current?.disconnect();
-  }, []);
 
   return { expandedCardId, observeCard };
 }

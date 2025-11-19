@@ -14,9 +14,8 @@ export default function StaffSection() {
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
-  const singleSetHeight = 1870; // höjden på hela listan
   const duration = 60;
-
+  const totalHeight = 1704; // Justera denna höjd baserat på din design
   if (loading) return <LoadingSpinner />;
 
   if (error)
@@ -30,18 +29,79 @@ export default function StaffSection() {
     );
 
   return (
-    <section
-      className="staffSection"
-      style={{ position: "relative", overflow: "hidden" }}
-    >
+    <section className="staffSection">
+      {/* ----- TRACK 1  ----- */}
       <motion.div
-        className="staffCardContainer"
-        style={{ position: "relative" }}
-        animate={{ y: [935, -singleSetHeight] }}
-        transition={{ duration, ease: "linear", repeat: Infinity }}
+        className="marque-track track-1"
+        style={{
+          pointerEvents: "none", // gör den “icke-blockerande”
+        }}
+        initial={{ y: 0 }}
+        animate={{ y: -totalHeight }} // rullar upp helt en gång
+        transition={{
+          duration,
+          ease: "linear",
+        }}
       >
         {visibleStaff.map((user, index) => {
-          const cardId = `${user.id}-${index}`;
+          const cardId = `1-${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          return (
+            <StaffCard
+              key={cardId}
+              cardId={cardId}
+              staff={user}
+              isActive={user.isActive || false}
+              showProgress={showProgress}
+              isExpanded={isExpanded}
+              onCardRef={observeCard}
+            />
+          );
+        })}
+      </motion.div>
+
+      {/* ----- TRACK 2  ----- */}
+      <motion.div
+        className="marque-track track-2"
+        animate={{ y: [totalHeight, -totalHeight] }}
+        transition={{
+          duration: 120,
+          ease: "linear",
+          repeat: Infinity,
+          delay: 0,
+        }}
+      >
+        {visibleStaff.map((user, index) => {
+          const cardId = `2-${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          return (
+            <StaffCard
+              key={cardId}
+              cardId={cardId}
+              staff={user}
+              isActive={user.isActive || false}
+              showProgress={showProgress}
+              isExpanded={isExpanded}
+              onCardRef={observeCard}
+            />
+          );
+        })}
+      </motion.div>
+
+      {/* ----- TRACK 3  ----- */}
+
+      <motion.div
+        className="marque-track track-3"
+        animate={{ y: [totalHeight, -totalHeight] }}
+        transition={{
+          duration: 120,
+          ease: "linear",
+          repeat: Infinity,
+          delay: 60,
+        }}
+      >
+        {visibleStaff.map((user, index) => {
+          const cardId = `3-${user.id}-${index}`;
           const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
           return (
             <StaffCard

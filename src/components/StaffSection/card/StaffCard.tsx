@@ -55,7 +55,7 @@ export default function StaffCard({
       }}
       style={{
         borderRadius: "20px",
-        marginBottom: "16px",
+
         overflow: "hidden",
         height: isExpanded ? "410px" : "160px",
       }}

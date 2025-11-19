@@ -8,19 +8,57 @@
   width: 100%;
   height: 100%;
   padding: 0 1rem;
+  position: relative;
+  overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  .marque-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: visible;
+    height: 1834px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    padding: 1rem 0;
 
-  .staffCardContainer {
-    height: 100%;
-
-    .staffcard .error {
-      font-family: $font-primary;
-      color: $secondary-color;
-      text-align: center;
-      margin: auto;
+    /* ===============================
+   Base Card Styles
+   =============================== */
+    .card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+      padding: 25px 30px;
+      transform-origin: center center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      will-change: height;
+    }
+    .marque-track > div:last-child {
+      transform-origin: bottom;
     }
   }
+
+  .staffSection .error {
+    font-family: $font-primary;
+    color: $secondary-color;
+    text-align: center;
+    margin: auto;
+  }
+}
+
+.track-1 {
+  border: 1px solid green;
+}
+.track-2 {
+  border: 1px solid yellow;
+}
+.track-3 {
+  border: 1px solid red;
 }
