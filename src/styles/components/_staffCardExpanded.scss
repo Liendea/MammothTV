@@ -22,6 +22,9 @@
   gap: 2rem;
 
   .avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .avatar {
       width: 140px;
       height: 140px;
