@@ -9,8 +9,11 @@ import { useCardExpansion } from "@/hooks/useCardExpansion";
 
 export default function StaffSection() {
   const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff } = useUpdateStaffArray(staff);
+  const { visibleStaff, loading: updateLoading } = useUpdateStaffArray(staff);
   const { expandedCardId, observeCard } = useCardExpansion();
+
+  // Använd en kombinerad loading-status
+  const isLoading = loading || updateLoading;
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
@@ -18,7 +21,7 @@ export default function StaffSection() {
   const gap = 16;
   const totalHeight = visibleStaff.length * (cardHeight + gap);
 
-  const duration = 30;
+  const duration = 40;
   // Bestäm hastighet (pixlar per sekund)
   const pxPerSecond = totalHeight / duration; // Samma som innan
 
@@ -42,7 +45,7 @@ export default function StaffSection() {
     duration,
   });
 
-  if (loading) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
 
   if (error)
     return (
