@@ -50,7 +50,10 @@ export default function StaffCard({
       ref={(node) => onCardRef?.(node, cardId)}
       className="card"
       layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{
+        opacity: { duration: 1 },
         layout: { duration: 2, ease: "easeInOut" },
       }}
       style={{

@@ -6,6 +6,8 @@ export default async function Home() {
   return (
     <main className="dashboard">
       <aside className="left-panel">
+        <div className="collapse-zone">close</div>
+        <div className="expand-zone">expand</div>
         <StaffSection />
       </aside>
 

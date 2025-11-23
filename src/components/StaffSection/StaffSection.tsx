@@ -12,38 +12,19 @@ export default function StaffSection() {
   const { visibleStaff, loading: updateLoading } = useUpdateStaffArray(staff);
   const { expandedCardId, observeCard } = useCardExpansion();
 
-  // Använd en kombinerad loading-status
+  // Loading status
   const isLoading = loading || updateLoading;
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
+  // ANIMATION CONFIG
   const cardHeight = 170;
-  const gap = 16;
-  const totalHeight = visibleStaff.length * (cardHeight + gap);
-
+  const gap = 40;
   const duration = 40;
-  // Bestäm hastighet (pixlar per sekund)
-  const pxPerSecond = totalHeight / duration; // Samma som innan
-
-  // Track 1 distans och duration
-  const track1Distance = totalHeight + cardHeight;
-  const track1Duration = track1Distance / pxPerSecond;
-
-  // Track 2 distans och duration
-
-  const track2Distance = totalHeight; // = 2*totalHeight
-  const track2Duration = track2Distance / pxPerSecond;
-
-  // DEBUG
-  console.log({
-    totalHeight,
-    pxPerSecond,
-    track1Distance,
-    track1Duration,
-    track2Distance,
-    track2Duration,
-    duration,
-  });
+  const totalHeight = visibleStaff.length * (cardHeight + gap);
+  const pxPerSecond = totalHeight / duration;
+  const trackDuration = totalHeight / pxPerSecond;
+  const trackDistance = 2 * totalHeight;
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -59,25 +40,24 @@ export default function StaffSection() {
 
   return (
     <section className="staffSection">
-      {/* ----- TRACK 1  ----- */}
       <motion.div
-        className="marque-track track-1"
+        className="marque-track"
         style={{
           pointerEvents: "none",
-          marginTop: `-140.25px`, // ← CSS flyttar den upp
         }}
-        initial={{ y: 0 }} // ← Nu fungerar y: 0 relativt till margin-position
-        animate={{ y: -totalHeight }}
+        initial={{ y: 0 }}
+        animate={{ y: -trackDistance / 2 }}
         transition={{
-          duration: track1Duration,
+          duration: trackDuration,
           ease: "linear",
           repeat: Infinity,
           repeatType: "loop",
         }}
       >
+        {/* ----- TRACK 1  ----- */}
         {visibleStaff.map((user, index) => {
           const cardId = `1-${user.id}-${index}`;
-          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          const isExpanded = expandedCardId === cardId;
           return (
             <StaffCard
               key={cardId}
@@ -90,26 +70,10 @@ export default function StaffSection() {
             />
           );
         })}
-      </motion.div>
-
-      {/* ----- TRACK 2  ----- */}
-      <motion.div
-        className="marque-track track-2"
-        style={{
-          marginTop: "0", // ← CSS
-        }}
-        initial={{ y: 0 }}
-        animate={{ y: -totalHeight }}
-        transition={{
-          duration: track1Duration,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        }}
-      >
+        {/* ----- TRACK 2  ----- */}
         {visibleStaff.map((user, index) => {
           const cardId = `2-${user.id}-${index}`;
-          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          const isExpanded = expandedCardId === cardId;
           return (
             <StaffCard
               key={cardId}

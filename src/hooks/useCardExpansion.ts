@@ -34,8 +34,8 @@ export function useCardExpansion() {
         },
         {
           root: null, // viewport
-          rootMargin: "-40% 0px -40% 0px", // Center 20% of viewport
-          threshold: [0, 0.5, 1], // Multiple thresholds for better detection
+          rootMargin: "-30% 0px -35% 0px", // Center 20% of viewport
+          threshold: 0.5, // Multiple thresholds for better detection
         }
       );
 

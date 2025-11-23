@@ -13,6 +13,7 @@
   flex-direction: column;
   gap: 1rem;
   border: 2px solid red;
+  z-index: 10;
 
   .marque-track {
     width: 100%;
@@ -21,7 +22,7 @@
     backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
 
     /* ===============================
    Base Card Styles
