@@ -8,15 +8,23 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useCardExpansion } from "@/hooks/useCardExpansion";
 
 export default function StaffSection() {
-  const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff } = useUpdateStaffArray(staff);
+  const { staff, loading: loadingStaffData, error } = useStaffData(60000);
+  const { visibleStaff, loading: loadingUpdatedArray } =
+    useUpdateStaffArray(staff);
   const { expandedCardId, observeCard } = useCardExpansion();
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
   const duration = 60;
-  const totalHeight = 1704; // Justera denna höjd baserat på din design
-  if (loading) return <LoadingSpinner />;
+  const cardHeight = 201.125;
+  const numberOfCards = visibleStaff.length;
+  //const totalHeight = 1609; // Justera denna höjd baserat på din design
+  const totalHeight = cardHeight * numberOfCards;
+
+  console.log(visibleStaff.length, totalHeight);
+  const isLoading = loadingStaffData || loadingUpdatedArray;
+
+  if (isLoading) return <LoadingSpinner />;
 
   if (error)
     return (
@@ -33,15 +41,13 @@ export default function StaffSection() {
       {/* ----- TRACK 1  ----- */}
       <motion.div
         className="marque-track track-1"
-        style={{
-          pointerEvents: "none", // gör den “icke-blockerande”
-        }}
         initial={{ y: 0 }}
         animate={{ y: -totalHeight }} // rullar upp helt en gång
         transition={{
           duration,
           ease: "linear",
         }}
+        style={{ height: totalHeight }}
       >
         {visibleStaff.map((user, index) => {
           const cardId = `1-${user.id}-${index}`;
@@ -70,6 +76,7 @@ export default function StaffSection() {
           repeat: Infinity,
           delay: 0,
         }}
+        style={{ height: totalHeight }}
       >
         {visibleStaff.map((user, index) => {
           const cardId = `2-${user.id}-${index}`;
@@ -99,6 +106,7 @@ export default function StaffSection() {
           repeat: Infinity,
           delay: 60,
         }}
+        style={{ height: totalHeight }}
       >
         {visibleStaff.map((user, index) => {
           const cardId = `3-${user.id}-${index}`;

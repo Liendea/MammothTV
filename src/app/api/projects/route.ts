@@ -1,4 +1,4 @@
-import { getFilteredProjectBudgets } from "@/lib/dataIntegration";
+import { getFilteredProjectBudgets } from "@/lib/projects/getFilteredProjectBudgets";
 
 export const revalidate = 60; // cachea 60 sec
 
