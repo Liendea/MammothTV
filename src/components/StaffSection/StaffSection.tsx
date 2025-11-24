@@ -16,12 +16,15 @@ export default function StaffSection() {
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
   const duration = 60;
-  const cardHeight = 201.125;
+  const cardHeight = 170;
+  const gap = 24;
   const numberOfCards = visibleStaff.length;
   //const totalHeight = 1609; // Justera denna höjd baserat på din design
-  const totalHeight = cardHeight * numberOfCards;
+  const totalHeight = cardHeight * (numberOfCards - 1) + 410 + gap;
+  //const totalHeight = (cardHeight + gap) * numberOfCards;
 
   console.log(visibleStaff.length, totalHeight);
+
   const isLoading = loadingStaffData || loadingUpdatedArray;
 
   if (isLoading) return <LoadingSpinner />;
