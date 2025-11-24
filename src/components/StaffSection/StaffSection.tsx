@@ -3,18 +3,31 @@
 import { motion } from "framer-motion";
 import StaffCard from "./card/StaffCard";
 import { useStaffData } from "@/hooks/useStaffData";
-import { useRotation } from "@/hooks/useRotation";
+import { useUpdateStaffArray } from "@/hooks/useUpdateStaffArray";
 import LoadingSpinner from "../LoadingSpinner";
 import { useCardExpansion } from "@/hooks/useCardExpansion";
 
 export default function StaffSection() {
-  const { staff, loading, error } = useStaffData(60000);
-  const { visibleStaff, animationConfig } = useRotation(staff);
+  const { staff, loading: loadingStaffData, error } = useStaffData(60000);
+  const { visibleStaff, loading: loadingUpdatedArray } =
+    useUpdateStaffArray(staff);
   const { expandedCardId, observeCard } = useCardExpansion();
 
   const showProgress = process.env.NEXT_PUBLIC_SHOW_PROGRESS_BAR === "true";
 
-  if (loading) return <LoadingSpinner />;
+  const duration = 60;
+  const cardHeight = 170;
+  const gap = 0;
+  const numberOfCards = visibleStaff.length;
+  //const totalHeight = 1609; // Justera denna höjd baserat på din design
+  const totalHeight = cardHeight * (numberOfCards - 1) + 425 + gap;
+  //const totalHeight = (cardHeight + gap) * numberOfCards;
+
+  console.log(visibleStaff.length, totalHeight);
+
+  const isLoading = loadingStaffData || loadingUpdatedArray;
+
+  if (isLoading) return <LoadingSpinner />;
 
   if (error)
     return (
@@ -28,21 +41,79 @@ export default function StaffSection() {
 
   return (
     <section className="staffSection">
-      {/* Infinite scrolling cards */}
+      {/* ----- TRACK 1  ----- */}
       <motion.div
-        className="staffCardContainer"
-        animate={{
-          y: [0, animationConfig.totalHeight], // creates upward motion
-        }}
+        className="marque-track track-1"
+        initial={{ y: 0 }}
+        animate={{ y: -totalHeight }} // rullar upp helt en gång
         transition={{
-          duration: animationConfig.duration * 4, // Speed on upward motion
+          duration,
           ease: "linear",
-          repeat: Infinity,
         }}
+        style={{ height: totalHeight }}
       >
         {visibleStaff.map((user, index) => {
-          const cardId = `${user.id}-${index}`;
-          const isExpanded = expandedCardId === cardId;
+          const cardId = `1-${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          return (
+            <StaffCard
+              key={cardId}
+              cardId={cardId}
+              staff={user}
+              isActive={user.isActive || false}
+              showProgress={showProgress}
+              isExpanded={isExpanded}
+              onCardRef={observeCard}
+            />
+          );
+        })}
+      </motion.div>
+
+      {/* ----- TRACK 2  ----- */}
+      <motion.div
+        className="marque-track track-2"
+        animate={{ y: [totalHeight, -totalHeight] }}
+        transition={{
+          duration: 120,
+          ease: "linear",
+          repeat: Infinity,
+          delay: 0,
+        }}
+        style={{ height: totalHeight }}
+      >
+        {visibleStaff.map((user, index) => {
+          const cardId = `2-${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
+          return (
+            <StaffCard
+              key={cardId}
+              cardId={cardId}
+              staff={user}
+              isActive={user.isActive || false}
+              showProgress={showProgress}
+              isExpanded={isExpanded}
+              onCardRef={observeCard}
+            />
+          );
+        })}
+      </motion.div>
+
+      {/* ----- TRACK 3  ----- */}
+
+      <motion.div
+        className="marque-track track-3"
+        animate={{ y: [totalHeight, -totalHeight] }}
+        transition={{
+          duration: 120,
+          ease: "linear",
+          repeat: Infinity,
+          delay: 60,
+        }}
+        style={{ height: totalHeight }}
+      >
+        {visibleStaff.map((user, index) => {
+          const cardId = `3-${user.id}-${index}`;
+          const isExpanded = expandedCardId === cardId; // EXPANSION STYRDS ENDAST AV HOOK
           return (
             <StaffCard
               key={cardId}

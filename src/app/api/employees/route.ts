@@ -1,9 +1,6 @@
-import { getCombinedEmployeeData } from "@/lib/dataIntegration";
+import { getCombinedEmployeeData } from "@/lib/staff/getCombinedEmployeeData";
 
 export async function GET() {
-  console.log(
-    " ⏳ FETCH: Fetching employees data from Sanity anf HAarvest combined."
-  );
   try {
     const employees = await getCombinedEmployeeData();
     return Response.json(employees);

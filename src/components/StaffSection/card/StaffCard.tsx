@@ -9,9 +9,9 @@ import { truncateText } from "../../ProjectBudgetSection/ProgressUtils";
 
 type StaffCardProps = {
   staff: Staff;
-  showProgress?: boolean;
+  isExpanded: boolean;
   isActive: boolean;
-  isExpanded?: boolean;
+  showProgress?: boolean;
   cardId: string;
   onCardRef?: (node: HTMLElement | null, cardId: string) => void;
 };
@@ -37,9 +37,9 @@ const contentItemVariants = {
 
 export default function StaffCard({
   staff,
+  isExpanded,
   isActive,
   showProgress,
-  isExpanded = false,
   cardId,
   onCardRef,
 }: StaffCardProps) {
@@ -55,9 +55,8 @@ export default function StaffCard({
       }}
       style={{
         borderRadius: "20px",
-        marginBottom: "16px",
         overflow: "hidden",
-        height: isExpanded ? "410px" : "160px",
+        height: isExpanded ? "425px" : "170px",
       }}
     >
       {/* ----- Card Header ----- */}
@@ -112,9 +111,9 @@ export default function StaffCard({
             exit="collapsed"
             variants={bodyVariants}
             transition={{
-              layout: { duration: 1.5, ease: "easeInOut" },
+              layout: { duration: 4, ease: "easeInOut" },
               opacity: { duration: 1, ease: "easeInOut" },
-              scale: { duration: 2, ease: "easeInOut" },
+              scale: { duration: 1, ease: "easeInOut" },
               when: "beforeChildren",
               staggerChildren: 0.08,
               delayChildren: 0.2,
