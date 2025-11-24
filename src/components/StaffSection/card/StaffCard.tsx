@@ -111,9 +111,9 @@ export default function StaffCard({
             exit="collapsed"
             variants={bodyVariants}
             transition={{
-              layout: { duration: 1.5, ease: "easeInOut" },
+              layout: { duration: 4, ease: "easeInOut" },
               opacity: { duration: 1, ease: "easeInOut" },
-              scale: { duration: 2, ease: "easeInOut" },
+              scale: { duration: 1, ease: "easeInOut" },
               when: "beforeChildren",
               staggerChildren: 0.08,
               delayChildren: 0.2,
