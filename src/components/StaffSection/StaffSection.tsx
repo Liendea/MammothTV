@@ -20,7 +20,7 @@ export default function StaffSection() {
   const gap = 24;
   const numberOfCards = visibleStaff.length;
   //const totalHeight = 1609; // Justera denna höjd baserat på din design
-  const totalHeight = cardHeight * (numberOfCards - 1) + 410 + gap;
+  const totalHeight = cardHeight * (numberOfCards - 1) + 420 + gap;
   //const totalHeight = (cardHeight + gap) * numberOfCards;
 
   console.log(visibleStaff.length, totalHeight);

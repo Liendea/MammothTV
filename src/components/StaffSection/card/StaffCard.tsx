@@ -56,7 +56,7 @@ export default function StaffCard({
       style={{
         borderRadius: "20px",
         overflow: "hidden",
-        height: isExpanded ? "410px" : "170px",
+        height: isExpanded ? "425px" : "170px",
       }}
     >
       {/* ----- Card Header ----- */}
