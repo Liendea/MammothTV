@@ -16,7 +16,7 @@ console.log(`[CLIENT] Using Base URL (from env var): ${BASE_URL}`);
 // Custom hook: fetches and auto-refreshes project budget data from the API
 export function useProjectData(refreshInterval: number = 60000) {
   const [projects, setProjects] = useState<ProjectBudget[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Helper function: shallow comparison of old and new project data

@@ -28,7 +28,7 @@ console.log(`[CLIENT] Using Base URL: ${BASE_URL}`);
 
 export function useStaffData(refreshInterval: number = 60000) {
   const [staff, setStaff] = useState<Staff[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Ref för senaste staff för jämförelse
