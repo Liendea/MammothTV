@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import type { ProjectBudget } from "@/types/project";
+import axios, { AxiosError } from "axios";
+
+type ApiErrorResponse = {
+  error?: string;
+  details?: string;
+};
 
 // Custom hook: fetches and auto-refreshes project budget data from the API
 export function useProjectData(refreshInterval: number = 60000) {
@@ -17,32 +23,27 @@ export function useProjectData(refreshInterval: number = 60000) {
     const timestamp = new Date().toLocaleTimeString();
     setLoading(true);
     try {
-      const res = await fetch("/api/projects");
-
-      if (!res.ok) {
-        const errorData = (await res.json()) as { error?: string };
-        setError(errorData.error || "Failed to fetch projects");
-        console.log(
-          `[${timestamp}] Failed to fetch projects: ${errorData.error}`
-        );
-        return;
-      }
-
-      const newData = await res.json();
+      const response = await axios.get("/api/projects");
+      const newData = (await response.data) as ProjectBudget[];
 
       // Only update state if the data has actually changed
       if (!isDataEqual(newData, projects)) {
         setProjects(newData);
         setError(null);
-        console.log(`[${timestamp}] ✅ Projects changed — updating state.`);
-      } else {
-        console.log(
-          `[${timestamp}] ⭕️ Projects unchanged — skipping state update.`
-        );
       }
     } catch (err) {
-      setError("Could not load projects");
-      console.log(`[${timestamp}] Error fetching projects:`, err);
+      const axiosError = err as AxiosError;
+      let errorMessage: string = axiosError.message || "Unknown error";
+
+      if (axiosError.response && axiosError.response.data) {
+        // Försök att läsa felmeddelandet från den typade data
+        const errorData = axiosError.response.data as ApiErrorResponse;
+
+        errorMessage = errorData.error || axiosError.message;
+      }
+
+      setError("Something went wrong when fetching projects: " + errorMessage);
+      console.error(`[${timestamp}] Error fetching projects:`, err);
     } finally {
       setLoading(false);
     }

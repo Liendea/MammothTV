@@ -2,7 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { Staff } from "@/types/staff";
-import axios, { AxiosError } from "axios"; //
+import axios, { AxiosError } from "axios";
+
+type ApiErrorResponse = {
+  error?: string;
+  details?: string;
+};
 
 export function useStaffData(refreshInterval: number = 60000) {
   const [staff, setStaff] = useState<Staff[]>([]);
@@ -24,16 +29,8 @@ export function useStaffData(refreshInterval: number = 60000) {
       const isInitialLoad = staffRef.current.length === 0;
       if (isInitialLoad) setLoading(true);
 
-      const res = await fetch("/api/employees");
-
-      if (!res.ok) {
-        const errorData = (await res.json()) as { error?: string };
-        setError(errorData.error || "Failed to fetch employees");
-        console.log(`[${timestamp}] Failed to fetch staff: ${errorData.error}`);
-        return;
-      }
-
-      const data: Staff[] = await res.json();
+      const response = await axios.get("/api/employees");
+      const data: Staff[] = response.data;
 
       // Normalize data
       const normalizedData = data.map((user: Staff) => ({
@@ -41,40 +38,29 @@ export function useStaffData(refreshInterval: number = 60000) {
         isActive: Boolean(user.isActive),
       }));
 
-      // Jämför med senaste state
-      console.log(
-        `[${timestamp}] ⏳ RECEIVED STAFF DATA FROM API — length: ${normalizedData.length}`
-      );
-
       if (!isDataEqual(normalizedData, staffRef.current)) {
-        console.log(
-          `[${timestamp}] 🔄 COMPARING STAFF DATA — differences detected, updating state...`
-        );
         setStaff(normalizedData);
-        staffRef.current = normalizedData; // uppdatera ref
+        staffRef.current = normalizedData;
         setError(null);
-        console.log(
-          `[${timestamp}] ✅ STAFF STATE UPDATED — new staff:`,
-          normalizedData
-        );
-      } else {
-        console.log(
-          `[${timestamp}] ⭕️ COMPARING STAFF DATA — no differences, skipping state update`
-        );
       }
     } catch (err) {
-      setError("Something went wrong when fetching employees." + err);
-      console.log(`[${timestamp}] Error fetching staff:`, err);
+      const axiosError = err as AxiosError;
+      let errorMessage: string = axiosError.message || "Unknown error";
+
+      if (axiosError.response && axiosError.response.data) {
+        const errorData = axiosError.response.data as ApiErrorResponse;
+        errorMessage = errorData.error || axiosError.message;
+      }
+
+      setError("Something went wrong when fetching employees: " + errorMessage);
+      console.error(`[${timestamp}] Error fetching staff:`, err);
     } finally {
       setLoading(false);
     }
-  }, []); // <--- tom array, kör inte om staff ändras
+  }, []);
 
   // Initial fetch
   useEffect(() => {
-    console.log(
-      `[${new Date().toLocaleTimeString()}] ⏳ Fetching staff from API`
-    );
     fetchStaff();
   }, [fetchStaff]);
 
@@ -82,9 +68,6 @@ export function useStaffData(refreshInterval: number = 60000) {
   useEffect(() => {
     if (refreshInterval <= 0) return;
 
-    console.log(
-      `[${new Date().toLocaleTimeString()}] 🔄 Setting up staff data auto-refresh every ${refreshInterval}ms`
-    );
     const interval = setInterval(fetchStaff, refreshInterval);
     return () => clearInterval(interval);
   }, [refreshInterval, fetchStaff]);
