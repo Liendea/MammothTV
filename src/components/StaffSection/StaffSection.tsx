@@ -23,20 +23,34 @@ export default function StaffSection() {
 
   const isLoading = loadingStaffData || loadingUpdatedArray;
 
-  // DEBUG: Show loading state details on screen (remove after fixing)
-  const debugBaseUrl = typeof window !== 'undefined' ? window.location.origin : 'SSR';
+  // DEBUG: Check if client-side hydration happens
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [clientInfo, setClientInfo] = useState({ origin: 'SSR', userAgent: 'Node.js' });
+
+  useEffect(() => {
+    // This only runs on the client after hydration
+    setIsHydrated(true);
+    setClientInfo({
+      origin: window.location.origin,
+      userAgent: navigator.userAgent,
+    });
+  }, []);
+
   const debugEnvUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'not set';
 
   if (isLoading) return (
     <div style={{ color: 'white', padding: '20px', fontSize: '14px', wordBreak: 'break-all' }}>
       <p><strong>Staff Debug:</strong></p>
-      <p>window.location.origin: {debugBaseUrl}</p>
+      <p style={{ color: isHydrated ? 'lime' : 'red' }}>
+        Hydrated: {String(isHydrated)} {isHydrated ? '✓' : '✗ JS NOT RUNNING'}
+      </p>
+      <p>window.location.origin: {clientInfo.origin}</p>
       <p>NEXT_PUBLIC_API_BASE_URL: {debugEnvUrl}</p>
       <p>Staff API loading: {String(loadingStaffData)}</p>
       <p>Array update loading: {String(loadingUpdatedArray)}</p>
       <p>Staff count: {staff.length}</p>
       <p>Error: {error || 'none'}</p>
-      <p>User Agent: {typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A'}</p>
+      <p>User Agent: {clientInfo.userAgent}</p>
       <LoadingSpinner />
     </div>
   );
