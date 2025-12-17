@@ -9,7 +9,7 @@ type ApiErrorResponse = {
   details?: string;
 };
 
-// Beräkna den absoluta Bas-URL:en
+// Calculate the absolute base URL
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 if (!BASE_URL) {
   console.error("[CLIENT] ERROR: NEXT_PUBLIC_API_BASE_URL is not defined");
@@ -20,7 +20,7 @@ export function useStaffData(refreshInterval: number = 60000) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Ref för senaste staff för jämförelse
+  // Ref for the latest staff data for comparison
   const staffRef = useRef<Staff[]>([]);
 
   // Helper function to check if two data sets are equal
@@ -35,11 +35,11 @@ export function useStaffData(refreshInterval: number = 60000) {
       const isInitialLoad = staffRef.current.length === 0;
       if (isInitialLoad) setLoading(true);
 
-      // 🔄 STEG 2: ANVÄND ABSOLUT URL I ANROPET
+      // 🔄 STEP 2: USE ABSOLUTE URL IN THE REQUEST
       const absoluteUrl = `${BASE_URL}/api/employees`;
       console.log(`[${timestamp}] Making request to: ${absoluteUrl}`);
 
-      const response = await axios.get(absoluteUrl); // 👈 Ändring här
+      const response = await axios.get(absoluteUrl); // 👈 Change here
       const data: Staff[] = response.data;
 
       // Normalize data
