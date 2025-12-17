@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { Staff } from "@/types/staff";
-import axios, { AxiosError } from "axios"; //
 
 export function useStaffData(refreshInterval: number = 60000) {
   const [staff, setStaff] = useState<Staff[]>([]);
