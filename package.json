@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "browserslist": [
+    "Chrome >= 56",
     "Samsung >= 2",
-    "Chrome >= 49",
     "Safari >= 9"
   ],
   "scripts": {
