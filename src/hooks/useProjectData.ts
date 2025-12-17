@@ -7,22 +7,11 @@ type ApiErrorResponse = {
   details?: string;
 };
 
-// 🎯 STEG 1: DEFINIERA BAS-URL:EN
-// Vi använder window.location.origin som är den säkraste metoden
-// på klientsidan för att få den absoluta URL:en (inklusive http/https och port).
-const getBaseUrl = () => {
-  if (typeof window !== "undefined") {
-    // Returnerar t.ex. "http://localhost:3000" eller "https://mammothtv.vercel.app"
-    return window.location.origin;
-  }
-
-  // Fallback (mindre relevant i en Client Component, men bra att ha)
-  return "http://localhost:3000";
-};
-
+// STEG 1: DEFINIERA BAS-URL:EN
 // Beräkna den absoluta Bas-URL:en
-const BASE_URL = getBaseUrl();
-console.log(`[CLIENT] Using Base URL: ${BASE_URL}`);
+const BASE_URL: string =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+console.log(`[CLIENT] Using Base URL (from env var): ${BASE_URL}`);
 
 // Custom hook: fetches and auto-refreshes project budget data from the API
 export function useProjectData(refreshInterval: number = 60000) {
