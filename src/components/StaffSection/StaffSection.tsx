@@ -23,7 +23,23 @@ export default function StaffSection() {
 
   const isLoading = loadingStaffData || loadingUpdatedArray;
 
-  if (isLoading) return <LoadingSpinner />;
+  // DEBUG: Show loading state details on screen (remove after fixing)
+  const debugBaseUrl = typeof window !== 'undefined' ? window.location.origin : 'SSR';
+  const debugEnvUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'not set';
+
+  if (isLoading) return (
+    <div style={{ color: 'white', padding: '20px', fontSize: '14px', wordBreak: 'break-all' }}>
+      <p><strong>Staff Debug:</strong></p>
+      <p>window.location.origin: {debugBaseUrl}</p>
+      <p>NEXT_PUBLIC_API_BASE_URL: {debugEnvUrl}</p>
+      <p>Staff API loading: {String(loadingStaffData)}</p>
+      <p>Array update loading: {String(loadingUpdatedArray)}</p>
+      <p>Staff count: {staff.length}</p>
+      <p>Error: {error || 'none'}</p>
+      <p>User Agent: {typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A'}</p>
+      <LoadingSpinner />
+    </div>
+  );
 
   if (error)
     return (
