@@ -7,6 +7,23 @@ type ApiErrorResponse = {
   details?: string;
 };
 
+// 🎯 STEG 1: DEFINIERA BAS-URL:EN
+// Vi använder window.location.origin som är den säkraste metoden
+// på klientsidan för att få den absoluta URL:en (inklusive http/https och port).
+const getBaseUrl = () => {
+  if (typeof window !== "undefined") {
+    // Returnerar t.ex. "http://localhost:3000" eller "https://mammothtv.vercel.app"
+    return window.location.origin;
+  }
+
+  // Fallback (mindre relevant i en Client Component, men bra att ha)
+  return "http://localhost:3000";
+};
+
+// Beräkna den absoluta Bas-URL:en
+const BASE_URL = getBaseUrl();
+console.log(`[CLIENT] Using Base URL: ${BASE_URL}`);
+
 // Custom hook: fetches and auto-refreshes project budget data from the API
 export function useProjectData(refreshInterval: number = 60000) {
   const [projects, setProjects] = useState<ProjectBudget[]>([]);
@@ -23,7 +40,11 @@ export function useProjectData(refreshInterval: number = 60000) {
     const timestamp = new Date().toLocaleTimeString();
     setLoading(true);
     try {
-      const response = await axios.get("/api/projects");
+      // 🔄 STEG 2: ANVÄND ABSOLUT URL I ANROPET
+      const absoluteUrl = `${BASE_URL}/api/projects`;
+      console.log(`[${timestamp}] Making request to: ${absoluteUrl}`);
+
+      const response = await axios.get(absoluteUrl);
       const newData = (await response.data) as ProjectBudget[];
 
       // Only update state if the data has actually changed

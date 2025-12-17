@@ -9,6 +9,23 @@ type ApiErrorResponse = {
   details?: string;
 };
 
+// 🎯 STEG 1: DEFINIERA BAS-URL:EN
+// Vi använder window.location.origin som är den säkraste metoden
+// på klientsidan för att få den absoluta URL:en (inklusive http/https och port).
+const getBaseUrl = () => {
+  if (typeof window !== "undefined") {
+    // Returnerar t.ex. "http://localhost:3000" eller "https://mammothtv.vercel.app"
+    return window.location.origin;
+  }
+
+  // Fallback (mindre relevant i en Client Component, men bra att ha)
+  return "http://localhost:3000";
+};
+
+// Beräkna den absoluta Bas-URL:en
+const BASE_URL = getBaseUrl();
+console.log(`[CLIENT] Using Base URL: ${BASE_URL}`);
+
 export function useStaffData(refreshInterval: number = 60000) {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +46,11 @@ export function useStaffData(refreshInterval: number = 60000) {
       const isInitialLoad = staffRef.current.length === 0;
       if (isInitialLoad) setLoading(true);
 
-      const response = await axios.get("/api/employees");
+      // 🔄 STEG 2: ANVÄND ABSOLUT URL I ANROPET
+      const absoluteUrl = `${BASE_URL}/api/employees`;
+      console.log(`[${timestamp}] Making request to: ${absoluteUrl}`);
+
+      const response = await axios.get(absoluteUrl); // 👈 Ändring här
       const data: Staff[] = response.data;
 
       // Normalize data
