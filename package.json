@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "browserslist": [
-    "Chrome >= 60",
-    "Safari >= 10",
-    "iOS >= 10"
+    "Samsung >= 2",
+    "Chrome >= 49",
+    "Safari >= 9"
   ],
   "scripts": {
     "dev": "next dev --turbopack",
