@@ -1,20 +1,17 @@
 import type { HarvestTimeEntry } from "@/types/harvest";
 import { harvestFetch } from "./apiClient";
 
-/*
- Stores previous time entries to detect changes
- Only partial info needed for comparison
- */
+// Stores previous time entries to detect changes
 let previousTimeEntries: HarvestTimeEntry[] = [];
 
 /*
- Fetches active time entries from Harvest API
+ Fetch active time entries from Harvest API
  Active time entries = is_running === true
  Detects if any entries have changed compared to the previous fetch
  */
 export async function getActiveTimeEntries() {
   // Fetch data from Harvest API
-  const data = await harvestFetch("/time_entries?is_running=true");
+  const data = await harvestFetch("/time_entries");
 
   /*
   Create a minimal summary for change detection:
