@@ -1,4 +1,4 @@
-import { getCombinedEmployeeData } from "@/lib/dataIntegration";
+import { getCombinedEmployeeData } from "@/lib/staff/getCombinedEmployeeData";
 
 export async function GET() {
   console.log(
