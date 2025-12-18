@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Transpile third-party packages that may use modern syntax
+  transpilePackages: ["framer-motion"],
 };
 
 export default nextConfig;

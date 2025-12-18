@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/main.scss";
+import "./polyfills";
 
 export const metadata: Metadata = {
   title: "MammTv",

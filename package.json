@@ -2,6 +2,11 @@
   "name": "mammtv",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "Chrome >= 56",
+    "Samsung >= 2",
+    "Safari >= 9"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -13,18 +18,21 @@
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^1.2.0",
     "framer-motion": "^12.23.24",
-    "next": "15.5.6",
+    "intersection-observer": "^0.12.2",
+    "next": "^15.5.9",
     "next-sanity": "^11.6.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "sanity": "^4.11.0",
-    "sass": "^1.93.2"
+    "sass": "^1.93.2",
+    "whatwg-fetch": "^3.6.20"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/whatwg-fetch": "^0.0.33",
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
     "typescript": "^5"

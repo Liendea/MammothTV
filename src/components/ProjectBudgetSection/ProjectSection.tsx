@@ -16,7 +16,21 @@ export default function ProjectSection() {
     })
     .slice(0, 4);
 
-  if (loading) return <LoadingSpinner />;
+  // DEBUG: Show loading state details on screen (remove after fixing)
+  const debugBaseUrl = typeof window !== 'undefined' ? window.location.origin : 'SSR';
+  const debugEnvUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'not set';
+
+  if (loading) return (
+    <div style={{ color: 'white', padding: '20px', fontSize: '14px', wordBreak: 'break-all' }}>
+      <p><strong>Projects Debug:</strong></p>
+      <p>window.location.origin: {debugBaseUrl}</p>
+      <p>NEXT_PUBLIC_API_BASE_URL: {debugEnvUrl}</p>
+      <p>Projects API loading: {String(loading)}</p>
+      <p>Projects count: {projects.length}</p>
+      <p>Error: {error || 'none'}</p>
+      <LoadingSpinner />
+    </div>
+  );
 
   if (error) {
     return (
