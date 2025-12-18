@@ -14,7 +14,7 @@ let previousTimeEntries: HarvestTimeEntry[] = [];
  */
 export async function getActiveTimeEntries() {
   // Fetch data from Harvest API
-  const data = await harvestFetch("/time_entries?is_running=true");
+  const data = await harvestFetch("/time_entries");
 
   /*
   Create a minimal summary for change detection:
