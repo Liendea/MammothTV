@@ -11,7 +11,6 @@ import type { HarvestTimeEntry } from "@/types/harvest";
   - Includes all active time entries for each user.
   - Uses only the first time entry for displaying current project info.
 */
-
 export async function getCombinedEmployeeData(): Promise<Staff[]> {
   try {
     // Fetch team members from Sanity

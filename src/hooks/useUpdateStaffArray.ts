@@ -4,7 +4,7 @@ import type { Staff } from "@/types/staff";
 
 export function useUpdateStaffArray(staff: Staff[]) {
   const [localStaff, setLocalStaff] = useState<Staff[]>([]);
-  const [loading, setLoading] = useState(true); // Set initial state to true to show loading on first fetch
+  const [loading, setLoading] = useState(true); // Set initial state to true to show loading on the first fetch
 
   useEffect(() => {
     // 1. Compare length and set loading
@@ -42,7 +42,7 @@ export function useUpdateStaffArray(staff: Staff[]) {
         });
       }
 
-      // If no length change or initial copy, return the previous state
+      // If there is no length change or initial copy, return the previous state
       return prev;
     });
 

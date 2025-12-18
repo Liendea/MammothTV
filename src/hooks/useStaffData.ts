@@ -1,86 +1,65 @@
-"use client";
+import { useState, useEffect, useCallback } from "react";
+import type { ProjectBudget } from "@/types/project";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import type { Staff } from "@/types/staff";
-import axios, { AxiosError } from "axios";
-
-type ApiErrorResponse = {
-  error?: string;
-  details?: string;
-};
-
-// Calculate the absolute base URL
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-if (!BASE_URL) {
-  console.error("[CLIENT] ERROR: NEXT_PUBLIC_API_BASE_URL is not defined");
-}
-
-export function useStaffData(refreshInterval: number = 60000) {
-  const [staff, setStaff] = useState<Staff[]>([]);
-  const [loading, setLoading] = useState(false);
+// Custom hook: fetches and auto-refreshes project budget data from the API
+export function useProjectData(refreshInterval: number = 60000) {
+  const [projects, setProjects] = useState<ProjectBudget[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Ref for the latest staff data for comparison
-  const staffRef = useRef<Staff[]>([]);
-
-  // Helper function to check if two data sets are equal
-  const isDataEqual = (a: Staff[], b: Staff[]) => {
+  // Helper function: shallow comparison of old and new project data
+  const isDataEqual = (a: ProjectBudget[], b: ProjectBudget[]) => {
     return JSON.stringify(a) === JSON.stringify(b);
   };
 
-  // Fetch staff data from API
-  const fetchStaff = useCallback(async () => {
+  // Fetch project budgets from the backend
+  const fetchProjectBudgets = useCallback(async () => {
     const timestamp = new Date().toLocaleTimeString();
+    setLoading(true);
     try {
-      const isInitialLoad = staffRef.current.length === 0;
-      if (isInitialLoad) setLoading(true);
+      const res = await fetch("/api/projects");
 
-      // 🔄 STEP 2: USE ABSOLUTE URL IN THE REQUEST
-      const absoluteUrl = `${BASE_URL}/api/employees`;
-      console.log(`[${timestamp}] Making request to: ${absoluteUrl}`);
+      if (!res.ok) {
+        const errorData = (await res.json()) as { error?: string };
+        setError(errorData.error || "Failed to fetch projects");
+        console.log(
+          `[${timestamp}] Failed to fetch projects: ${errorData.error}`
+        );
+        return;
+      }
 
-      const response = await axios.get(absoluteUrl); // 👈 Change here
-      const data: Staff[] = response.data;
+      const newData = await res.json();
 
-      // Normalize data
-      const normalizedData = data.map((user: Staff) => ({
-        ...user,
-        isActive: Boolean(user.isActive),
-      }));
-
-      if (!isDataEqual(normalizedData, staffRef.current)) {
-        setStaff(normalizedData);
-        staffRef.current = normalizedData;
+      // Only update state if the data has actually changed
+      if (!isDataEqual(newData, projects)) {
+        setProjects(newData);
         setError(null);
+        console.log(`[${timestamp}] ✅ Projects changed — updating state.`);
+      } else {
+        console.log(
+          `[${timestamp}] ⭕️ Projects unchanged — skipping state update.`
+        );
       }
     } catch (err) {
-      const axiosError = err as AxiosError;
-      let errorMessage: string = axiosError.message || "Unknown error";
-
-      if (axiosError.response && axiosError.response.data) {
-        const errorData = axiosError.response.data as ApiErrorResponse;
-        errorMessage = errorData.error || axiosError.message;
-      }
-
-      setError("Something went wrong when fetching employees: " + errorMessage);
-      console.error(`[${timestamp}] Error fetching staff:`, err);
+      setError("Could not load projects");
+      console.log(`[${timestamp}] Error fetching projects:`, err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [projects]);
 
-  // Initial fetch
+  // Initial fetch on mount
   useEffect(() => {
-    fetchStaff();
-  }, [fetchStaff]);
+    fetchProjectBudgets();
+  }, [fetchProjectBudgets]);
 
   // Auto-refresh
   useEffect(() => {
     if (refreshInterval <= 0) return;
 
-    const interval = setInterval(fetchStaff, refreshInterval);
+    const interval = setInterval(fetchProjectBudgets, refreshInterval);
     return () => clearInterval(interval);
-  }, [refreshInterval, fetchStaff]);
+  }, [refreshInterval, fetchProjectBudgets]);
 
-  return { staff, loading, error, refetch: fetchStaff };
+  return { projects, loading, error, refetch: fetchProjectBudgets };
 }

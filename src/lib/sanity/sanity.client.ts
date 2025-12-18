@@ -7,7 +7,7 @@ export const getClient = () =>
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
     apiVersion: "2024-01-01",
-    useCdn: true, // Använd CDN för snabbare hämtning
+    useCdn: true, // use CDN for faster fetching
   });
 
 export const urlFor = (source: Image) =>
