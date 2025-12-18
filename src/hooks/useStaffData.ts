@@ -8,7 +8,6 @@ export function useStaffData(refreshInterval: number = 60000) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Ref för senaste staff för jämförelse
   const staffRef = useRef<Staff[]>([]);
 
   // Helper function to check if two data sets are equal
@@ -40,11 +39,6 @@ export function useStaffData(refreshInterval: number = 60000) {
         isActive: Boolean(user.isActive),
       }));
 
-      // Jämför med senaste state
-      console.log(
-        `[${timestamp}] ⏳ RECEIVED STAFF DATA FROM API — length: ${normalizedData.length}`
-      );
-
       if (!isDataEqual(normalizedData, staffRef.current)) {
         console.log(
           `[${timestamp}] 🔄 COMPARING STAFF DATA — differences detected, updating state...`
@@ -56,10 +50,6 @@ export function useStaffData(refreshInterval: number = 60000) {
           `[${timestamp}] ✅ STAFF STATE UPDATED — new staff:`,
           normalizedData
         );
-      } else {
-        console.log(
-          `[${timestamp}] ⭕️ COMPARING STAFF DATA — no differences, skipping state update`
-        );
       }
     } catch (err) {
       setError("Something went wrong when fetching employees." + err);
@@ -67,7 +57,7 @@ export function useStaffData(refreshInterval: number = 60000) {
     } finally {
       setLoading(false);
     }
-  }, []); // <--- tom array, kör inte om staff ändras
+  }, []);
 
   // Initial fetch
   useEffect(() => {
